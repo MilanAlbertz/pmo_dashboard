@@ -1,0 +1,15 @@
+.App {
+  text-align: center;
+}
+
+.app-content {
+  position: relative;
+  z-index: 1;
+}
+
+.button-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}

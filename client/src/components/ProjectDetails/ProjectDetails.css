@@ -1,0 +1,282 @@
+.project-details-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.project-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  text-decoration: none;
+  color: inherit;
+  gap: 8px;
+  align-self: flex-start;
+  background-color: #F5F5F5;  /* Light gray background */
+  padding: 8px 16px;         /* Add some padding */
+  border-radius: 20px;       /* Rounded corners */
+  transition: background-color 0.2s;  /* Smooth hover effect */
+}
+
+.back-link:hover {
+  background-color: #EEEEEE;  /* Slightly darker on hover */
+}
+
+.project-title {
+  font-size: 32px;
+  color: #1a1a1a;
+  margin: 40px 0;
+  clear: both;
+  text-align: center;
+  margin-top: 0;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.info-label {
+  font-weight: 500;
+  text-align: left;
+}
+
+.info-value {
+  text-align: left;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+.info-value.missing {
+  color: #666;
+  font-style: italic;
+}
+
+.info-value.required.missing {
+  color: #f44336;
+}
+
+.requirement-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.status-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.status-icon.success svg {
+  fill: #4caf50; /* Green for success */
+}
+
+.status-icon.error svg {
+  fill: #f44336; /* Red for error/pending */
+}
+
+.nps-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.nps-box {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: var(--font-heading);
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #24292e;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+  margin-top: 20px;
+}
+
+.github-link:hover {
+  background: #1a1f23;
+}
+
+.github-link svg {
+  width: 20px;
+  height: 20px;
+  fill: white;
+}
+
+@media (max-width: 1200px) {
+  .info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.status-bar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 40px 0;
+  position: relative;
+}
+
+.status-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  flex: 1;
+}
+
+.status-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  color: #757575;
+  position: relative;
+}
+
+.status-step.completed .status-number {
+  background: #e8494a;
+  border-color: #e8494a;
+  color: white;
+}
+
+.status-line {
+  flex: 2;
+  height: 3px;
+  background: #e0e0e0;
+  position: relative;
+  top: 11px;
+  z-index: 0;
+}
+
+.status-line.completed {
+  background: #e8494a;
+}
+
+.status-label {
+  font-size: 0.875rem;
+  color: #757575;
+  text-align: center;
+  margin-top: -4px;
+}
+
+.status-step.completed .status-label {
+  color: #e8494a;
+}
+
+.mobile-status-indicator {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.mobile-status-indicator .status-icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.mobile-status-indicator .status-text {
+  font-size: 16px;
+}
+
+/* Show/hide based on screen size */
+.mobile-status-indicator {
+  display: flex;
+}
+
+@media (min-width: 768px) {
+  .mobile-status-indicator {
+    display: none;
+  }
+}
+
+.description-row {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: left;
+}
+
+.description-row .info-label {
+  font-weight: 500;
+  text-align: left;
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: block; /* Make label take full width */
+}
+
+.description-value {
+  margin-top: 8px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 14px;
+  text-align: left;
+  display: block; /* Make value take full width */
+  padding-left: 0; /* Remove any left padding */
+}
+
+.description-value.missing {
+  color: #999;
+  font-style: italic;
+}
+
+.description-value.required {
+  color: #f44336;
+} 

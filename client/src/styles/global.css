@@ -1,0 +1,99 @@
+/* Manrope variable font */
+@font-face {
+  font-family: 'Manrope';
+  src: url('../assets/fonts/Manrope-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 200 800;
+  font-style: normal;
+}
+
+/* Define variables */
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --background-color: #ffffff;
+  --text-color: #333333;
+  --spacing-unit: 8px;
+  --heading-color: rgb(46, 38, 64);
+  --paragraph-color: rgb(94, 88, 107);
+  --font-body: 'Manrope', sans-serif;
+  --section-title-size: 1.5rem;
+}
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Apply fonts to everything */
+html, 
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-body);
+  font-weight: 800;
+  color: var(--heading-color) !important;
+}
+
+/* Specific heading styles */
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: var(--section-title-size);
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+/* Make sure all text elements use the body font */
+p, 
+span, 
+div, 
+a, 
+input, 
+button, 
+textarea, 
+select, 
+label, 
+li {
+  font-family: var(--font-body);
+}
+
+/* Ensure headings in specific components use Manrope */
+.info-card h2,
+.project-title,
+.section-title {
+  font-family: var(--font-body);
+  font-size: var(--section-title-size);
+}
+
+/* NPS scores should use Manrope */
+.nps-box {
+  font-family: var(--font-body);
+}
+
+/* Specific heading styles if needed */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading-color);
+}
+
+p {
+  color: var(--paragraph-color);
+}
+
+/* Make sure inputs and buttons inherit the font */
+input, 
+button, 
+textarea, 
+select {
+  font-family: var(--font-body);
+}

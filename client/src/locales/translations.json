@@ -1,0 +1,773 @@
+{
+  "en": {
+    "common": {
+      "back": "Back",
+      "buttons": {
+        "submit": "Submit",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "labels": {
+        "email": "Email",
+        "password": "Password",
+        "required": "*",
+        "search": "Search..."
+      },
+      "language": "Language",
+      "notSpecified": "Not specified"
+    },
+    "auth": {
+      "login": {
+        "title": "Log in",
+        "loginButton": "Log in",
+        "googleButton": "Sign in with Google",
+        "continueWithPassword": "Continue with password",
+        "or": "or",
+        "forgotPassword": "Forgot your password?"
+      }
+    },
+    "navigation": {
+      "home": "Home",
+      "logout": "Logout",
+      "profile": "Profile",
+      "prospection": "Prospection",
+      "history": "History"
+    },
+    "home": {
+      "welcome": "Welcome to Your React App",
+      "description": "This is a paragraph that should use Poppins 400 and the gray color.",
+      "buttons": {
+        "primary": "Primary Button",
+        "secondary": "Secondary Button"
+      }
+    },
+    "errors": {
+      "required": "This field is required",
+      "invalidEmail": "Invalid email",
+      "invalidPassword": "Invalid password"
+    },
+    "table": {
+      "title": "Projects Overview",
+      "headers": {
+        "period": "Period",
+        "className": "Class Name",
+        "module": "Module",
+        "subject": "Subject",
+        "partner": "Partner",
+        "status": "Status",
+        "details": "Details"
+      }
+    },
+    "header": {
+      "profile": {
+        "icon": {
+          "alt": "Profile Icon",
+          "title": "Profile"
+        }
+      },
+      "language": {
+        "select": "Select Language"
+      }
+    },
+    "languages": {
+      "english": "English",
+      "portuguese": "Portuguese",
+      "dutch": "Dutch",
+      "spanish": "Spanish",
+      "french": "French"
+    },
+    "projectDetails": {
+      "title": "Project Details",
+      "backButton": "Back to Projects",
+      "sections": {
+        "generalInfo": "General Information",
+        "partner": "Partner",
+        "requiredInfo": "Required Information",
+        "results": "Results",
+        "students": "Students"
+      },
+      "fields": {
+        "period": "Period",
+        "date": "Date",
+        "quarter": "Quarter",
+        "startYear": "Start year",
+        "class": "Class",
+        "classCode": "Class code",
+        "module": "Module",
+        "course": "Course",
+        "coordinator": "Coordinator",
+        "advisor": "Advisor",
+        "partnerName": "Partner name",
+        "sector": "Sector",
+        "branch": "Branch",
+        "activity": "Activity",
+        "partnerContact": "Partner contact",
+        "emailContact": "Email contact",
+        "projectSupervisor": "Project supervisor",
+        "emailSupervisor": "Email supervisor",
+        "email": "Email",
+        "projectDescription": "Project Description"
+      },
+      "requirements": {
+        "exampleData": "Example data",
+        "technicalMeeting": "Technical meeting",
+        "logo": "Logo",
+        "partnershipTerm": "Partnership term",
+        "tapi": "TAPI"
+      },
+      "status": {
+        "completed": "Project Completed",
+        "started": "Project Started",
+        "notStarted": "Project Not Started",
+        "noGithub": "No GitHub Link Provided",
+        "viewGithub": "View GitHub Repository",
+        "open": "Open Position",
+        "waiting": "Waiting to Start",
+        "inProgress": "In Progress"
+      },
+      "notFound": "Project not found",
+      "results": {
+        "partnerNPS": "Partner\nNPS",
+        "studentNPS": "Student\nNPS"
+      },
+      "partnership": {
+        "title": "Partnership term",
+        "sent": "Sent",
+        "returned": "Returned",
+        "signed": "Signed",
+        "comment": "Comment"
+      },
+      "tapi": {
+        "title": "TAPI",
+        "sent": "Sent",
+        "returned": "Returned",
+        "aligned": "Aligned",
+        "comment": "Comment",
+        "meeting": "TAPI Meeting"
+      }
+    },
+    "history": {
+      "title": "History",
+      "enterClassCode": "Enter classcode to view history",
+      "search": "Search"
+    }
+  },
+  "es": {
+    "common": {
+      "back": "Volver",
+      "buttons": {
+        "submit": "Enviar",
+        "cancel": "Cancelar",
+        "save": "Guardar"
+      },
+      "labels": {
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "required": "*",
+        "search": "Buscar..."
+      },
+      "language": "Idioma"
+    },
+    "auth": {
+      "login": {
+        "title": "Iniciar sesión",
+        "loginButton": "Iniciar sesión",
+        "googleButton": "Iniciar sesión con Google",
+        "continueWithPassword": "Continuar con contraseña",
+        "or": "o",
+        "forgotPassword": "¿Olvidaste tu contraseña?"
+      }
+    },
+    "navigation": {
+      "home": "Inicio",
+      "logout": "Cerrar sesión",
+      "profile": "Perfil",
+      "prospection": "Prospección",
+      "history": "Historia"
+    },
+    "home": {
+      "welcome": "Bienvenido a tu App React",
+      "description": "Este es un párrafo que debe usar Poppins 400 y el color gris.",
+      "buttons": {
+        "primary": "Botón Primario",
+        "secondary": "Botón Secundario"
+      }
+    },
+    "errors": {
+      "required": "Este campo es obligatorio",
+      "invalidEmail": "Correo electrónico inválido",
+      "invalidPassword": "Contraseña inválida"
+    },
+    "table": {
+      "title": "Resumen de Proyectos",
+      "headers": {
+        "period": "Período",
+        "className": "Nombre de Clase",
+        "module": "Módulo",
+        "subject": "Asignatura",
+        "partner": "Socio",
+        "status": "Estado",
+        "details": "Detalles"
+      }
+    },
+    "header": {
+      "profile": {
+        "icon": {
+          "alt": "Icono de Perfil",
+          "title": "Perfil"
+        }
+      },
+      "language": {
+        "select": "Seleccionar Idioma"
+      }
+    },
+    "languages": {
+      "english": "Inglés",
+      "portuguese": "Portugués",
+      "dutch": "Holandés",
+      "spanish": "Español",
+      "french": "Francés"
+    },
+    "projectDetails": {
+      "title": "Detalles del Proyecto",
+      "backButton": "Volver a Proyectos",
+      "sections": {
+        "generalInfo": "Información General",
+        "partner": "Socio",
+        "requiredInfo": "Información Requerida",
+        "results": "Resultados",
+        "students": "Estudiantes"
+      },
+      "fields": {
+        "period": "Período",
+        "date": "Fecha",
+        "quarter": "Trimestre",
+        "startYear": "Año de inicio",
+        "class": "Clase",
+        "classCode": "Código de clase",
+        "module": "Módulo",
+        "course": "Curso",
+        "coordinator": "Coordinador",
+        "advisor": "Asesor",
+        "partnerName": "Nombre del socio",
+        "sector": "Sector",
+        "branch": "Rama",
+        "activity": "Actividad",
+        "partnerContact": "Contacto del socio",
+        "emailContact": "Email de contacto",
+        "projectSupervisor": "Supervisor del proyecto",
+        "emailSupervisor": "Email del supervisor",
+        "email": "Email",
+        "projectDescription": "Descripción del Proyecto"
+      },
+      "requirements": {
+        "exampleData": "Datos de ejemplo",
+        "technicalMeeting": "Reunión técnica",
+        "logo": "Logo",
+        "partnershipTerm": "Término de asociación",
+        "tapi": "TAPI"
+      },
+      "status": {
+        "completed": "Proyecto completado",
+        "started": "Proyecto iniciado",
+        "notStarted": "Proyecto no iniciado",
+        "noGithub": "No hay enlace de GitHub proporcionado",
+        "viewGithub": "Ver Repositorio GitHub",
+        "open": "Posición abierta",
+        "waiting": "Esperando inicio",
+        "inProgress": "En progreso"
+      },
+      "notFound": "Proyecto no encontrado",
+      "results": {
+        "partnerNPS": "NPS del\nSocio",
+        "studentNPS": "NPS del\nEstudiante"
+      },
+      "partnership": {
+        "title": "Período de asociación",
+        "sent": "Enviado",
+        "returned": "Devuelto",
+        "signed": "Firmado",
+        "comment": "Comentario"
+      },
+      "tapi": {
+        "title": "TAPI",
+        "sent": "Enviado",
+        "returned": "Devuelto",
+        "aligned": "Alineado",
+        "comment": "Comentario",
+        "meeting": "Reunión TAPI"
+      }
+    },
+    "history": {
+      "title": "Historia"
+    }
+  },
+  "fr": {
+    "common": {
+      "back": "Retour",
+      "buttons": {
+        "submit": "Envoyer",
+        "cancel": "Annuler",
+        "save": "Sauvegarder"
+      },
+      "labels": {
+        "email": "E-mail",
+        "password": "Mot de passe",
+        "required": "*",
+        "search": "Rechercher..."
+      },
+      "language": "Langue"
+    },
+    "auth": {
+      "login": {
+        "title": "Se connecter",
+        "loginButton": "Se connecter",
+        "googleButton": "Se connecter avec Google",
+        "continueWithPassword": "Continuer avec mot de passe",
+        "or": "ou",
+        "forgotPassword": "Mot de passe oublié ?"
+      }
+    },
+    "navigation": {
+      "home": "Accueil",
+      "logout": "Se déconnecter",
+      "profile": "Profil",
+      "prospection": "Prospection",
+      "history": "Historique"
+    },
+    "home": {
+      "welcome": "Bienvenue sur votre App React",
+      "description": "Ceci est un paragraphe qui doit utiliser Poppins 400 et la couleur grise.",
+      "buttons": {
+        "primary": "Bouton Principal",
+        "secondary": "Bouton Secondaire"
+      }
+    },
+    "errors": {
+      "required": "Ce champ est obligatoire",
+      "invalidEmail": "E-mail invalide",
+      "invalidPassword": "Mot de passe invalide"
+    },
+    "table": {
+      "title": "Aperçu des Projets",
+      "headers": {
+        "period": "Période",
+        "className": "Nom de la Classe",
+        "module": "Module",
+        "subject": "Sujet",
+        "partner": "Partenaire",
+        "status": "État",
+        "details": "Détails"
+      }
+    },
+    "header": {
+      "profile": {
+        "icon": {
+          "alt": "Icône de Profil",
+          "title": "Profil"
+        }
+      },
+      "language": {
+        "select": "Sélectionner la Langue"
+      }
+    },
+    "languages": {
+      "english": "Anglais",
+      "portuguese": "Portugais",
+      "dutch": "Néerlandais",
+      "spanish": "Espagnol",
+      "french": "Français"
+    },
+    "projectDetails": {
+      "title": "Détails du Projet",
+      "backButton": "Retour aux Projets",
+      "sections": {
+        "generalInfo": "Informations générales",
+        "partner": "Partenaire",
+        "requiredInfo": "Informations Requises",
+        "results": "Résultats",
+        "students": "Étudiants"
+      },
+      "fields": {
+        "period": "Période",
+        "date": "Date",
+        "quarter": "Trimestre",
+        "startYear": "Année de début",
+        "class": "Classe",
+        "classCode": "Code de classe",
+        "module": "Module",
+        "course": "Cours",
+        "coordinator": "Coordinateur",
+        "advisor": "Conseiller",
+        "partnerName": "Nom du partenaire",
+        "sector": "Secteur",
+        "branch": "Branche",
+        "activity": "Activité",
+        "partnerContact": "Contact partenaire",
+        "emailContact": "Email de contact",
+        "projectSupervisor": "Superviseur du projet",
+        "emailSupervisor": "Email du superviseur",
+        "email": "Email",
+        "projectDescription": "Description du Projet"
+      },
+      "requirements": {
+        "exampleData": "Données d'exemple",
+        "technicalMeeting": "Réunion technique",
+        "logo": "Logo",
+        "partnershipTerm": "Terme de partenariat",
+        "tapi": "TAPI"
+      },
+      "status": {
+        "completed": "Projet terminé",
+        "started": "Projet démarré",
+        "notStarted": "Projet non démarré",
+        "noGithub": "Aucun lien GitHub fourni",
+        "viewGithub": "Voir le Dépôt GitHub",
+        "open": "Poste ouvert",
+        "waiting": "En attente",
+        "inProgress": "En cours"
+      },
+      "notFound": "Projet non trouvé",
+      "results": {
+        "partnerNPS": "Partner\nNPS",
+        "studentNPS": "Student\nNPS"
+      },
+      "partnership": {
+        "title": "Période de partenariat",
+        "sent": "Envoyé",
+        "returned": "Retourné",
+        "signed": "Signé",
+        "comment": "Commentaire"
+      },
+      "tapi": {
+        "title": "TAPI",
+        "sent": "Envoyé",
+        "returned": "Retourné",
+        "aligned": "Aligné",
+        "comment": "Commentaire",
+        "meeting": "Réunion TAPI"
+      }
+    },
+    "history": {
+      "title": "Historique"
+    }
+  },
+  "nl": {
+    "common": {
+      "back": "Terug",
+      "buttons": {
+        "submit": "Verzenden",
+        "cancel": "Annuleren",
+        "save": "Opslaan"
+      },
+      "labels": {
+        "email": "E-mail",
+        "password": "Wachtwoord",
+        "required": "*",
+        "search": "Zoeken..."
+      },
+      "language": "Taal"
+    },
+    "auth": {
+      "login": {
+        "title": "Inloggen",
+        "loginButton": "Inloggen",
+        "googleButton": "Inloggen met Google",
+        "continueWithPassword": "Doorgaan met wachtwoord",
+        "or": "of",
+        "forgotPassword": "Wachtwoord vergeten?"
+      }
+    },
+    "navigation": {
+      "home": "Home",
+      "logout": "Uitloggen",
+      "profile": "Profiel",
+      "prospection": "Prospectie",
+      "history": "Geschiedenis"
+    },
+    "home": {
+      "welcome": "Welkom bij je React App",
+      "description": "Dit is een paragraaf die Poppins 400 en de grijze kleur moet gebruiken.",
+      "buttons": {
+        "primary": "Primaire Knop",
+        "secondary": "Secundaire Knop"
+      }
+    },
+    "errors": {
+      "required": "Dit veld is verplicht",
+      "invalidEmail": "Ongeldig e-mailadres",
+      "invalidPassword": "Ongeldig wachtwoord"
+    },
+    "table": {
+      "title": "Projectenoverzicht",
+      "headers": {
+        "period": "Periode",
+        "className": "Klasnaam",
+        "module": "Module",
+        "subject": "Onderwerp",
+        "partner": "Partner",
+        "status": "Status",
+        "details": "Details"
+      }
+    },
+    "header": {
+      "profile": {
+        "icon": {
+          "alt": "Profiel Icoon",
+          "title": "Profiel"
+        }
+      },
+      "language": {
+        "select": "Selecteer Taal"
+      }
+    },
+    "languages": {
+      "english": "Engels",
+      "portuguese": "Portugees",
+      "dutch": "Nederlands",
+      "spanish": "Spaans",
+      "french": "Frans"
+    },
+    "projectDetails": {
+      "title": "Project Details",
+      "backButton": "Terug naar Projecten",
+      "sections": {
+        "generalInfo": "Algemene Informatie",
+        "partner": "Partner",
+        "requiredInfo": "Vereiste Informatie",
+        "results": "Resultaten",
+        "students": "Studenten"
+      },
+      "fields": {
+        "period": "Periode",
+        "date": "Datum",
+        "quarter": "Kwartaal",
+        "startYear": "Startjaar",
+        "class": "Klas",
+        "classCode": "Klascode",
+        "module": "Module",
+        "course": "Cursus",
+        "coordinator": "Coördinator",
+        "advisor": "Adviseur",
+        "partnerName": "Partnernaam",
+        "sector": "Sector",
+        "branch": "Tak",
+        "activity": "Activiteit",
+        "partnerContact": "Partnercontact",
+        "emailContact": "Email contact",
+        "projectSupervisor": "Projectbegeleider",
+        "emailSupervisor": "Email begeleider",
+        "email": "Email",
+        "projectDescription": "Projectbeschrijving"
+      },
+      "requirements": {
+        "exampleData": "Voorbeeldgegevens",
+        "technicalMeeting": "Technische vergadering",
+        "logo": "Logo",
+        "partnershipTerm": "Partnerschapsvoorwaarden",
+        "tapi": "TAPI"
+      },
+      "status": {
+        "completed": "Project voltooid",
+        "started": "Project gestart",
+        "notStarted": "Project nog niet gestart",
+        "noGithub": "Geen GitHub link beschikbaar",
+        "viewGithub": "Bekijk GitHub Repository",
+        "open": "Open positie",
+        "waiting": "Wachtend op start",
+        "inProgress": "In uitvoering"
+      },
+      "notFound": "Project niet gevonden",
+      "results": {
+        "partnerNPS": "Partner\nNPS",
+        "studentNPS": "Student\nNPS"
+      },
+      "partnership": {
+        "title": "Partnerschapsperiode",
+        "sent": "Verzonden",
+        "returned": "Geretourneerd",
+        "signed": "Ondertekend",
+        "comment": "Opmerking"
+      },
+      "tapi": {
+        "title": "TAPI",
+        "sent": "Verzonden",
+        "returned": "Geretourneerd",
+        "aligned": "Uitgelijnd",
+        "comment": "Opmerking",
+        "meeting": "TAPI Vergadering"
+      }
+    },
+    "history": {
+      "title": "Geschiedenis"
+    }
+  },
+  "pt": {
+    "common": {
+      "back": "Voltar",
+      "buttons": {
+        "submit": "Enviar",
+        "cancel": "Cancelar",
+        "save": "Salvar"
+      },
+      "labels": {
+        "email": "Email",
+        "password": "Senha",
+        "required": "*",
+        "search": "Pesquisar..."
+      },
+      "language": "Idioma"
+    },
+    "auth": {
+      "login": {
+        "title": "Entrar",
+        "loginButton": "Entrar",
+        "googleButton": "Entrar com Google",
+        "continueWithPassword": "Continuar com senha",
+        "or": "ou",
+        "forgotPassword": "Esqueceu sua senha?"
+      }
+    },
+    "navigation": {
+      "home": "Início",
+      "logout": "Sair",
+      "profile": "Perfil",
+      "prospection": "Prospecção",
+      "history": "História"
+    },
+    "home": {
+      "welcome": "Bem-vindo ao seu App React",
+      "description": "Este é um parágrafo que deve usar Poppins 400 e a cor cinza.",
+      "buttons": {
+        "primary": "Botão Primário",
+        "secondary": "Botão Secundário"
+      }
+    },
+    "errors": {
+      "required": "Este campo é obrigatório",
+      "invalidEmail": "Email inválido",
+      "invalidPassword": "Senha inválida"
+    },
+    "table": {
+      "title": "Visão Geral dos Projetos",
+      "headers": {
+        "period": "Período",
+        "className": "Nome da Turma",
+        "module": "Módulo",
+        "subject": "Disciplina",
+        "partner": "Parceiro",
+        "status": "Status",
+        "details": "Detalhes"
+      }
+    },
+    "header": {
+      "profile": {
+        "icon": {
+          "alt": "Ícone do Perfil",
+          "title": "Perfil"
+        }
+      },
+      "language": {
+        "select": "Selecionar Idioma"
+      }
+    },
+    "languages": {
+      "english": "Inglês",
+      "portuguese": "Português",
+      "dutch": "Holandês",
+      "spanish": "Espanhol",
+      "french": "Francês"
+    },
+    "projectDetails": {
+      "title": "Detalhes do Projeto",
+      "backButton": "Voltar para Projetos",
+      "sections": {
+        "generalInfo": "Informações Gerais",
+        "partner": "Parceiro",
+        "requiredInfo": "Informação Requerida",
+        "results": "Resultados",
+        "students": "Alunos"
+      },
+      "fields": {
+        "period": "Período",
+        "date": "Data",
+        "quarter": "Trimestre",
+        "startYear": "Ano de início",
+        "class": "Turma",
+        "classCode": "Código da turma",
+        "module": "Módulo",
+        "course": "Curso",
+        "coordinator": "Coordenador",
+        "advisor": "Orientador",
+        "partnerName": "Nome do parceiro",
+        "sector": "Setor",
+        "branch": "Ramo",
+        "activity": "Atividade",
+        "partnerContact": "Contato do parceiro",
+        "emailContact": "Email de contato",
+        "projectSupervisor": "Supervisor do projeto",
+        "emailSupervisor": "Email do supervisor",
+        "email": "Email",
+        "projectDescription": "Descrição do Projeto"
+      },
+      "requirements": {
+        "exampleData": "Dados de exemplo",
+        "technicalMeeting": "Reunião técnica",
+        "logo": "Logo",
+        "partnershipTerm": "Termo de parceria",
+        "tapi": "TAPI"
+      },
+      "status": {
+        "completed": "Projeto concluído",
+        "started": "Projeto iniciado",
+        "notStarted": "Projeto não iniciado",
+        "noGithub": "Link do GitHub não fornecido",
+        "viewGithub": "Ver Repositório GitHub",
+        "open": "Vaga em aberto",
+        "waiting": "Aguardando início",
+        "inProgress": "Em andamento"
+      },
+      "notFound": "Projeto não encontrado",
+      "results": {
+        "partnerNPS": "NPS do\nParceiro",
+        "studentNPS": "NPS do\nEstudante"
+      },
+      "partnership": {
+        "title": "Termo de parceria",
+        "sent": "Enviado",
+        "returned": "Retornado",
+        "signed": "Assinado"
+      },
+      "tapi": {
+        "title": "TAPI",
+        "sent": "Sent",
+        "returned": "Returned",
+        "aligned": "Aligned",
+        "comment": "Comment",
+        "meeting": "TAPI Meeting"
+      }
+    },
+    "history": {
+      "title": "História"
+    }
+  },
+  "de": {
+    "projectDetails": {
+      "partnership": {
+        "title": "Partnerschaftszeit",
+        "sent": "Gesendet",
+        "returned": "Zurückgegeben",
+        "signed": "Unterschrieben",
+        "comment": "Kommentar"
+      },
+      "tapi": {
+        "title": "TAPI",
+        "sent": "Gesendet",
+        "returned": "Zurückgegeben",
+        "aligned": "Ausgerichtet",
+        "comment": "Kommentar",
+        "meeting": "TAPI Treffen"
+      }
+    }
+  }
+} 

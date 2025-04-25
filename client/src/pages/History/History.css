@@ -1,0 +1,195 @@
+.history-container {
+  padding: 20px;
+}
+
+.history-container h2 {
+  color: #333;
+  margin-bottom: 24px;
+}
+
+.search-container {
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.class-input {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #f5f5f5;
+}
+
+.search-button {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 24px;
+  background-color: #855ede;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.search-button:hover {
+  background-color: #6f4ec9;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.timeline-wrapper {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.selection-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.selection-button {
+  padding: 12px 24px;
+  background-color: #855ede;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  width: 200px;
+}
+
+.selection-button.active {
+  background-color: #6f4ec9;
+}
+
+.selection-button:hover:not(.active) {
+  background-color: rgba(133, 94, 222, 0.9);
+}
+
+.selection-divider {
+  color: #666;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.input-container {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.history-input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 300px;
+  text-align: center;
+}
+
+.submit-button {
+  padding: 12px 24px;
+  background-color: #855ede;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  width: 200px;
+}
+
+.submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.back-button {
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  color: #855ede;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  grid-column: 1;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+.history-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  margin-bottom: 24px;
+  width: 100%;
+  position: relative;
+}
+
+.history-header h2 {
+  margin: 0;
+  color: #333;
+  text-align: center;
+  grid-column: 2;
+  justify-self: center;
+}
+
+/* Add an empty div for the third column to maintain balance */
+.history-header::after {
+  content: '';
+  width: 100px; /* Same width as back button */
+  grid-column: 3;
+}
+
+.input-helper-text {
+  color: #666;
+  font-size: 12px;
+  margin-top: 4px;
+  text-align: center;
+}
+
+.history-input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.history-input[type="number"]::-webkit-outer-spin-button,
+.history-input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.history-input:invalid {
+  border-color: #f44336;
+} 
