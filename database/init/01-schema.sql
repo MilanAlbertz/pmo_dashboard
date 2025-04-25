@@ -1,18 +1,6 @@
 -- Create database schema for pmo_office_db
 USE pmo_office_db;
 
--- Contact table
-CREATE TABLE Contact (
-    ContactID INT PRIMARY KEY,
-    Name VARCHAR(255),
-    Email VARCHAR(255),
-    Phone VARCHAR(255),
-    Role VARCHAR(255),
-    PartnerID INT,
-    ProjectID INT,
-    NULLABLE BOOLEAN
-);
-
 -- Partner table
 CREATE TABLE Partner (
     PartnerID INT PRIMARY KEY,
@@ -33,7 +21,7 @@ CREATE TABLE Class (
 CREATE TABLE Staff (
     StaffID INT PRIMARY KEY,
     Name VARCHAR(255),
-    Role ENUM('admin'),
+    Role VARCHAR(255),  -- Changed from ENUM to VARCHAR to match ERD
     Email VARCHAR(255)
 );
 
@@ -66,6 +54,17 @@ CREATE TABLE TAPI (
     Comments TEXT
 );
 
+-- Contact table - removed ProjectID to avoid circular dependency
+CREATE TABLE Contact (
+    ContactID INT PRIMARY KEY,
+    Name VARCHAR(255),
+    Email VARCHAR(255),
+    Phone VARCHAR(255),
+    Role VARCHAR(255),
+    PartnerID INT,
+    FOREIGN KEY (PartnerID) REFERENCES Partner(PartnerID)
+);
+
 -- Project table
 CREATE TABLE Project (
     ProjectID INT PRIMARY KEY,
@@ -85,6 +84,7 @@ CREATE TABLE Project (
     FOREIGN KEY (PartnerID) REFERENCES Partner(PartnerID),
     FOREIGN KEY (ModuleID) REFERENCES Module(ModuleID),
     FOREIGN KEY (CoordinatorID) REFERENCES Contact(ContactID),
+    FOREIGN KEY (AdvisorID) REFERENCES Contact(ContactID),
     FOREIGN KEY (TapiID) REFERENCES TAPI(TapiID),
     FOREIGN KEY (AgreementID) REFERENCES Agreement(AgreementID)
 );
@@ -97,11 +97,13 @@ CREATE TABLE ProjectGitHub (
     FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID)
 );
 
--- Add foreign key constraints for Contact
-ALTER TABLE Contact
-ADD CONSTRAINT FK_Contact_Partner
-FOREIGN KEY (PartnerID) REFERENCES Partner(PartnerID);
-
-ALTER TABLE Contact
-ADD CONSTRAINT FK_Contact_Project
-FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID);
+-- Junction table for Contact-Project relationship
+-- This resolves the "belongs to" relationship shown in the ERD without creating a circular dependency
+CREATE TABLE ProjectContact (
+    ProjectID INT,
+    ContactID INT,
+    Role VARCHAR(255),
+    PRIMARY KEY (ProjectID, ContactID),
+    FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID),
+    FOREIGN KEY (ContactID) REFERENCES Contact(ContactID)
+);

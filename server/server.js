@@ -1,5 +1,5 @@
 debugger; // First line breakpoint
-require('dotenv').config({ path: './salesforce.env' });
+require('dotenv').config();
 const express = require('express')
 // const jsforce = require('jsforce');
 const axios = require('axios');
@@ -7,13 +7,14 @@ const app = express()
 const fs = require('fs');
 const path = require('path');
 const mysql = require('mysql2/promise');
+const salesforceService = require('./services/salesforce/index');
 
 // MySQL connection pool configuration
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'test',
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -72,54 +73,6 @@ async function obterToken() {
   }
 }
 
-app.get('/api/salesforce/accounts', async (req, res) => {
-  try {
-    const token = await obterToken();
-    const queryString = encodeURIComponent('SELECT Id, Name FROM Account LIMIT 10');
-    const sfResponse = await fetch(
-      `${sfConfig.loginUrl}/services/data/v57.0/query?q=${queryString}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
-    const result = await sfResponse.json();
-    res.json({
-      success: true,
-      count: result.totalSize,
-      records: result.records
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-app.get('/api/salesforce/partners', async (req, res) => {
-  try {
-    const token = await obterToken();
-    const queryString = encodeURIComponent("SELECT Id, Name FROM Account WHERE Relacao__c = 'Parceiro'");
-    const sfResponse = await fetch(
-      `${sfConfig.loginUrl}/services/data/v57.0/query?q=${queryString}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
-    const result = await sfResponse.json();
-    console.log(result);
-    res.json({
-      success: true,
-      count: result.totalSize,
-      records: result.records
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
 // Keep the connection status variable
 let sfConnected = true;
 
@@ -338,20 +291,44 @@ app.put('/api/prospections/:id', (req, res) => {
   }
 });
 
-// Comment out or modify Salesforce endpoints
+// Salesforce endpoints
+app.get('/api/salesforce/accounts', async (req, res) => {
+  try {
+    if (!salesforceService) {
+      return res.status(503).json({ 
+        error: 'Salesforce service is not available',
+        message: 'The Salesforce service is not properly configured. Please check your environment variables.'
+      });
+    }
+    const result = await salesforceService.getAccounts();
+    res.json({
+      success: true,
+      count: result.totalSize,
+      records: result.records
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
-// app.get('/api/salesforce/accounts', checkSalesforceConnection, async (req, res) => {
-//   try {
-//     const records = await conn.query('SELECT Id, Name FROM Account LIMIT 10');
-//     res.json({
-//       success: true,
-//       count: records.totalSize,
-//       records: records.records
-//     });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// });
+app.get('/api/salesforce/partners', async (req, res) => {
+  try {
+    if (!salesforceService) {
+      return res.status(503).json({ 
+        error: 'Salesforce service is not available',
+        message: 'The Salesforce service is not properly configured. Please check your environment variables.'
+      });
+    }
+    const result = await salesforceService.getPartners();
+    res.json({
+      success: true,
+      count: result.totalSize,
+      records: result.records
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // Modify the status endpoint to be simpler
 app.get('/api/salesforce/status', (req, res) => {
