@@ -1,0 +1,1652 @@
+{
+  "projects": [
+    {
+      "period": "2022.1",
+      "year": "2/2022",
+      "quarter": "1",
+      "yearClass": "2022.1",
+      "className": "Turma 01",
+      "classCode": "2022-1A-T01",
+      "module": "Módulo 01_IN",
+      "theme": "Jogo Digital"
+    }
+  ],
+  "modules": {
+    "2022": {
+      "1º ANO": {
+        "1": [
+          {
+            "partner": "Philips",
+            "classcode": "2022-1A-T11",
+            "advisor": "Jan Janssen",
+            "classroom": "12",
+            "status": "Confirmed",
+            "sector": "Privado"
+          },
+          {
+            "partner": "Siemens",
+            "classcode": "2022-1A-T12",
+            "advisor": "Sarah Smith",
+            "classroom": "14",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "GE",
+            "classcode": "2022-1A-T13",
+            "advisor": "Mike Johnson",
+            "classroom": "15",
+            "status": "Pending",
+            "sector": "GOV"
+          },
+          {
+            "partner": "Bosch",
+            "classcode": "2022-1A-T14",
+            "advisor": "Lisa Brown",
+            "classroom": "16",
+            "status": "Confirmed",
+            "sector": "Privado"
+          },
+          null,
+          {
+            "partner": "ABB",
+            "classcode": "2022-1A-T15",
+            "advisor": "James Wilson",
+            "classroom": "17",
+            "status": "Confirmed",
+            "ModuleName": "Module 1",
+            "sector": "ONG"
+          }
+        ],
+        "2": [
+          {
+            "partner": "Schneider Electric",
+            "classcode": "2022-1A-T21",
+            "advisor": "Tom Wilson",
+            "classroom": "21",
+            "status": "Confirmed",
+            "sector": "GOV"
+          },
+          {
+            "partner": "Huawei",
+            "classcode": "2022-1A-T22",
+            "advisor": "Emma Davis",
+            "classroom": "22",
+            "status": "In progress",
+            "sector": "Privado"
+          },
+          null,
+          {
+            "partner": "Xiaomi",
+            "classcode": "2022-1A-T24",
+            "advisor": "John Doe",
+            "classroom": "24",
+            "status": "Pending",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Asus",
+            "classcode": "2022-1A-T25",
+            "advisor": "Alice Johnson",
+            "classroom": "25",
+            "status": "Confirmed",
+            "sector": "Privado"
+          },
+          {
+            "partner": "Acer",
+            "classcode": "2022-1A-T26",
+            "advisor": "Robert Smith",
+            "classroom": "26",
+            "status": "Confirmed",
+            "ModuleName": "Module 2",
+            "sector": "GOV"
+          }
+        ],
+        "3": [
+          null,
+          {
+            "partner": "Motorola",
+            "classcode": "2022-1A-T32",
+            "advisor": "Bob Martin",
+            "classroom": "32",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Nokia",
+            "classcode": "2022-1A-T33",
+            "advisor": "Carol White",
+            "classroom": "33",
+            "status": "Confirmed",
+            "sector": "Privado"
+          },
+          {
+            "partner": "Ericsson",
+            "classcode": "2022-1A-T34",
+            "advisor": "David Brown",
+            "classroom": "34",
+            "status": "Pending",
+            "sector": "GOV"
+          },
+          {
+            "partner": "Siemens",
+            "classcode": "2022-1A-T35",
+            "advisor": "Eve Anderson",
+            "classroom": "35",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Bosch",
+            "classcode": "2022-1A-T36",
+            "advisor": "Peter Chen",
+            "classroom": "36",
+            "status": "Confirmed",
+            "ModuleName": "Module 3",
+            "sector": "Privado"
+          }
+        ],
+        "4": [
+          {
+            "partner": "Canon",
+            "classcode": "2022-1A-T41",
+            "advisor": "Frank Miller",
+            "classroom": "41",
+            "status": "Confirmed",
+            "sector": "GOV"
+          },
+          {
+            "partner": "Epson",
+            "classcode": "2022-1A-T42",
+            "advisor": "Grace Lee",
+            "classroom": "42",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Fujitsu",
+            "classcode": "2022-1A-T43",
+            "advisor": "Henry Wilson",
+            "classroom": "43",
+            "status": "Pending",
+            "sector": "Privado"
+          },
+          null,
+          {
+            "partner": "Toshiba",
+            "classcode": "2022-1A-T45",
+            "advisor": "Ivy Chen",
+            "classroom": "45",
+            "status": "Confirmed",
+            "sector": "GOV"
+          },
+          {
+            "partner": "Sharp",
+            "classcode": "2022-1A-T46",
+            "advisor": "Mark Davis",
+            "classroom": "46",
+            "status": "Confirmed",
+            "ModuleName": "Module 4",
+            "sector": "ONG"
+          }
+        ]
+      },
+      "Ciência da Computação": {
+        "1": [
+          {
+            "partner": "Symantec",
+            "classcode": "2022-CC-T11",
+            "advisor": "Ana Cristina",
+            "classroom": "101",
+            "status": "Confirmed",
+            "ModuleName": "Module 5",
+            "sector": "Privado"
+          }
+        ],
+        "2": [
+          {
+            "partner": "MongoDB",
+            "classcode": "2022-CC-T61",
+            "advisor": "Ana Cristina",
+            "classroom": "601",
+            "status": "Confirmed",
+            "ModuleName": "Module 6",
+            "sector": "ONG"
+          }
+        ],
+        "3": [
+          {
+            "partner": "PostgreSQL",
+            "classcode": "2022-CC-T71",
+            "advisor": "Ana Cristina",
+            "classroom": "701",
+            "status": "Confirmed",
+            "ModuleName": "Module 7",
+            "sector": "GOV"
+          }
+        ],
+        "4": [
+          {
+            "partner": "MySQL",
+            "classcode": "2022-CC-T81",
+            "advisor": "Ana Cristina",
+            "classroom": "801",
+            "status": "Confirmed",
+            "ModuleName": "Module 8",
+            "sector": "Privado"
+          }
+        ]
+      },
+      "Engenharia da Computação": {
+        "1": [
+          {
+            "partner": "Intel",
+            "classcode": "2022-EC-T51",
+            "advisor": "Michele",
+            "classroom": "502",
+            "status": "In progress",
+            "ModuleName": "Module 5",
+            "sector": "ONG"
+          }
+        ],
+        "2": [
+          {
+            "partner": "AMD",
+            "classcode": "2022-EC-T61",
+            "advisor": "Michele",
+            "classroom": "602",
+            "status": "In progress",
+            "ModuleName": "Module 6",
+            "sector": "GOV"
+          }
+        ],
+        "3": [
+          {
+            "partner": "NVIDIA",
+            "classcode": "2022-EC-T71",
+            "advisor": "Michele",
+            "classroom": "702",
+            "status": "In progress",
+            "ModuleName": "Module 7",
+            "sector": "Privado"
+          }
+        ],
+        "4": [
+          {
+            "partner": "ARM",
+            "classcode": "2022-EC-T81",
+            "advisor": "Michele",
+            "classroom": "802",
+            "status": "In progress",
+            "ModuleName": "Module 8",
+            "sector": "ONG"
+          }
+        ]
+      },
+      "Sistemas de Informação": {
+        "1": [
+          {
+            "partner": "Workday",
+            "classcode": "2022-SI-T51",
+            "advisor": "Rodrigo",
+            "classroom": "503",
+            "status": "Pending",
+            "ModuleName": "Module 5",
+            "sector": "GOV"
+          }
+        ],
+        "2": [
+          {
+            "partner": "Zendesk",
+            "classcode": "2022-SI-T61",
+            "advisor": "Rodrigo",
+            "classroom": "603",
+            "status": "Pending",
+            "ModuleName": "Module 6",
+            "sector": "Privado"
+          }
+        ],
+        "3": [
+          {
+            "partner": "HubSpot",
+            "classcode": "2022-SI-T71",
+            "advisor": "Rodrigo",
+            "classroom": "703",
+            "status": "Pending",
+            "ModuleName": "Module 7",
+            "sector": "ONG"
+          }
+        ],
+        "4": [
+          {
+            "partner": "Atlassian",
+            "classcode": "2022-SI-T81",
+            "advisor": "Rodrigo",
+            "classroom": "803",
+            "status": "Pending",
+            "ModuleName": "Module 8",
+            "sector": "GOV"
+          }
+        ]
+      },
+      "ADM Tech": {
+        "1": [
+          {
+            "partner": "Deloitte",
+            "classcode": "2022-AT-T51",
+            "advisor": "Monica",
+            "classroom": "504",
+            "status": "Confirmed",
+            "ModuleName": "Module 5",
+            "sector": "Privado"
+          }
+        ],
+        "2": [
+          {
+            "partner": "KPMG",
+            "classcode": "2022-AT-T61",
+            "advisor": "Monica",
+            "classroom": "604",
+            "status": "Confirmed",
+            "ModuleName": "Module 6",
+            "sector": "ONG"
+          }
+        ],
+        "3": [
+          {
+            "partner": "EY",
+            "classcode": "2022-AT-T71",
+            "advisor": "Monica",
+            "classroom": "704",
+            "status": "Confirmed",
+            "ModuleName": "Module 7",
+            "sector": "GOV"
+          }
+        ],
+        "4": [
+          {
+            "partner": "PwC",
+            "classcode": "2022-AT-T81",
+            "advisor": "Monica",
+            "classroom": "804",
+            "status": "Confirmed",
+            "ModuleName": "Module 8",
+            "sector": "Privado"
+          }
+        ]
+      }
+    },
+    "2023": {
+      "1º ANO": {
+        "1": [
+          {
+            "partner": "PayPal",
+            "classcode": "2023-1A-T11",
+            "advisor": "Jan Janssen",
+            "classroom": "12",
+            "status": "Confirmed",
+            "sector": "Privado"
+          },
+          {
+            "partner": "Square",
+            "classcode": "2023-1A-T12",
+            "advisor": "Sarah Smith",
+            "classroom": "14",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Stripe",
+            "classcode": "2023-1A-T13",
+            "advisor": "Mike Johnson",
+            "classroom": "15",
+            "status": "Pending",
+            "sector": "GOV"
+          },
+          {
+            "partner": "Wise",
+            "classcode": "2023-1A-T14",
+            "advisor": "Lisa Brown",
+            "classroom": "16",
+            "status": "Confirmed",
+            "sector": "Privado"
+          },
+          null,
+          {
+            "partner": "Revolut",
+            "classcode": "2023-1A-T15",
+            "advisor": "James Wilson",
+            "classroom": "17",
+            "status": "Confirmed",
+            "ModuleName": "Module 1",
+            "sector": "ONG"
+          }
+        ],
+        "2": [
+          {
+            "partner": "Nubank",
+            "classcode": "2023-1A-T21",
+            "advisor": "Tom Wilson",
+            "classroom": "21",
+            "status": "Confirmed",
+            "sector": "GOV"
+          },
+          {
+            "partner": "Chime",
+            "classcode": "2023-1A-T22",
+            "advisor": "Emma Davis",
+            "classroom": "22",
+            "status": "In progress",
+            "sector": "Privado"
+          },
+          null,
+          {
+            "partner": "Monzo",
+            "classcode": "2023-1A-T24",
+            "advisor": "John Doe",
+            "classroom": "24",
+            "status": "Pending",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Varo",
+            "classcode": "2023-1A-T25",
+            "advisor": "Alice Johnson",
+            "classroom": "25",
+            "status": "Confirmed",
+            "sector": "GOV"
+          },
+          {
+            "partner": "Current",
+            "classcode": "2023-1A-T26",
+            "advisor": "Robert Smith",
+            "classroom": "26",
+            "status": "Confirmed",
+            "ModuleName": "Module 2",
+            "sector": "Privado"
+          }
+        ],
+        "3": [
+          null,
+          {
+            "partner": "SoFi",
+            "classcode": "2023-1A-T32",
+            "advisor": "Bob Martin",
+            "classroom": "32",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Robinhood",
+            "classcode": "2023-1A-T33",
+            "advisor": "Carol White",
+            "classroom": "33",
+            "status": "Confirmed",
+            "sector": "GOV"
+          },
+          {
+            "partner": "Acorns",
+            "classcode": "2023-1A-T34",
+            "advisor": "David Brown",
+            "classroom": "34",
+            "status": "Pending",
+            "sector": "Privado"
+          },
+          {
+            "partner": "Betterment",
+            "classcode": "2023-1A-T35",
+            "advisor": "Eve Anderson",
+            "classroom": "35",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Wealthfront",
+            "classcode": "2023-1A-T36",
+            "advisor": "Peter Chen",
+            "classroom": "36",
+            "status": "Confirmed",
+            "ModuleName": "Module 3",
+            "sector": "GOV"
+          }
+        ],
+        "4": [
+          {
+            "partner": "Coinbase",
+            "classcode": "2023-1A-T41",
+            "advisor": "Frank Miller",
+            "classroom": "41",
+            "status": "Confirmed",
+            "sector": "Privado"
+          },
+          {
+            "partner": "Kraken",
+            "classcode": "2023-1A-T42",
+            "advisor": "Grace Lee",
+            "classroom": "42",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Binance",
+            "classcode": "2023-1A-T43",
+            "advisor": "Henry Wilson",
+            "classroom": "43",
+            "status": "Pending",
+            "sector": "GOV"
+          },
+          null,
+          {
+            "partner": "FTX",
+            "classcode": "2023-1A-T45",
+            "advisor": "Ivy Chen",
+            "classroom": "45",
+            "status": "Confirmed",
+            "sector": "Privado"
+          },
+          {
+            "partner": "BlockFi",
+            "classcode": "2023-1A-T46",
+            "advisor": "Mark Davis",
+            "classroom": "46",
+            "status": "Confirmed",
+            "ModuleName": "Module 4",
+            "sector": "ONG"
+          }
+        ]
+      },
+      "Ciência da Computação": {
+        "1": [
+          {
+            "partner": "IBM",
+            "classcode": "2023-CC-T11",
+            "advisor": "Ana Cristina",
+            "classroom": "101",
+            "status": "Confirmed",
+            "ModuleName": "Module 5",
+            "sector": "Privado"
+          }
+        ],
+        "2": [
+          {
+            "partner": "Google Cloud",
+            "classcode": "2023-CC-T61",
+            "advisor": "Ana Cristina",
+            "classroom": "601",
+            "status": "Confirmed",
+            "ModuleName": "Module 6",
+            "sector": "ONG"
+          }
+        ],
+        "3": [
+          {
+            "partner": "Microsoft Azure",
+            "classcode": "2023-CC-T71",
+            "advisor": "Ana Cristina",
+            "classroom": "701",
+            "status": "Confirmed",
+            "ModuleName": "Module 7",
+            "sector": "GOV"
+          }
+        ],
+        "4": [
+          {
+            "partner": "Amazon AWS",
+            "classcode": "2023-CC-T81",
+            "advisor": "Ana Cristina",
+            "classroom": "801",
+            "status": "Confirmed",
+            "ModuleName": "Module 8",
+            "sector": "Privado"
+          }
+        ]
+      },
+      "Engenharia da Computação": {
+        "1": [
+          {
+            "partner": "Tesla",
+            "classcode": "2023-EC-T51",
+            "advisor": "Michele",
+            "classroom": "502",
+            "status": "In progress",
+            "ModuleName": "Module 5",
+            "sector": "ONG"
+          }
+        ],
+        "2": [
+          {
+            "partner": "SpaceX",
+            "classcode": "2023-EC-T61",
+            "advisor": "Michele",
+            "classroom": "602",
+            "status": "In progress",
+            "ModuleName": "Module 6",
+            "sector": "GOV"
+          }
+        ],
+        "3": [
+          {
+            "partner": "Boston Dynamics",
+            "classcode": "2023-EC-T71",
+            "advisor": "Michele",
+            "classroom": "702",
+            "status": "In progress",
+            "ModuleName": "Module 7",
+            "sector": "Privado"
+          }
+        ],
+        "4": [
+          {
+            "partner": "NASA",
+            "classcode": "2023-EC-T81",
+            "advisor": "Michele",
+            "classroom": "802",
+            "status": "In progress",
+            "ModuleName": "Module 8",
+            "sector": "ONG"
+          }
+        ]
+      },
+      "Sistemas de Informação": {
+        "1": [
+          {
+            "partner": "SAP",
+            "classcode": "2023-SI-T51",
+            "advisor": "Rodrigo",
+            "classroom": "503",
+            "status": "Pending",
+            "ModuleName": "Module 5",
+            "sector": "GOV"
+          }
+        ],
+        "2": [
+          {
+            "partner": "Oracle",
+            "classcode": "2023-SI-T61",
+            "advisor": "Rodrigo",
+            "classroom": "603",
+            "status": "Pending",
+            "ModuleName": "Module 6",
+            "sector": "Privado"
+          }
+        ],
+        "3": [
+          {
+            "partner": "Salesforce",
+            "classcode": "2023-SI-T71",
+            "advisor": "Rodrigo",
+            "classroom": "703",
+            "status": "Pending",
+            "ModuleName": "Module 7",
+            "sector": "ONG"
+          }
+        ],
+        "4": [
+          {
+            "partner": "ServiceNow",
+            "classcode": "2023-SI-T81",
+            "advisor": "Rodrigo",
+            "classroom": "803",
+            "status": "Pending",
+            "ModuleName": "Module 8",
+            "sector": "GOV"
+          }
+        ]
+      },
+      "ADM Tech": {
+        "1": [
+          {
+            "partner": "McKinsey",
+            "classcode": "2023-AT-T51",
+            "advisor": "Monica",
+            "classroom": "504",
+            "status": "Confirmed",
+            "ModuleName": "Module 5",
+            "sector": "Privado"
+          }
+        ],
+        "2": [
+          {
+            "partner": "BCG",
+            "classcode": "2023-AT-T61",
+            "advisor": "Monica",
+            "classroom": "604",
+            "status": "Confirmed",
+            "ModuleName": "Module 6",
+            "sector": "ONG"
+          }
+        ],
+        "3": [
+          {
+            "partner": "Bain",
+            "classcode": "2023-AT-T71",
+            "advisor": "Monica",
+            "classroom": "704",
+            "status": "Confirmed",
+            "ModuleName": "Module 7",
+            "sector": "GOV"
+          }
+        ],
+        "4": [
+          {
+            "partner": "Accenture",
+            "classcode": "2023-AT-T81",
+            "advisor": "Monica",
+            "classroom": "804",
+            "status": "Confirmed",
+            "ModuleName": "Module 8",
+            "sector": "Privado"
+          }
+        ]
+      }
+    },
+    "2024": {
+      "1º ANO": {
+        "1": [
+          {
+            "partner": "Oracle",
+            "classcode": "2024-1A-T11",
+            "advisor": "Jan Janssen",
+            "classroom": "12",
+            "status": "Confirmed",
+            "sector": "Privado"
+          },
+          {
+            "partner": "Cisco",
+            "classcode": "2024-1A-T12",
+            "advisor": "Sarah Smith",
+            "classroom": "14",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Dell",
+            "classcode": "2024-1A-T13",
+            "advisor": "Mike Johnson",
+            "classroom": "15",
+            "status": "Pending",
+            "sector": "GOV"
+          },
+          {
+            "partner": "HP",
+            "classcode": "2024-1A-T14",
+            "advisor": "Lisa Brown",
+            "classroom": "16",
+            "status": "Confirmed",
+            "sector": "Privado"
+          },
+          null,
+          {
+            "partner": "Lenovo",
+            "classcode": "2024-1A-T15",
+            "advisor": "James Wilson",
+            "classroom": "17",
+            "status": "Confirmed",
+            "ModuleName": "Module 1",
+            "sector": "ONG"
+          }
+        ],
+        "2": [
+          {
+            "partner": "Intel",
+            "classcode": "2024-1A-T21",
+            "advisor": "Tom Wilson",
+            "classroom": "21",
+            "status": "Confirmed",
+            "sector": "GOV"
+          },
+          {
+            "partner": "AMD",
+            "classcode": "2024-1A-T22",
+            "advisor": "Emma Davis",
+            "classroom": "22",
+            "status": "In progress",
+            "sector": "Privado"
+          },
+          null,
+          {
+            "partner": "NVIDIA",
+            "classcode": "2024-1A-T24",
+            "advisor": "John Doe",
+            "classroom": "24",
+            "status": "Pending",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Qualcomm",
+            "classcode": "2024-1A-T25",
+            "advisor": "Alice Johnson",
+            "classroom": "25",
+            "status": "Confirmed",
+            "sector": "GOV"
+          },
+          {
+            "partner": "Broadcom",
+            "classcode": "2024-1A-T26",
+            "advisor": "Robert Smith",
+            "classroom": "26",
+            "status": "Confirmed",
+            "ModuleName": "Module 2",
+            "sector": "Privado"
+          }
+        ],
+        "3": [
+          null,
+          {
+            "partner": "Texas Instruments",
+            "classcode": "2024-1A-T32",
+            "advisor": "Bob Martin",
+            "classroom": "32",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Analog Devices",
+            "classcode": "2024-1A-T33",
+            "advisor": "Carol White",
+            "classroom": "33",
+            "status": "Confirmed",
+            "sector": "GOV"
+          },
+          {
+            "partner": "Microchip",
+            "classcode": "2024-1A-T34",
+            "advisor": "David Brown",
+            "classroom": "34",
+            "status": "Pending",
+            "sector": "Privado"
+          },
+          {
+            "partner": "STMicroelectronics",
+            "classcode": "2024-1A-T35",
+            "advisor": "Eve Anderson",
+            "classroom": "35",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Infineon",
+            "classcode": "2024-1A-T36",
+            "advisor": "Peter Chen",
+            "classroom": "36",
+            "status": "Confirmed",
+            "ModuleName": "Module 3",
+            "sector": "GOV"
+          }
+        ],
+        "4": [
+          {
+            "partner": "Western Digital",
+            "classcode": "2024-1A-T41",
+            "advisor": "Frank Miller",
+            "classroom": "41",
+            "status": "Confirmed",
+            "sector": "Privado"
+          },
+          {
+            "partner": "Seagate",
+            "classcode": "2024-1A-T42",
+            "advisor": "Grace Lee",
+            "classroom": "42",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Kingston",
+            "classcode": "2024-1A-T43",
+            "advisor": "Henry Wilson",
+            "classroom": "43",
+            "status": "Pending",
+            "sector": "GOV"
+          },
+          null,
+          {
+            "partner": "Crucial",
+            "classcode": "2024-1A-T45",
+            "advisor": "Ivy Chen",
+            "classroom": "45",
+            "status": "Confirmed",
+            "sector": "Privado"
+          },
+          {
+            "partner": "Corsair",
+            "classcode": "2024-1A-T46",
+            "advisor": "Mark Davis",
+            "classroom": "46",
+            "status": "Confirmed",
+            "ModuleName": "Module 4",
+            "sector": "ONG"
+          }
+        ]
+      },
+      "Ciência da Computação": {
+        "1": [
+          {
+            "partner": "Red Hat",
+            "classcode": "2024-CC-T11",
+            "advisor": "Ana Cristina",
+            "classroom": "101",
+            "status": "Confirmed",
+            "ModuleName": "Module 5",
+            "sector": "Privado"
+          }
+        ],
+        "2": [
+          {
+            "partner": "MongoDB",
+            "classcode": "2024-CC-T61",
+            "advisor": "Ana Cristina",
+            "classroom": "601",
+            "status": "Confirmed",
+            "ModuleName": "Module 6",
+            "sector": "ONG"
+          }
+        ],
+        "3": [
+          {
+            "partner": "PostgreSQL",
+            "classcode": "2024-CC-T71",
+            "advisor": "Ana Cristina",
+            "classroom": "701",
+            "status": "Confirmed",
+            "ModuleName": "Module 7",
+            "sector": "GOV"
+          }
+        ],
+        "4": [
+          {
+            "partner": "MySQL",
+            "classcode": "2024-CC-T81",
+            "advisor": "Ana Cristina",
+            "classroom": "801",
+            "status": "Confirmed",
+            "ModuleName": "Module 8",
+            "sector": "Privado"
+          }
+        ]
+      },
+      "Engenharia da Computação": {
+        "1": [
+          {
+            "partner": "Intel",
+            "classcode": "2024-EC-T51",
+            "advisor": "Michele",
+            "classroom": "502",
+            "status": "In progress",
+            "ModuleName": "Module 5",
+            "sector": "ONG"
+          }
+        ],
+        "2": [
+          {
+            "partner": "AMD",
+            "classcode": "2024-EC-T61",
+            "advisor": "Michele",
+            "classroom": "602",
+            "status": "In progress",
+            "ModuleName": "Module 6",
+            "sector": "GOV"
+          }
+        ],
+        "3": [
+          {
+            "partner": "NVIDIA",
+            "classcode": "2024-EC-T71",
+            "advisor": "Michele",
+            "classroom": "702",
+            "status": "In progress",
+            "ModuleName": "Module 7",
+            "sector": "Privado"
+          }
+        ],
+        "4": [
+          {
+            "partner": "ARM",
+            "classcode": "2024-EC-T81",
+            "advisor": "Michele",
+            "classroom": "802",
+            "status": "In progress",
+            "ModuleName": "Module 8",
+            "sector": "ONG"
+          }
+        ]
+      },
+      "Sistemas de Informação": {
+        "1": [
+          {
+            "partner": "Workday",
+            "classcode": "2024-SI-T51",
+            "advisor": "Rodrigo",
+            "classroom": "503",
+            "status": "Pending",
+            "ModuleName": "Module 5",
+            "sector": "GOV"
+          }
+        ],
+        "2": [
+          {
+            "partner": "Zendesk",
+            "classcode": "2024-SI-T61",
+            "advisor": "Rodrigo",
+            "classroom": "603",
+            "status": "Pending",
+            "ModuleName": "Module 6",
+            "sector": "Privado"
+          }
+        ],
+        "3": [
+          {
+            "partner": "HubSpot",
+            "classcode": "2024-SI-T71",
+            "advisor": "Rodrigo",
+            "classroom": "703",
+            "status": "Pending",
+            "ModuleName": "Module 7",
+            "sector": "ONG"
+          }
+        ],
+        "4": [
+          {
+            "partner": "Atlassian",
+            "classcode": "2024-SI-T81",
+            "advisor": "Rodrigo",
+            "classroom": "803",
+            "status": "Pending",
+            "ModuleName": "Module 8",
+            "sector": "GOV"
+          }
+        ]
+      },
+      "ADM Tech": {
+        "1": [
+          {
+            "partner": "Deloitte",
+            "classcode": "2024-AT-T51",
+            "advisor": "Monica",
+            "classroom": "504",
+            "status": "Confirmed",
+            "ModuleName": "Module 5",
+            "sector": "Privado"
+          }
+        ],
+        "2": [
+          {
+            "partner": "KPMG",
+            "classcode": "2024-AT-T61",
+            "advisor": "Monica",
+            "classroom": "604",
+            "status": "Confirmed",
+            "ModuleName": "Module 6",
+            "sector": "ONG"
+          }
+        ],
+        "3": [
+          {
+            "partner": "EY",
+            "classcode": "2024-AT-T71",
+            "advisor": "Monica",
+            "classroom": "704",
+            "status": "Confirmed",
+            "ModuleName": "Module 7",
+            "sector": "GOV"
+          }
+        ],
+        "4": [
+          {
+            "partner": "PwC",
+            "classcode": "2024-AT-T81",
+            "advisor": "Monica",
+            "classroom": "804",
+            "status": "Confirmed",
+            "ModuleName": "Module 8",
+            "sector": "Privado"
+          }
+        ]
+      }
+    },
+    "2025": {
+      "1º ANO": {
+        "1": [
+          {
+            "partner": "Anjos do Brasil",
+            "classcode": "2025-1A-T11",
+            "advisor": "Jan Janssen",
+            "classroom": "12",
+            "status": "Pending",
+            "sector": "Privado",
+            "comment": ""
+          },
+          {
+            "partner": "Microsoft",
+            "classcode": "2025-1A-T12",
+            "advisor": "Sarah Smith",
+            "classroom": "14",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Apple",
+            "classcode": "2025-1A-T13",
+            "advisor": "Mike Johnson",
+            "classroom": "15",
+            "status": "Pending",
+            "sector": "GOV"
+          },
+          {
+            "partner": "Meta",
+            "classcode": "2025-1A-T14",
+            "advisor": "Lisa Brown",
+            "classroom": "16",
+            "status": "Confirmed",
+            "sector": "Privado"
+          },
+          null,
+          {
+            "partner": "Adobe",
+            "classcode": "2025-1A-T15",
+            "advisor": "James Wilson",
+            "classroom": "17",
+            "status": "Confirmed",
+            "ModuleName": "Module 1",
+            "sector": "ONG"
+          }
+        ],
+        "2": [
+          {
+            "partner": "Rentbrella",
+            "classcode": "2025-1A-T21",
+            "advisor": "Tom Wilson",
+            "classroom": "21",
+            "status": "Confirmed",
+            "sector": "Privado",
+            "comment": ""
+          },
+          {
+            "partner": "Netflix",
+            "classcode": "2025-1A-T22",
+            "advisor": "Emma Davis",
+            "classroom": "22",
+            "status": "In progress",
+            "sector": "Privado"
+          },
+          null,
+          {
+            "partner": "Spotify",
+            "classcode": "2025-1A-T24",
+            "advisor": "John Doe",
+            "classroom": "24",
+            "status": "Pending",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Twitter",
+            "classcode": "2025-1A-T25",
+            "advisor": "Alice Johnson",
+            "classroom": "25",
+            "status": "Confirmed",
+            "sector": "GOV"
+          },
+          {
+            "partner": "LinkedIn",
+            "classcode": "2025-1A-T26",
+            "advisor": "Robert Smith",
+            "classroom": "26",
+            "status": "Confirmed",
+            "ModuleName": "Module 2",
+            "sector": "Privado"
+          }
+        ],
+        "3": [
+          null,
+          {
+            "partner": "Rentbrella",
+            "classcode": "2025-1A-T32",
+            "advisor": "Bob Martin",
+            "classroom": "32",
+            "status": "Confirmed",
+            "sector": "Privado",
+            "comment": ""
+          },
+          {
+            "partner": "AMD",
+            "classcode": "2025-1A-T33",
+            "advisor": "Carol White",
+            "classroom": "33",
+            "status": "Confirmed",
+            "sector": "GOV",
+            "comment": ""
+          },
+          {
+            "partner": "NVIDIA",
+            "classcode": "2025-1A-T34",
+            "advisor": "David Brown",
+            "classroom": "34",
+            "status": "Pending",
+            "sector": "Privado"
+          },
+          {
+            "partner": "Qualcomm",
+            "classcode": "2025-1A-T35",
+            "advisor": "Eve Anderson",
+            "classroom": "35",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "ARM",
+            "classcode": "2025-1A-T36",
+            "advisor": "Peter Chen",
+            "classroom": "36",
+            "status": "Confirmed",
+            "ModuleName": "Module 3",
+            "sector": "GOV"
+          }
+        ],
+        "4": [
+          {
+            "partner": "Available",
+            "classcode": "2025-1A-T41",
+            "advisor": "Frank Miller",
+            "classroom": "41",
+            "status": "Open for partners",
+            "sector": "",
+            "comment": ""
+          },
+          {
+            "partner": "LG",
+            "classcode": "2025-1A-T42",
+            "advisor": "Grace Lee",
+            "classroom": "42",
+            "status": "In progress",
+            "sector": "ONG"
+          },
+          {
+            "partner": "Sony",
+            "classcode": "2025-1A-T43",
+            "advisor": "Henry Wilson",
+            "classroom": "43",
+            "status": "Pending",
+            "sector": "GOV"
+          },
+          null,
+          {
+            "partner": "Panasonic",
+            "classcode": "2025-1A-T45",
+            "advisor": "Ivy Chen",
+            "classroom": "45",
+            "status": "Confirmed",
+            "sector": "Privado"
+          },
+          {
+            "partner": "Philips",
+            "classcode": "2025-1A-T46",
+            "advisor": "Mark Davis",
+            "classroom": "46",
+            "status": "Confirmed",
+            "ModuleName": "Module 4",
+            "sector": "ONG"
+          }
+        ]
+      },
+      "Ciência da Computação": {
+        "1": [
+          {
+            "partner": "IBM",
+            "classcode": "2025-CC-T11",
+            "advisor": "Ana Cristina",
+            "classroom": "04",
+            "status": "Confirmed",
+            "ModuleName": "Module 5",
+            "sector": "Privado",
+            "comment": ""
+          }
+        ],
+        "2": [
+          {
+            "partner": "Google Cloud",
+            "classcode": "2025-CC-T61",
+            "advisor": "Ana Cristina",
+            "classroom": "601",
+            "status": "Confirmed",
+            "ModuleName": "Module 6",
+            "sector": "ONG"
+          }
+        ],
+        "3": [
+          {
+            "partner": "Microsoft Azure",
+            "classcode": "2025-CC-T71",
+            "advisor": "Ana Cristina",
+            "classroom": "701",
+            "status": "Confirmed",
+            "ModuleName": "Module 7",
+            "sector": "GOV"
+          }
+        ],
+        "4": [
+          {
+            "partner": "Amazon AWS",
+            "classcode": "2025-CC-T81",
+            "advisor": "Ana Cristina",
+            "classroom": "801",
+            "status": "Confirmed",
+            "ModuleName": "Module 8",
+            "sector": "Privado"
+          }
+        ]
+      },
+      "Engenharia da Computação": {
+        "1": [
+          {
+            "partner": "Tesla",
+            "classcode": "2025-EC-T51",
+            "advisor": "Michele",
+            "classroom": "502",
+            "status": "In progress",
+            "ModuleName": "Module 5",
+            "sector": "ONG"
+          }
+        ],
+        "2": [
+          {
+            "partner": "SpaceX",
+            "classcode": "2025-EC-T61",
+            "advisor": "Michele",
+            "classroom": "602",
+            "status": "In progress",
+            "ModuleName": "Module 6",
+            "sector": "GOV"
+          }
+        ],
+        "3": [
+          {
+            "partner": "Boston Dynamics",
+            "classcode": "2025-EC-T71",
+            "advisor": "Michele",
+            "classroom": "702",
+            "status": "In progress",
+            "ModuleName": "Module 7",
+            "sector": "Privado"
+          }
+        ],
+        "4": [
+          {
+            "partner": "NASA",
+            "classcode": "2025-EC-T81",
+            "advisor": "Michele",
+            "classroom": "802",
+            "status": "In progress",
+            "ModuleName": "Module 8",
+            "sector": "ONG"
+          }
+        ]
+      },
+      "Sistemas de Informação": {
+        "1": [
+          {
+            "partner": "SAP",
+            "classcode": "2025-SI-T51",
+            "advisor": "Rodrigo",
+            "classroom": "503",
+            "status": "Pending",
+            "ModuleName": "Module 5",
+            "sector": "GOV"
+          }
+        ],
+        "2": [
+          {
+            "partner": "Oracle",
+            "classcode": "2025-SI-T61",
+            "advisor": "Rodrigo",
+            "classroom": "603",
+            "status": "Pending",
+            "ModuleName": "Module 6",
+            "sector": "Privado"
+          }
+        ],
+        "3": [
+          {
+            "partner": "Salesforce",
+            "classcode": "2025-SI-T71",
+            "advisor": "Rodrigo",
+            "classroom": "703",
+            "status": "Pending",
+            "ModuleName": "Module 7",
+            "sector": "ONG"
+          }
+        ],
+        "4": [
+          {
+            "partner": "ServiceNow",
+            "classcode": "2025-SI-T81",
+            "advisor": "Rodrigo",
+            "classroom": "803",
+            "status": "Pending",
+            "ModuleName": "Module 8",
+            "sector": "GOV"
+          }
+        ]
+      },
+      "ADM Tech": {
+        "1": [
+          {
+            "partner": "McKinsey",
+            "classcode": "2025-AT-T51",
+            "advisor": "Monica",
+            "classroom": "504",
+            "status": "Confirmed",
+            "ModuleName": "Module 5",
+            "sector": "Privado"
+          }
+        ],
+        "2": [
+          {
+            "partner": "BCG",
+            "classcode": "2025-AT-T61",
+            "advisor": "Monica",
+            "classroom": "604",
+            "status": "Confirmed",
+            "ModuleName": "Module 6",
+            "sector": "ONG"
+          }
+        ],
+        "3": [
+          {
+            "partner": "Bain",
+            "classcode": "2025-AT-T71",
+            "advisor": "Monica",
+            "classroom": "704",
+            "status": "Confirmed",
+            "ModuleName": "Module 7",
+            "sector": "GOV"
+          }
+        ],
+        "4": [
+          {
+            "partner": "Accenture",
+            "classcode": "2025-AT-T81",
+            "advisor": "Monica",
+            "classroom": "804",
+            "status": "Confirmed",
+            "ModuleName": "Module 8",
+            "sector": "Privado"
+          }
+        ]
+      }
+    },
+    "2º ANO": {
+      "1": [
+        {
+          "partner": "ASUS",
+          "classcode": "2024-2A-T11",
+          "advisor": "John Smith",
+          "classroom": "11",
+          "status": "Confirmed",
+          "sector": "GOV"
+        },
+        {
+          "partner": "MSI",
+          "classcode": "2024-2A-T12",
+          "advisor": "Jane Doe",
+          "classroom": "12",
+          "status": "In progress",
+          "sector": "Privado"
+        },
+        {
+          "partner": "Gigabyte",
+          "classcode": "2024-2A-T13",
+          "advisor": "Mike Johnson",
+          "classroom": "13",
+          "status": "Pending",
+          "sector": "ONG"
+        },
+        {
+          "partner": "EVGA",
+          "classcode": "2024-2A-T14",
+          "advisor": "Sarah Wilson",
+          "classroom": "14",
+          "status": "Confirmed",
+          "sector": "GOV"
+        },
+        {
+          "partner": "Zotac",
+          "classcode": "2024-2A-T15",
+          "advisor": "Tom Brown",
+          "classroom": "15",
+          "status": "Confirmed",
+          "ModuleName": "Module 1",
+          "sector": "Privado"
+        }
+      ],
+      "2": [
+        {
+          "partner": "Thermaltake",
+          "classcode": "2024-2A-T21",
+          "advisor": "Emma Davis",
+          "classroom": "21",
+          "status": "Confirmed",
+          "sector": "ONG"
+        },
+        {
+          "partner": "Cooler Master",
+          "classcode": "2024-2A-T22",
+          "advisor": "David Lee",
+          "classroom": "22",
+          "status": "In progress",
+          "sector": "GOV"
+        },
+        {
+          "partner": "NZXT",
+          "classcode": "2024-2A-T23",
+          "advisor": "Lisa Chen",
+          "classroom": "23",
+          "status": "Pending",
+          "sector": "Privado"
+        },
+        {
+          "partner": "Phanteks",
+          "classcode": "2024-2A-T24",
+          "advisor": "Robert Wilson",
+          "classroom": "24",
+          "status": "Confirmed",
+          "sector": "ONG"
+        },
+        {
+          "partner": "Lian Li",
+          "classcode": "2024-2A-T25",
+          "advisor": "Alice Johnson",
+          "classroom": "25",
+          "status": "Confirmed",
+          "ModuleName": "Module 2",
+          "sector": "GOV"
+        }
+      ],
+      "3": [
+        {
+          "partner": "Noctua",
+          "classcode": "2024-2A-T31",
+          "advisor": "Bob Martin",
+          "classroom": "31",
+          "status": "Confirmed",
+          "sector": "Privado"
+        },
+        {
+          "partner": "be quiet!",
+          "classcode": "2024-2A-T32",
+          "advisor": "Carol White",
+          "classroom": "32",
+          "status": "In progress",
+          "sector": "ONG"
+        },
+        {
+          "partner": "Arctic",
+          "classcode": "2024-2A-T33",
+          "advisor": "David Brown",
+          "classroom": "33",
+          "status": "Pending",
+          "sector": "GOV"
+        },
+        {
+          "partner": "Deepcool",
+          "classcode": "2024-2A-T34",
+          "advisor": "Eve Anderson",
+          "classroom": "34",
+          "status": "Confirmed",
+          "sector": "Privado"
+        },
+        {
+          "partner": "ID-Cooling",
+          "classcode": "2024-2A-T35",
+          "advisor": "Peter Chen",
+          "classroom": "35",
+          "status": "Confirmed",
+          "ModuleName": "Module 3",
+          "sector": "ONG"
+        }
+      ],
+      "4": [
+        {
+          "partner": "G.Skill",
+          "classcode": "2024-2A-T41",
+          "advisor": "Frank Miller",
+          "classroom": "41",
+          "status": "Confirmed",
+          "sector": "GOV"
+        },
+        {
+          "partner": "Team Group",
+          "classcode": "2024-2A-T42",
+          "advisor": "Grace Lee",
+          "classroom": "42",
+          "status": "In progress",
+          "sector": "Privado"
+        },
+        {
+          "partner": "Patriot",
+          "classcode": "2024-2A-T43",
+          "advisor": "Henry Wilson",
+          "classroom": "43",
+          "status": "Pending",
+          "sector": "ONG"
+        },
+        {
+          "partner": "ADATA",
+          "classcode": "2024-2A-T44",
+          "advisor": "Ivy Chen",
+          "classroom": "44",
+          "status": "Confirmed",
+          "sector": "GOV"
+        },
+        {
+          "partner": "PNY",
+          "classcode": "2024-2A-T45",
+          "advisor": "Mark Davis",
+          "classroom": "45",
+          "status": "Confirmed",
+          "ModuleName": "Module 4",
+          "sector": "Privado"
+        }
+      ]
+    }
+  }
+}

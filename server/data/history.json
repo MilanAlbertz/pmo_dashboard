@@ -1,0 +1,205 @@
+{
+  "classCode": "INF2A",
+  "history": [
+    {
+      "year": "2020-2021",
+      "modules": [
+        {
+          "module": "1",
+          "partner": "Accenture",
+          "type": "Privado",
+          "subject": "1º ANO"
+        },
+        {
+          "module": "1",
+          "partner": "UNICEF",
+          "type": "ONG",
+          "subject": "Ciência da Computação"
+        },
+        {
+          "module": "1",
+          "partner": "IBM",
+          "type": "Privado",
+          "subject": "Engenharia da Computação"
+        },
+        {
+          "module": "1",
+          "partner": "Governo SP",
+          "type": "GOV",
+          "subject": "Sistemas de Informação"
+        },
+        {
+          "module": "1",
+          "partner": "Microsoft",
+          "type": "Privado",
+          "subject": "ADM Tech"
+        },
+        {
+          "module": "2",
+          "partner": "BTG Pactual",
+          "type": "Privado",
+          "subject": "1º ANO"
+        },
+        {
+          "module": "2",
+          "partner": "Cruz Vermelha",
+          "type": "ONG",
+          "subject": "Ciência da Computação"
+        },
+        {
+          "module": "2",
+          "partner": "DELL",
+          "type": "Privado",
+          "subject": "Engenharia da Computação"
+        },
+        {
+          "module": "2",
+          "partner": "IPT",
+          "type": "GOV",
+          "subject": "Sistemas de Informação"
+        },
+        {
+          "module": "2",
+          "partner": "Oracle",
+          "type": "Privado",
+          "subject": "ADM Tech"
+        },
+        {
+          "module": "3",
+          "partner": "VALE",
+          "type": "Privado",
+          "subject": "1º ANO"
+        },
+        {
+          "module": "3",
+          "partner": "Gerando Falcões",
+          "type": "ONG",
+          "subject": "Ciência da Computação"
+        },
+        {
+          "module": "3",
+          "partner": "Google",
+          "type": "Privado",
+          "subject": "Engenharia da Computação"
+        },
+        {
+          "module": "3",
+          "partner": "UNICAMP",
+          "type": "GOV",
+          "subject": "Sistemas de Informação"
+        },
+        {
+          "module": "3",
+          "partner": "RAPPI",
+          "type": "Privado",
+          "subject": "ADM Tech"
+        },
+        {
+          "module": "4",
+          "partner": "Stone",
+          "type": "Privado",
+          "subject": "1º ANO"
+        },
+        {
+          "module": "4",
+          "partner": "Instituto Vita",
+          "type": "ONG",
+          "subject": "Ciência da Computação"
+        },
+        {
+          "module": "4",
+          "partner": "AMBEV",
+          "type": "Privado",
+          "subject": "Engenharia da Computação"
+        },
+        {
+          "module": "4",
+          "partner": "CPS - Centro Paula Souza",
+          "type": "GOV",
+          "subject": "Sistemas de Informação"
+        },
+        {
+          "module": "4",
+          "partner": "Natura",
+          "type": "Privado",
+          "subject": "ADM Tech"
+        }
+      ]
+    },
+    {
+      "year": "2021-2022",
+      "modules": [
+        {
+          "module": "1",
+          "partner": "UNICEF",
+          "type": "ONG"
+        },
+        {
+          "module": "2",
+          "partner": "Amazon",
+          "type": "Privado"
+        },
+        {
+          "module": "3",
+          "partner": "Governo RJ",
+          "type": "GOV"
+        },
+        {
+          "module": "4",
+          "partner": "Oracle",
+          "type": "Privado"
+        }
+      ]
+    },
+    {
+      "year": "2022-2023",
+      "modules": [
+        {
+          "module": "1",
+          "partner": "Cruz Vermelha",
+          "type": "ONG"
+        },
+        {
+          "module": "2",
+          "partner": "Microsoft",
+          "type": "Privado"
+        },
+        {
+          "module": "3",
+          "partner": "Prefeitura SP",
+          "type": "GOV"
+        },
+        {
+          "module": "4",
+          "partner": "Google",
+          "type": "Privado"
+        }
+      ]
+    },
+    {
+      "year": "2023-2024",
+      "modules": [
+        {
+          "module": "1",
+          "partner": "WWF",
+          "type": "ONG"
+        },
+        {
+          "module": "2",
+          "partner": "Intel",
+          "type": "Privado"
+        },
+        {
+          "module": "3",
+          "partner": "Ministério Educação",
+          "type": "GOV"
+        },
+        {
+          "module": "4",
+          "partner": "SAP",
+          "type": "Privado"
+        }
+      ]
+    }
+  ]
+} 
