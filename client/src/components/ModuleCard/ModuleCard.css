@@ -36,6 +36,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
+  padding-right: 32px; /* Prevent overlap with edit icon */
 }
 
 .edit-icon {
@@ -56,26 +57,36 @@
 
 .module-content {
   padding: 12px;
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 8px;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .info-row {
-  display: contents;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-bottom: 0px;
+  width: 100%;
+  font-size: 12px;
 }
 
 .info-label {
   font-weight: bold;
-  color: #333;
-  text-align: right;
-  padding-right: 8px;
+  margin-right: 4px;
+  flex: 0 0 80px;
+  font-size: 12px;
 }
 
 .info-value {
   display: flex;
   align-items: center;
+  flex: 1 1 0%;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
   gap: 6px;
 }
 
@@ -128,6 +139,22 @@
   margin-bottom: 0;
 }
 
+/* Add styles for advisor and classroom fields */
+.info-row.advisor,
+.info-row.classroom {
+  margin-top: 4px;
+}
+
+.info-row.advisor .info-label,
+.info-row.classroom .info-label {
+  color: #666; /* Slightly muted color for secondary information */
+}
+
+.info-row.advisor .info-value,
+.info-row.classroom .info-value {
+  color: #333;
+}
+
 .view-toggle {
   padding: 8px 16px;
   background-color: #855ede;
@@ -163,11 +190,14 @@
 }
 
 .partner-type-badge {
-  flex-shrink: 0; /* Prevent the badge from shrinking */
+  display: inline-block;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  display: inline-block;
+  margin-left: 6px;
+  vertical-align: middle;
+  flex-shrink: 0;
+  background-color: #4CAF50; /* Default color for testing */
 }
 
 /* Remove or comment out this style */
@@ -181,4 +211,21 @@
 /* Remove this class if it exists */
 /* .partner-name[title] {
   border-bottom: 1px dotted #999;
-} */ 
+} */
+
+.info-row.comment-row {
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.info-row.comment-row .info-label {
+  margin-bottom: 2px;
+  flex: 0 0 auto;
+}
+
+.info-row.comment-row .info-value {
+  white-space: pre-line;
+  width: 100%;
+  margin-top: 0;
+} 

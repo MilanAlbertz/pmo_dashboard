@@ -106,7 +106,9 @@
         "projectSupervisor": "Project supervisor",
         "emailSupervisor": "Email supervisor",
         "email": "Email",
-        "projectDescription": "Project Description"
+        "phone": "Phone",
+        "projectDescription": "Project Description",
+        "numPrototypes": "Number of Prototypes"
       },
       "requirements": {
         "exampleData": "Example data",
@@ -258,7 +260,9 @@
         "projectSupervisor": "Supervisor del proyecto",
         "emailSupervisor": "Email del supervisor",
         "email": "Email",
-        "projectDescription": "Descripción del Proyecto"
+        "phone": "Teléfono",
+        "projectDescription": "Descripción del Proyecto",
+        "numPrototypes": "Número de Prototipos"
       },
       "requirements": {
         "exampleData": "Datos de ejemplo",
@@ -408,7 +412,9 @@
         "projectSupervisor": "Superviseur du projet",
         "emailSupervisor": "Email du superviseur",
         "email": "Email",
-        "projectDescription": "Description du Projet"
+        "phone": "Téléphone",
+        "projectDescription": "Description du Projet",
+        "numPrototypes": "Nombre de Prototypes"
       },
       "requirements": {
         "exampleData": "Données d'exemple",
@@ -558,7 +564,9 @@
         "projectSupervisor": "Projectbegeleider",
         "emailSupervisor": "Email begeleider",
         "email": "Email",
-        "projectDescription": "Projectbeschrijving"
+        "phone": "Telefoon",
+        "projectDescription": "Projectbeschrijving",
+        "numPrototypes": "Aantal Prototypes"
       },
       "requirements": {
         "exampleData": "Voorbeeldgegevens",
@@ -708,7 +716,9 @@
         "projectSupervisor": "Supervisor do projeto",
         "emailSupervisor": "Email do supervisor",
         "email": "Email",
-        "projectDescription": "Descrição do Projeto"
+        "phone": "Telefone",
+        "projectDescription": "Descrição do Projeto",
+        "numPrototypes": "Número de Prototipos"
       },
       "requirements": {
         "exampleData": "Dados de exemplo",

@@ -27,7 +27,8 @@ const EditModuleForm = ({ data, onClose, onSubmit }) => {
       try {
         setIsLoading(true);
         setError(null);
-        const response = await fetch('/api/salesforce/partners', {
+        // Fetch partners from local database instead of Salesforce
+        const response = await fetch('/api/partners', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -40,12 +41,7 @@ const EditModuleForm = ({ data, onClose, onSubmit }) => {
           throw new Error(data.error || 'Failed to fetch partners');
         }
 
-        // Transform the data to match the expected format
-        const transformedPartners = data.records.map(partner => ({
-          name: partner.Name,
-          type: partner.Type__c || 'Privado'
-        }));
-        setPartners(transformedPartners);
+        setPartners(data.partners);
       } catch (error) {
         console.error('Error fetching partners:', error);
         setError(error.message);
@@ -93,7 +89,7 @@ const EditModuleForm = ({ data, onClose, onSubmit }) => {
   const isValidPartner = () => {
     // Partner is valid if it's "Available" or exists in the partners list
     return formData.partner === 'Available' || 
-           partners.some(p => p.name === formData.partner);
+           partners.some(p => p.Name === formData.partner);
   };
 
   const handlePartnerSearch = (e) => {
@@ -111,28 +107,87 @@ const EditModuleForm = ({ data, onClose, onSubmit }) => {
     }
   };
 
-  const handlePartnerSelect = (selectedPartner) => {
-    const selectedCompany = partners.find(company => company.name === selectedPartner);
+  const handlePartnerSelect = (selectedPartnerName) => {
+    const selectedCompany = partners.find(company => company.Name === selectedPartnerName);
+    console.log('Selected company:', selectedCompany);
+    
     setFormData(prev => ({
       ...prev,
-      partner: selectedPartner,
-      sector: selectedCompany?.type || ''
+      partner: selectedPartnerName,
+      sector: selectedCompany?.Sector || ''
     }));
-    setPartnerSearch(selectedPartner);
+    setPartnerSearch(selectedPartnerName);
     setShowPartnersList(false);
   };
 
   const filteredPartners = partners
     .filter(company => 
-      company.name.toLowerCase().includes(partnerSearch.toLowerCase())
+      company.Name.toLowerCase().includes(partnerSearch.toLowerCase())
     )
     .slice(0, 5);
 
   // Modify the submit handler to check for valid partner
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isValidPartner()) {
-      onSubmit(formData);
+    if (!isValidPartner()) {
+      return;
+    }
+
+    try {
+      // Find the selected partner's ID from the partners list
+      const selectedPartner = formData.status === 'Open for partners' 
+        ? null 
+        : partners.find(p => p.Name === formData.partner);
+      
+      console.log('Selected partner:', selectedPartner);
+      console.log('Current form data:', formData);
+      console.log('Current project data:', data);
+
+      // Only include fields that are being changed
+      const updateData = {
+        id: data.id,
+        partnerId: selectedPartner?.PartnerID || null,
+        status: formData.status,
+        comment: formData.comment,
+        // Include these for UI update
+        partner: formData.partner,
+        sector: selectedPartner?.Sector || null
+      };
+
+      console.log('Sending update data:', updateData);
+
+      const response = await fetch(`/api/projects/${data.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateData)
+      });
+
+      console.log('Response status:', response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Error response:', errorData);
+        throw new Error(errorData.message || 'Failed to update project');
+      }
+
+      const result = await response.json();
+      console.log('Update result:', result);
+
+      if (result.success) {
+        // Merge the updated data with existing data for the UI
+        const updatedData = {
+          ...data,
+          ...updateData
+        };
+        onSubmit(updatedData);  // Pass the merged updated data
+      } else {
+        throw new Error(result.message || 'Failed to update project');
+      }
+    } catch (error) {
+      console.error('Error updating project:', error);
+      alert('Failed to update project. Please try again.');
     }
   };
 
@@ -254,9 +309,9 @@ const EditModuleForm = ({ data, onClose, onSubmit }) => {
                       <div 
                         key={index}
                         className="partner-option"
-                        onClick={() => handlePartnerSelect(company.name)}
+                        onClick={() => handlePartnerSelect(company.Name)}
                       >
-                        {company.name} ({company.type})
+                        {company.Name}
                       </div>
                     ))}
                   </div>

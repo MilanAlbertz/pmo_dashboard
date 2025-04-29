@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../../contexts/LanguageContext';
 import ModuleCard from '../../components/ModuleCard/ModuleCard';
-import { fetchMockData, updateModule } from '../../utils/api';
+import { fetchProjects, updateModule } from '../../utils/api';
 import './Prospection.css';
 import { ReactComponent as MinimizeIcon } from '../../assets/images/icons/minimize.svg';
 import { ReactComponent as MaximizeIcon } from '../../assets/images/icons/maximize.svg';
@@ -50,18 +50,11 @@ const Prospection = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        console.log('Fetching mock data...');
-        const mockData = await fetchMockData();
-        console.log('Received mock data structure:', {
-          projects: mockData.projects,
-          modules: mockData.modules,
-          projectsLength: mockData.projects?.length,
-          modulesKeys: Object.keys(mockData.modules || {})
-        });
-        setData(mockData);
+        const response = await fetchProjects();
+        console.log('Fetched projects:', response.projects);
+        setData(response.projects);
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching mock data:', err);
         setError(err.message);
         setLoading(false);
       }
@@ -69,71 +62,35 @@ const Prospection = () => {
     loadData();
   }, []);
 
+  // Add debug logging for filtering
+  useEffect(() => {
+    if (!data) return;
+    console.log('Prospection page: full data:', data);
+    [1, 2, 3, 4].forEach(period => {
+      courses.forEach(course => {
+        const filtered = data.filter(project =>
+          String(project.year) === String(selectedYear) &&
+          project.course === course &&
+          String(project.period).endsWith('.' + period)
+        );
+        console.log(`Year: ${selectedYear}, Course: ${course}, Period: ${period} => ${filtered.length} projects`, filtered);
+      });
+    });
+  }, [data, selectedYear]);
+
   if (loading) return <div className="loading-container">Loading...</div>;
   if (error) return <div className="error-container">Error: {error}</div>;
   if (!data) return <div className="error-container">No data available</div>;
 
-  const getModuleCards = (course, period) => {
-    console.log('Getting module cards for:', { course, period, selectedYear });
-    console.log('Available projects:', data.projects?.map(p => ({
-      className: p.className,
-      period: p.period,
-      module: p.module
-    })));
-    
-    // Try both data structures
-    let modules = [];
-    
-    // First try projects array
-    if (data.projects) {
-      modules = data.projects.filter(project => {
-        const matches = project.className === course && project.period === period.toString();
-        if (matches) {
-          console.log('Found matching project:', project);
-        }
-        return matches;
-      });
-    }
-    
-    // If no matches in projects, try modules object
-    if (modules.length === 0 && data.modules) {
-      const yearModules = data.modules[selectedYear];
-      if (yearModules) {
-        const courseModules = yearModules[course];
-        if (courseModules) {
-          modules = courseModules[period] || [];
-          console.log('Found modules in modules object:', modules);
-        }
-      }
-    }
-    
-    console.log('Final modules for rendering:', modules);
-
-    return modules.map((moduleData, idx) => {
-      if (!moduleData) return null;
-      return (
-        <ModuleCard 
-          key={idx} 
-          moduleNumber={moduleData.module || period.toString()} 
-          data={{
-            ...moduleData,
-            id: `${selectedYear}-${course}-${period}-${idx}`
-          }}
-          isCompact={isCompact}
-          onUpdate={(updatedModule) => {
-            console.log('Updating module with:', updatedModule);
-            // Update the module in the data
-            const updatedData = {
-              ...data,
-              projects: data.projects.map(project => 
-                project.id === moduleData.id ? { ...project, ...updatedModule } : project
-              )
-            };
-            setData(updatedData);
-          }}
-        />
-      );
-    }).filter(Boolean);
+  // Helper: get projects for a given year, course, and period
+  const getProjectsFor = (year, course, period) => {
+    const filtered = data.filter(project =>
+      String(project.year) === String(year) &&
+      project.course === course &&
+      String(project.period).endsWith('.' + period)
+    );
+    console.log(`Filtered projects for ${year}, ${course}, ${period}:`, filtered);
+    return filtered;
   };
 
   return (
@@ -177,7 +134,15 @@ const Prospection = () => {
                 display: expandedSections[course] ? 'flex' : 'none'
               }}
             >
-              {getModuleCards(course, period)}
+              {getProjectsFor(selectedYear, course, period).map((project, idx) => (
+                <ModuleCard 
+                  key={project.id || idx}
+                  moduleNumber={project.module}
+                  data={project}
+                  isCompact={isCompact}
+                  onUpdate={() => {}}
+                />
+              ))}
             </div>
           ))}
         </div>

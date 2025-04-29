@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from '../../contexts/LanguageContext';
-import { fetchMockData, updateModule } from '../../utils/api';
+import { fetchProjects } from '../../utils/api';
 import './Table.css';
 import { Link } from 'react-router-dom';
 import FilterIcon from '../../assets/images/icons/FilterIcon';
@@ -22,6 +22,7 @@ const Table = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [tableData, setTableData] = useState([]);
 
   const handleFilterClick = (column) => {
     setActiveFilter(activeFilter === column ? null : column);
@@ -55,16 +56,22 @@ const Table = () => {
     setSortConfig({ key, direction });
   };
 
+  const formatPeriod = (period) => {
+    if (!period) return '';
+    return period.toString().replace('.', '');
+  };
+
   useEffect(() => {
     const loadData = async () => {
       try {
-        console.log('Fetching mock data...');
-        const mockData = await fetchMockData();
-        console.log('Received mock data:', mockData);
-        setData(mockData);
+        console.log('Fetching project data...');
+        const response = await fetchProjects();
+        console.log('Received project data:', response);
+        setData(response);
+        setTableData(response.projects);
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching mock data:', err);
+        console.error('Error fetching project data:', err);
         setError(err.message);
         setLoading(false);
       }
@@ -100,9 +107,6 @@ const Table = () => {
         return t('projectDetails.status.notStarted');
     }
   };
-
-  const tableData = data?.projects || [];
-  console.log('Table data:', tableData);
 
   const filteredData = useMemo(() => {
     console.log('Filtering data with:', { filters, searchTerm, sortConfig });
@@ -159,9 +163,9 @@ const Table = () => {
 
   const columns = [
     { key: 'period', label: t('table.headers.period') },
-    { key: 'className', label: t('table.headers.className') },
+    { key: 'classCode', label: t('table.headers.className') },
     { key: 'module', label: t('table.headers.module') },
-    { key: 'subject', label: t('table.headers.subject') },
+    { key: 'title', label: t('table.headers.subject') },
     { key: 'partner', label: t('table.headers.partner') },
     { key: 'status', label: t('table.headers.status') }
   ];
@@ -241,16 +245,16 @@ const Table = () => {
             {filteredData.length > 0 ? (
               filteredData.map((row, index) => (
                 <tr key={index}>
-                  <td>{row.period}</td>
-                  <td>{row.className}</td>
+                  <td>{formatPeriod(row.period)}</td>
+                  <td>{row.classCode}</td>
                   <td>{row.module}</td>
-                  <td>{row.subject}</td>
+                  <td>{row.title}</td>
                   <td>{row.partner}</td>
                   <td style={{ backgroundColor: getStatusColor(row.status) }}>
                     {getTranslatedStatus(row.status)}
                   </td>
                   <td>
-                    <Link to={`/project/${row.classCode}`} className="details-link">
+                    <Link to={`/project/${row.id}`} className="details-link">
                       {t('table.headers.details')}
                     </Link>
                   </td>

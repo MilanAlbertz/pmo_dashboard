@@ -12,12 +12,33 @@ const salesforceService = require('./services/salesforce/index');
 // MySQL connection pool configuration
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  user: process.env.DB_USER || 'Milan',
+  password: process.env.DB_PASSWORD || 'B@iley2003',
+  database: process.env.DB_NAME || 'pmo_office_db',
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  charset: 'utf8mb4'
+});
+
+// Test the connection
+pool.getConnection()
+  .then(connection => {
+    console.log('Successfully connected to the database');
+    connection.release();
+  })
+  .catch(err => {
+    console.error('Database connection error:', err);
+  });
+
+// Set charset for every new connection
+pool.on('connection', (connection) => {
+  connection.query("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
+});
+
+// Add error handling for the pool
+pool.on('error', (err) => {
+  console.error('Database pool error:', err);
 });
 
 // Salesforce configuration
@@ -146,10 +167,23 @@ const checkSalesforceConnection = (req, res, next) => {
 
 // Add CORS middleware
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:9995');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  const allowedOrigins = ['http://localhost:3000', 'http://localhost:9995'];
+  const origin = req.headers.origin;
+  
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Content-Type', 'application/json; charset=utf-8');
+  
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  
   next();
 });
 
@@ -337,16 +371,139 @@ app.get('/api/salesforce/status', (req, res) => {
   });
 });
 
-// Update modules endpoint to not use mockData
-app.put('/api/modules/:year/:course/:period/:index', (req, res) => {
-  const { year, course, period, index } = req.params;
-  const updateData = req.body;
-  
+// Update project
+app.put('/api/projects/:id', async (req, res) => {
   try {
-    // For now, just return the update data
+    const projectId = req.params.id;
+    const {
+      title,
+      description,
+      status,
+      period,
+      quarter,
+      year,
+      numPrototypes,
+      partnerId,
+      moduleId,
+      advisorId,
+      comment,
+      partner,
+      sector
+    } = req.body;
+
+    console.log('Received update request:', {
+      projectId,
+      partnerId,
+      status,
+      title,
+      moduleId,
+      advisorId,
+      partner,
+      sector
+    });
+
+    // First, get the current project data
+    const [currentProject] = await pool.query(
+      'SELECT * FROM Project WHERE ProjectID = ?',
+      [projectId]
+    );
+
+    if (!currentProject.length) {
+      return res.status(404).json({
+        success: false,
+        message: 'Project not found'
+      });
+    }
+
+    // Only update partner-related fields if partner is being changed
+    const isPartnerChange = partnerId !== undefined && partnerId !== currentProject[0].PartnerID;
+
+    // Prepare update values - keep existing values for non-partner fields if not explicitly provided
+    const updateValues = [
+      title !== undefined ? title : currentProject[0].Title,
+      description !== undefined ? description : currentProject[0].Description,
+      status !== undefined ? status : currentProject[0].Status,
+      period !== undefined ? period : currentProject[0].Period,
+      quarter !== undefined ? quarter : currentProject[0].Quarter,
+      year !== undefined ? year : currentProject[0].Year,
+      numPrototypes !== undefined ? numPrototypes : currentProject[0].NumPrototypes,
+      partnerId !== undefined ? partnerId : currentProject[0].PartnerID,
+      moduleId !== undefined ? moduleId : currentProject[0].ModuleID,
+      advisorId !== undefined ? advisorId : currentProject[0].AdvisorID,
+      comment !== undefined ? comment : currentProject[0].Comment,
+      projectId
+    ];
+
+    console.log('Update values:', updateValues);
+
+    const [result] = await pool.execute(
+      `UPDATE Project 
+       SET Title = ?, Description = ?, Status = ?, Period = ?, Quarter = ?, Year = ?, 
+           NumPrototypes = ?, PartnerID = ?, ModuleID = ?, AdvisorID = ?, Comment = ?
+       WHERE ProjectID = ?`,
+      updateValues
+    );
+
+    console.log('Update result:', result);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Project not found'
+      });
+    }
+
     res.json({
       success: true,
-      data: updateData
+      message: 'Project updated successfully'
+    });
+  } catch (error) {
+    console.error('Error updating project:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update project',
+      error: error.message
+    });
+  }
+});
+
+// Update module endpoint
+app.put('/api/modules/:id', async (req, res) => {
+  try {
+    const moduleId = req.params.id;
+    const updateData = req.body;
+    
+    // Update the module in the database
+    const [result] = await pool.query(
+      `UPDATE Module 
+       SET Name = ?, 
+           Course = ?, 
+           Description = ?, 
+           Period = ?, 
+           ClassID = ?, 
+           FieldOfStudy = ?
+       WHERE ModuleID = ?`,
+      [
+        updateData.name,
+        updateData.course,
+        updateData.description,
+        updateData.period,
+        updateData.classId,
+        updateData.fieldOfStudy,
+        moduleId
+      ]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ 
+        success: false,
+        message: 'Module not found' 
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Module updated successfully'
     });
   } catch (error) {
     console.error('Error updating module:', error);
@@ -387,6 +544,208 @@ app.get('/api/test/staff', async (req, res) => {
         console.error('Error fetching test staff:', error);
         res.status(500).json({ error: 'Failed to fetch test staff' });
     }
+});
+
+// Add new endpoint for fetching projects
+app.get('/api/projects', async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT 
+        p.ProjectID as id,
+        p.Title as title,
+        p.Description as description,
+        p.Comment as comment,
+        p.Period as period,
+        p.Year as year,
+        p.NumPrototypes as numPrototypes,
+        p.Quarter as quarter,
+        m.Name as module,
+        m.Course as course,
+        m.Description as moduleDescription,
+        pa.Name as partner,
+        pa.Sector as sector,
+        pa.Industry as industry,
+        pa.Activity as activity,
+        c.ClassCode as classCode,
+        c.Classroom as classroom,
+        s1.Name as coordinator,
+        s1.Email as coordinatorEmail,
+        s2.Name as advisor,
+        s2.Email as advisorEmail,
+        a.Sent as agreementSent,
+        a.Returned as agreementReturned,
+        a.Signed as agreementSigned,
+        a.Comments as agreementComments,
+        t.Sent as tapiSent,
+        t.Returned as tapiReturned,
+        t.Signed as tapiSigned,
+        t.Comments as tapiComments,
+        pg.Link as githubLink
+      FROM Project p
+      LEFT JOIN Module m ON p.ModuleID = m.ModuleID
+      LEFT JOIN Partner pa ON p.PartnerID = pa.PartnerID
+      LEFT JOIN Class c ON m.ClassID = c.ClassID
+      LEFT JOIN Staff s1 ON p.CoordinatorID = s1.StaffID
+      LEFT JOIN Staff s2 ON p.AdvisorID = s2.StaffID
+      LEFT JOIN Agreement a ON p.AgreementID = a.AgreementID
+      LEFT JOIN TAPI t ON p.TapiID = t.TapiID
+      LEFT JOIN ProjectGitHub pg ON p.ProjectID = pg.ProjectID
+      ORDER BY p.Year DESC, p.Period DESC
+    `);
+    
+    console.log('Database rows:', rows); // Debug log
+    
+    const projects = rows.map(row => ({
+      id: row.id,
+      title: row.title,
+      description: row.description,
+      comment: row.comment,
+      period: row.period,
+      year: row.year,
+      numPrototypes: row.numPrototypes,
+      quarter: row.quarter,
+      module: row.module,
+      course: row.course,
+      moduleDescription: row.moduleDescription,
+      partner: row.partner,
+      sector: row.sector,
+      industry: row.industry,
+      activity: row.activity,
+      classCode: row.classCode,
+      classroom: row.classroom,
+      coordinator: row.coordinator,
+      coordinatorEmail: row.coordinatorEmail,
+      advisor: row.advisor,
+      advisorEmail: row.advisorEmail,
+      agreementSent: row.agreementSent,
+      agreementReturned: row.agreementReturned,
+      agreementSigned: row.agreementSigned,
+      agreementComments: row.agreementComments,
+      tapiSent: row.tapiSent,
+      tapiReturned: row.tapiReturned,
+      tapiSigned: row.tapiSigned,
+      tapiComments: row.tapiComments,
+      githubLink: row.githubLink
+    }));
+    
+    console.log('Processed projects:', projects); // Debug log
+    
+    res.json({ projects });
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Add new endpoint for fetching project details
+app.get('/api/projects/:id', async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    
+    // Fetch project details with all related information
+    const [projectRows] = await pool.query(`
+      SELECT 
+        p.ProjectID as id,
+        p.Title as title,
+        p.Description as description,
+        p.Comment as comment,
+        p.Period as period,
+        p.Year as year,
+        p.NumPrototypes as numPrototypes,
+        p.Quarter as quarter,
+        m.Name as module,
+        m.Course as course,
+        m.Description as moduleDescription,
+        pa.Name as partner,
+        pa.Sector as sector,
+        pa.Industry as industry,
+        pa.Activity as activity,
+        c.ClassCode as classCode,
+        c.Classroom as classroom,
+        s1.Name as coordinator,
+        s1.Email as coordinatorEmail,
+        s2.Name as advisor,
+        s2.Email as advisorEmail,
+        a.Sent as agreementSent,
+        a.Returned as agreementReturned,
+        a.Signed as agreementSigned,
+        a.Comments as agreementComments,
+        t.Sent as tapiSent,
+        t.Returned as tapiReturned,
+        t.Signed as tapiSigned,
+        t.Comments as tapiComments,
+        pg.Link as githubLink
+      FROM Project p
+      LEFT JOIN Module m ON p.ModuleID = m.ModuleID
+      LEFT JOIN Partner pa ON p.PartnerID = pa.PartnerID
+      LEFT JOIN Class c ON m.ClassID = c.ClassID
+      LEFT JOIN Staff s1 ON p.CoordinatorID = s1.StaffID
+      LEFT JOIN Staff s2 ON p.AdvisorID = s2.StaffID
+      LEFT JOIN Agreement a ON p.AgreementID = a.AgreementID
+      LEFT JOIN TAPI t ON p.TapiID = t.TapiID
+      LEFT JOIN ProjectGitHub pg ON p.ProjectID = pg.ProjectID
+      WHERE p.ProjectID = ?
+    `, [projectId]);
+    
+    if (projectRows.length === 0) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
+    const project = projectRows[0];
+
+    // Fetch project contacts
+    const [contactRows] = await pool.query(`
+      SELECT 
+        c.Name as name,
+        c.Email as email,
+        c.Phone as phone,
+        c.Role as role,
+        pc.Role as projectRole
+      FROM ProjectContact pc
+      JOIN Contact c ON pc.ContactID = c.ContactID
+      WHERE pc.ProjectID = ?
+    `, [projectId]);
+
+    // Format the response
+    const response = {
+      project: {
+        ...project,
+        contacts: contactRows,
+        terms: {
+          sent: project.agreementSent,
+          returned: project.agreementReturned,
+          signed: project.agreementSigned,
+          comment: project.agreementComments
+        },
+        tapi: {
+          sent: project.tapiSent,
+          returned: project.tapiReturned,
+          aligned: project.tapiSigned,
+          comment: project.tapiComments
+        }
+      }
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.error('Error fetching project details:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Add endpoint to get partners from local database
+app.get('/api/partners', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM Partner');
+    res.json({ partners: rows });
+  } catch (error) {
+    console.error('Error fetching partners:', error);
+    res.status(500).json({ 
+      success: false,
+      message: 'Failed to fetch partners',
+      error: error.message 
+    });
+  }
 });
 
 app.listen(5001, () => { console.log("Server started on port 5001")})

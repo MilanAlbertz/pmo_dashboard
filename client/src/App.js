@@ -72,7 +72,7 @@ function App() {
               }
             />
             <Route
-              path="/project/:classCode"
+              path="/project/:id"
               element={
                 <ProtectedRoute>
                   <ProjectDetails />

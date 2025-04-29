@@ -11,13 +11,20 @@ const ModuleCard = ({ moduleNumber, data, onUpdate, isCompact }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   
+  // Add debug logging
+  console.log('ModuleCard received data:', data);
+  
   useEffect(() => {
     const loadPartners = async () => {
       try {
         setIsLoading(true);
         setError(null);
-        const partnersData = await fetchPartners();
-        setPartners(partnersData.companies);
+        const response = await fetch('/api/partners');
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to fetch partners');
+        }
+        setPartners(data.partners);
       } catch (error) {
         console.error('Error loading partners:', error);
         setError('Failed to load partners data');
@@ -31,22 +38,20 @@ const ModuleCard = ({ moduleNumber, data, onUpdate, isCompact }) => {
   }, []);
 
   const getCardClass = () => {
-    console.log('Current status:', data?.status); // Debug log
-    
     if (data?.status === 'Confirmed') return 'confirmed';
     if (data?.status === 'Pending') return 'filled';
     return 'empty'; // Default case (Open for partners)
   };
 
   const getPartnerType = (partnerName) => {
-    if (!partners.length) return null; // Return null if partners data is not available
-    const partner = partners.find(company => company.name === partnerName);
-    return partner?.type;
+    if (!partners.length || !partnerName) return null;
+    const partner = partners.find(company => company.Name === partnerName);
+    return partner?.Sector;
   };
 
-  const getPartnerBadgeColor = (partnerName) => {
-    const type = getPartnerType(partnerName)?.toLowerCase();
-    switch (type) {
+  const getPartnerBadgeColor = (sector) => {
+    if (!sector) return 'transparent';
+    switch (sector.toLowerCase()) {
       case 'gov':
         return '#4CAF50'; // Green
       case 'ong':
@@ -54,11 +59,12 @@ const ModuleCard = ({ moduleNumber, data, onUpdate, isCompact }) => {
       case 'privado':
         return '#9e9e9e'; // Gray
       default:
-        return 'transparent'; // No badge for Available
+        return 'transparent';
     }
   };
 
   // Add a console.log to debug
+  console.log('Module data:', data);
   console.log('Partner:', data?.partner, 'Type:', getPartnerType(data?.partner));
 
   const handleEditClick = () => {
@@ -70,6 +76,8 @@ const ModuleCard = ({ moduleNumber, data, onUpdate, isCompact }) => {
   };
 
   const handleSubmit = (updatedData) => {
+    console.log('ModuleCard received updated data:', updatedData);
+    // Pass the complete updated data to the parent
     onUpdate(updatedData);
     setIsModalOpen(false);
   };
@@ -77,42 +85,72 @@ const ModuleCard = ({ moduleNumber, data, onUpdate, isCompact }) => {
   return (
     <div className={`module-card ${getCardClass()} ${isCompact ? 'compact' : ''}`}>
       <div className="module-header">
-        <h3>Module {moduleNumber}</h3>
+        <h3>{data.module || `Module ${moduleNumber}`}</h3>
         <EditIcon className="edit-icon" onClick={handleEditClick} />
       </div>
       <div className="module-content">
-        {data?.partner && (
-          <>
-            {!isCompact && <span className="partner-label">Partner:</span>}
-            <div className={`info-value ${isCompact ? 'compact' : ''}`}>
-              <span className="partner-name">{data.partner}</span>
-              {!isCompact && data.partner !== 'Available' && partners.length > 0 && (
+        {isCompact ? (
+          data?.partner && (
+            <div className="info-row">
+              <span className="info-label">Partner:</span>
+              <span className="info-value">
+                {data.partner}
                 <span 
-                  className="partner-badge" 
-                  style={{ backgroundColor: getPartnerBadgeColor(data.partner) }}
-                >
-                  {getPartnerType(data.partner)}
-                </span>
-              )}
+                  className="partner-type-badge" 
+                  style={{ 
+                    backgroundColor: getPartnerBadgeColor(data.sector)
+                  }}
+                  title={data.sector}
+                />
+              </span>
             </div>
-          </>
-        )}
-        {!isCompact && (
+          )
+        ) : (
           <>
-            {data?.classroom && (
-              <>
-                <span className="info-label">Room:</span>
-                <span className="info-value">{data.classroom}</span>
-              </>
+            {data?.partner && (
+              <div className="info-row">
+                <span className="info-label">Partner:</span>
+                <span className="info-value">
+                  {data.partner}
+                  <span 
+                    className="partner-type-badge" 
+                    style={{ 
+                      backgroundColor: getPartnerBadgeColor(data.sector)
+                    }}
+                    title={data.sector}
+                  />
+                </span>
+              </div>
+            )}
+            {data?.classCode && (
+              <div className="info-row">
+                <span className="info-label">Class Code:</span>
+                <span className="info-value">{data.classCode}</span>
+              </div>
             )}
             {data?.advisor && (
-              <>
+              <div className="info-row">
                 <span className="info-label">Advisor:</span>
                 <span className="info-value">{data.advisor}</span>
-              </>
+              </div>
+            )}
+            {data?.classroom && (
+              <div className="info-row">
+                <span className="info-label">Classroom:</span>
+                <span className="info-value">{data.classroom}</span>
+              </div>
             )}
             {data?.comment && (
-              <div className="comment">{data.comment}</div>
+              <div className="info-row comment-row">
+                <span className="info-label">Comment:</span>
+                <span className="info-value">{data.comment}</span>
+              </div>
+            )}
+            {data?.status && (
+              <div className="info-row">
+                <span className="info-label">Status:</span>
+                <span className="info-value">{data.status}</span>
+              </div>
             )}
           </>
         )}

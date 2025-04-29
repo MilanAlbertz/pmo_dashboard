@@ -9,6 +9,7 @@ import './ProjectDetails.css';
 import InfoCard from '../common/InfoCard/InfoCard';
 import PartnershipTerms from './PartnershipTerms';
 import RequirementDropdown from './RequirementDropdown';
+import Timeline from '../Timeline/Timeline';
 
 const getNPSColor = (score) => {
   if (score < 6) return 'nps-red';
@@ -123,7 +124,7 @@ const DescriptionRow = ({ label, value, required }) => {
   
   return (
     <div className="description-row">
-      <span className="info-label" style={{ textAlign: 'left', display: 'block' }}>{label}:</span>
+      <span className="info-label" style={{ textAlign: 'left', display: 'block', fontWeight: 'bold' }}>{label}:</span>
       <div 
         className={`description-value ${!value ? 'missing' : ''} ${required && !value ? 'required' : ''}`}
         style={{ textAlign: 'left' }}
@@ -136,7 +137,7 @@ const DescriptionRow = ({ label, value, required }) => {
 
 const ProjectDetails = () => {
   const { t } = useTranslation();
-  const { classCode } = useParams();
+  const { id } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -144,8 +145,12 @@ const ProjectDetails = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const mockData = await fetchMockData();
-        setData(mockData);
+        const response = await fetch(`/api/projects/${id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch project details');
+        }
+        const projectData = await response.json();
+        setData(projectData);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -153,13 +158,13 @@ const ProjectDetails = () => {
       }
     };
     loadData();
-  }, []);
+  }, [id]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (!data) return <div>No data available</div>;
 
-  const project = data.projects.find(p => p.classCode === classCode);
+  const project = data.project;
 
   const getProjectStatus = () => {
     switch(project.status?.toLowerCase()) {
@@ -213,30 +218,31 @@ const ProjectDetails = () => {
 
   return (
     <div className="project-details-container">
-      <Link to="/" className="back-link">
-        <span>←</span> {t('common.back')}
-      </Link>
+      {/* Back button on the left, heading centered */}
+      <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '24px', minHeight: '48px' }}>
+        <Link to="/" className="back-link" style={{ position: 'absolute', left: 0 }}>
+          <span>←</span> {t('common.back')}
+        </Link>
+        <h1 className="project-title" style={{ margin: 0 }}>{project.module}</h1>
+      </div>
       
       <MobileStatusIndicator status={project.status} />
-      <h1 className="project-title">{project?.projectDescription}</h1>
       
       <StatusBar currentStep={getStatusStep(project.status)} />
-      
+
       <div className="info-grid">
         <InfoCard title={t('projectDetails.sections.generalInfo')}>
           <InfoRow label={t('projectDetails.fields.period')} value={project.period} />
           <InfoRow label={t('projectDetails.fields.date')} value={project.year} />
           <InfoRow label={t('projectDetails.fields.quarter')} value={project.quarter} />
-          <InfoRow label={t('projectDetails.fields.startYear')} value={project.yearClass} />
-          <InfoRow label={t('projectDetails.fields.class')} value={project.className} />
           <InfoRow label={t('projectDetails.fields.classCode')} value={project.classCode} />
           <InfoRow label={t('projectDetails.fields.module')} value={project.module} />
           <InfoRow label={t('projectDetails.fields.course')} value={project.course} />
-          <InfoRow label={t('projectDetails.fields.coordinator')} value={project.coordinator} required />
+          <InfoRow label={t('projectDetails.fields.coordinator')} value={project.coordinator} />
           <InfoRow label={t('projectDetails.fields.advisor')} value={project.advisor} />
           <DescriptionRow 
             label={t('projectDetails.fields.projectDescription')} 
-            value={project.projectDescription} 
+            value={project.description} 
             required 
           />
         </InfoCard>
@@ -252,34 +258,35 @@ const ProjectDetails = () => {
           />
           <InfoRow 
             label={t('projectDetails.fields.branch')} 
-            value={project.branch} 
+            value={project.industry} 
           />
           <InfoRow 
             label={t('projectDetails.fields.activity')} 
             value={project.activity} 
           />
-          <InfoRow 
-            label={t('projectDetails.fields.partnerContact')} 
-            value={project.partnerContact} 
-          />
-          <InfoRow 
-            label={t('projectDetails.fields.email')} 
-            value={project.partnerEmail} 
-          />
-          <InfoRow 
-            label={t('projectDetails.fields.projectSupervisor')} 
-            value={project.projectSupervisor} 
-          />
-          <InfoRow 
-            label={t('projectDetails.fields.emailSupervisor')} 
-            value={project.supervisorEmail} 
-          />
+          {project.contacts && project.contacts[0] && (
+            <React.Fragment>
+              <InfoRow 
+                label={t('projectDetails.fields.partnerContact')} 
+                value={project.contacts[0].name} 
+              />
+              <InfoRow 
+                label={t('projectDetails.fields.email')} 
+                value={project.contacts[0].email} 
+              />
+              <InfoRow 
+                label={t('projectDetails.fields.phone')} 
+                value={project.contacts[0].phone} 
+              />
+            </React.Fragment>
+          )}
         </InfoCard>
 
         <InfoCard title={t('projectDetails.sections.requiredInfo')}>
-          <RequirementRow label={t('projectDetails.requirements.exampleData')} status="success" />
-          <RequirementRow label={t('projectDetails.requirements.technicalMeeting')} status="success" />
-          <RequirementRow label={t('projectDetails.requirements.logo')} status="error" />
+          <InfoRow 
+            label={t('projectDetails.fields.numPrototypes')} 
+            value={project.numPrototypes} 
+          />
           <PartnershipTerms 
             terms={{
               sent: project.terms?.sent || false,
@@ -292,15 +299,16 @@ const ProjectDetails = () => {
             terms={{
               sent: project.tapi?.sent || false,
               returned: project.tapi?.returned || false,
-              signed: project.tapi?.aligned || false,
-              comment: project.tapi?.comment || "",
-              meeting: project.tapi?.meeting || false
+              aligned: project.tapi?.aligned || false,
+              comment: project.tapi?.comment || ""
             }}
             type="tapi"
           />
-        </InfoCard>
-        
-        <InfoCard title={t('projectDetails.sections.results')}>
+
+          {/* Results section with heading and divider */}
+          <h2 style={{ fontSize: '20px', marginTop: '32px', marginBottom: '12px', paddingBottom: '12px', borderBottom: '1px solid #2E2640', color: '#1a1a1a', fontFamily: 'var(--font-heading)' }}>
+            {t('projectDetails.sections.results')}
+          </h2>
           <div className="nps-container">
             <NPSScore 
               label={t('projectDetails.results.partnerNPS')} 
@@ -311,17 +319,14 @@ const ProjectDetails = () => {
               score={project.studentNPS} 
             />
           </div>
-          
           {project.status === 'Concluído' ? (
             <div className="status-section">
               <div className="status-icon">✓</div>
               <p className="status-text">{t('projectDetails.status.completed')}</p>
-              {project.githubLink ? (
+              {project.githubLink && (
                 <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="github-link">
                   {t('projectDetails.status.viewGithub')}
                 </a>
-              ) : (
-                <p className="no-github-text">{t('projectDetails.status.noGithub')}</p>
               )}
             </div>
           ) : (

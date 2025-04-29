@@ -19,7 +19,7 @@
             "partner": "Philips",
             "classcode": "2022-1A-T11",
             "advisor": "Jan Janssen",
-            "classroom": "12",
+            "classroom": "01",
             "status": "Confirmed",
             "sector": "Privado"
           },
@@ -27,7 +27,7 @@
             "partner": "Siemens",
             "classcode": "2022-1A-T12",
             "advisor": "Sarah Smith",
-            "classroom": "14",
+            "classroom": "02",
             "status": "In progress",
             "sector": "ONG"
           },
@@ -35,7 +35,7 @@
             "partner": "GE",
             "classcode": "2022-1A-T13",
             "advisor": "Mike Johnson",
-            "classroom": "15",
+            "classroom": "03",
             "status": "Pending",
             "sector": "GOV"
           },
@@ -43,7 +43,7 @@
             "partner": "Bosch",
             "classcode": "2022-1A-T14",
             "advisor": "Lisa Brown",
-            "classroom": "16",
+            "classroom": "04",
             "status": "Confirmed",
             "sector": "Privado"
           },
@@ -52,7 +52,7 @@
             "partner": "ABB",
             "classcode": "2022-1A-T15",
             "advisor": "James Wilson",
-            "classroom": "17",
+            "classroom": "05",
             "status": "Confirmed",
             "ModuleName": "Module 1",
             "sector": "ONG"
