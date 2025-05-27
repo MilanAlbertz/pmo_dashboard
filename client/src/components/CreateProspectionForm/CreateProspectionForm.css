@@ -1,0 +1,203 @@
+.edit-form-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.edit-form-container h2 {
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  min-width: 200px;
+}
+
+.form-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+.form-input::placeholder {
+  color: #999;
+}
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.submit-button,
+.cancel-button {
+  width: auto !important;
+  min-width: 120px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1.2;
+  box-sizing: border-box;
+  text-align: center;
+  border: 1.5px solid transparent;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+  transition: none !important;
+}
+
+.submit-button {
+  background-color: #a084e8;
+  color: #fff;
+  border-color: #a084e8;
+}
+
+.submit-button:hover {
+  background-color: #855ede;
+  border-color: #855ede;
+}
+
+.cancel-button {
+  background-color: #f8f9fa;
+  color: #333;
+  border-color: #ddd;
+}
+
+.cancel-button:hover {
+  background-color: #e9ecef;
+  border-color: #bdbdbd;
+}
+
+.module-edit-save-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.module-edit-save-button:hover {
+  background-color: #218838;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .edit-form-container {
+    padding: 1rem;
+  }
+}
+
+/* Autocomplete styles */
+.MuiAutocomplete-popper {
+  z-index: 1000 !important;
+}
+
+.MuiAutocomplete-listbox {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.MuiAutocomplete-option {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.MuiAutocomplete-option:hover {
+  background-color: #f5f5f5;
+}
+
+.MuiAutocomplete-option[aria-selected="true"] {
+  background-color: #e3f2fd;
+}
+
+.period-inputs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.period-inputs select {
+  flex: 1;
+}
+
+.period-inputs select:first-child {
+  flex: 2; /* Give more space to the year dropdown */
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid #ef9a9a;
+  font-weight: 500;
+}
+
+/* Add styles for select elements specifically */
+.form-input select {
+  width: 100%;
+  min-width: 200px;
+  padding-right: 30px;  /* Space for dropdown arrow */
+}
+
+/* Ensure the modal content is also wider */
+.modal-content {
+  max-width: 1200px;  /* Match the form container width */
+  width: 90%;  /* Take up 90% of the viewport width */
+  margin: 0 auto;
+}
+
+form .submit-button,
+form .cancel-button,
+button.submit-button,
+button.cancel-button,
+input[type="submit"].submit-button,
+input[type="button"].cancel-button {
+  transition: none !important;
+  animation: none !important;
+} 

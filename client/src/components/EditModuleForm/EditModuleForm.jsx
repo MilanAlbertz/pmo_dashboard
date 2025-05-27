@@ -114,7 +114,7 @@ const EditModuleForm = ({ data, onClose, onSubmit }) => {
     setFormData(prev => ({
       ...prev,
       partner: selectedPartnerName,
-      sector: selectedCompany?.Sector || ''
+      sector: selectedCompany?.Type || ''
     }));
     setPartnerSearch(selectedPartnerName);
     setShowPartnersList(false);
@@ -146,12 +146,12 @@ const EditModuleForm = ({ data, onClose, onSubmit }) => {
       // Only include fields that are being changed
       const updateData = {
         id: data.id,
-        partnerId: selectedPartner?.PartnerID || null,
+        partnerId: selectedPartner?.Id || null,
         status: formData.status,
         comment: formData.comment,
         // Include these for UI update
         partner: formData.partner,
-        sector: selectedPartner?.Sector || null
+        sector: selectedPartner?.Type || null
       };
 
       console.log('Sending update data:', updateData);

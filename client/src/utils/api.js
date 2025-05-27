@@ -70,9 +70,87 @@ export const fetchProjects = async () => {
     }
     const data = await response.json();
     console.log('API response:', data);
-    return data;
+    return data;  // Return the array directly since it's from the database
   } catch (error) {
     console.error('Error fetching projects:', error);
+    throw error;
+  }
+};
+
+export const createModule = async (moduleData) => {
+  try {
+    const response = await fetch('/api/modules', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(moduleData),
+    });
+    if (!response.ok) {
+      throw new Error('Failed to create module');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error creating module:', error);
+    throw error;
+  }
+};
+
+export const fetchModuleNames = async (course = null) => {
+  try {
+    const url = course 
+      ? `/api/salesforce/modules?course=${encodeURIComponent(course)}`
+      : '/api/salesforce/modules';
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Failed to fetch module names');
+    }
+    const data = await response.json();
+    return data.records;
+  } catch (error) {
+    console.error('Error fetching module names:', error);
+    throw error;
+  }
+};
+
+export const fetchModulePicklistValues = async () => {
+  try {
+    const response = await fetch('/api/salesforce/module-picklist');
+    if (!response.ok) {
+      throw new Error('Failed to fetch module picklist values');
+    }
+    const data = await response.json();
+    return data.records;
+  } catch (error) {
+    console.error('Error fetching module picklist values:', error);
+    throw error;
+  }
+};
+
+export const fetchCoursePicklistValues = async () => {
+  try {
+    const response = await fetch('/api/salesforce/courses');
+    if (!response.ok) {
+      throw new Error('Failed to fetch course picklist values');
+    }
+    const data = await response.json();
+    return data.records;
+  } catch (error) {
+    console.error('Error fetching course picklist values:', error);
+    throw error;
+  }
+};
+
+export const fetchPartnersAndLeads = async () => {
+  try {
+    const response = await fetch('/api/partners-and-leads');
+    if (!response.ok) {
+      throw new Error('Failed to fetch partners and leads');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching partners and leads:', error);
     throw error;
   }
 }; 

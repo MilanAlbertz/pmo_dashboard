@@ -1,0 +1,413 @@
+.prospection-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 5px!important;
+  margin-bottom: 12px;
+  transition: none !important;
+}
+
+.prospection-card:hover {
+  background: inherit;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: none !important;
+}
+
+.prospection-card.compact {
+  padding: 12px 8px;
+}
+
+.prospection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.edit-icon {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  margin-right: -10px;
+  z-index: 2;
+  cursor: pointer;
+  color: #222;
+  transition: color 0.2s;
+}
+
+.edit-icon:hover {
+  color: #855ede;
+}
+
+.edit-icon-svg {
+  display: block;
+}
+
+.prospection-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: left;
+  padding-right: 32px;
+}
+
+.edit-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  color: #666;
+  border-radius: 4px;
+}
+
+.edit-button:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.prospection-content {
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.prospection-content p {
+  margin: 2px 0 !important;
+}
+
+.info-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  font-size: 12px;
+  padding: 0;
+  margin: 0;
+}
+
+.info-label {
+  font-weight: bold;
+  margin-right: 4px;
+  flex: 0 0 80px;
+  font-size: 12px;
+  padding: 0;
+}
+
+.info-value {
+  display: flex;
+  align-items: center;
+  flex: 1 1 0%;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  gap: 4px;
+  padding: 0;
+  margin: 0;
+}
+
+.prospection-card.editing {
+  background-color: #f8f9fa;
+}
+
+.edit-input,
+.edit-select,
+.edit-textarea {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.edit-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.prospection-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.save-button,
+.cancel-button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.save-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #218838;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
+}
+
+.module-card {
+  border-radius: 4px;
+  overflow: hidden;
+  font-size: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.module-card.empty {
+  background-color: #ffebee; /* Soft red for no partner */
+}
+
+.module-card.filled {
+  background-color: #fff8e1; /* Soft yellow for pending */
+}
+
+.module-card.confirmed {
+  background-color: #e8f5e9; /* Soft green for confirmed */
+}
+
+.module-header {
+  padding: 12px;
+  border-bottom: 1px solid #000;
+  position: relative;
+  min-height: 44px;
+}
+
+.module-header h3 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  padding-right: 32px;
+}
+
+.module-content {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+}
+
+.partner-info {
+  display: contents;
+}
+
+.partner-label {
+  font-weight: bold;
+  color: #333;
+  text-align: right;
+  padding-right: 8px;
+}
+
+.partner-name {
+  cursor: pointer;
+}
+
+.partner-name:hover {
+  text-decoration: underline;
+}
+
+.partner-badge {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: white;
+}
+
+.comment {
+  grid-column: 1 / -1;
+  background-color: #fff;
+  min-height: 40px;
+  border-radius: 2px;
+  margin-top: 4px;
+  padding: 4px 8px;
+}
+
+.module-card.compact {
+  height: auto;
+  min-height: 80px;
+  padding: 12px;
+}
+
+.module-card.compact .module-content {
+  margin-top: 8px;
+}
+
+.module-card.compact .info-row {
+  margin-bottom: 0;
+}
+
+/* Add styles for advisor and classroom fields */
+.info-row.advisor,
+.info-row.classroom {
+  margin-top: 4px;
+}
+
+.info-row.advisor .info-label,
+.info-row.classroom .info-label {
+  color: #666; /* Slightly muted color for secondary information */
+}
+
+.info-row.advisor .info-value,
+.info-row.classroom .info-value {
+  color: #333;
+}
+
+.view-toggle {
+  padding: 8px 16px;
+  background-color: #855ede;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.view-toggle:hover {
+  background-color: #6f4ec9;
+}
+
+.controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.info-value-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+}
+
+.info-value.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px; /* Reduced from 180px to 120px */
+}
+
+.partner-type-badge {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: 6px;
+  vertical-align: middle;
+  flex-shrink: 0;
+  background-color: #4CAF50; /* Default color for testing */
+}
+
+/* Remove or comment out this style */
+/*.status {
+  background-color: #fff;
+  min-height: 40px;
+  border-radius: 2px;
+  margin-top: 4px;
+}*/
+
+/* Remove this class if it exists */
+/* .partner-name[title] {
+  border-bottom: 1px dotted #999;
+} */
+
+.info-row.comment-row {
+  flex-direction: column;
+  gap: 1px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.info-row.comment-row .info-label {
+  margin-bottom: 1px;
+  flex: 0 0 auto;
+  padding: 0;
+}
+
+.info-row.comment-row .info-value {
+  white-space: pre-line;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 11px;
+  color: #666;
+}
+
+.prospection-card-pending {
+  background-color: #fff9e0 !important; /* Soft yellow */
+}
+.prospection-card-confirmed {
+  background-color: #e7fbe7 !important; /* Soft green */
+}
+.prospection-card-open {
+  background-color: #ffeaea !important; /* Soft red */
+}
+
+.description-box {
+  margin-top: 8px;
+}
+
+.description-box p {
+  margin-bottom: 4px;
+}
+
+.description-content {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 12px;
+  min-height: 40px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  cursor: help;
+  position: relative;
+}
+
+.description-content:hover {
+  background-color: #f0f0f0;
+}
+
+.create-module-btn {
+  padding: 6px;
+  background-color: #855ede;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 8px 0 0;
+  height: 36px;
+  width: 36px;
+  min-width: 0;
+}
+
+.create-module-btn:hover {
+  background-color: #6f4ec9;
+} 

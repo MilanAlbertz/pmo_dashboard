@@ -29,7 +29,6 @@
     "navigation": {
       "home": "Home",
       "logout": "Logout",
-      "profile": "Profile",
       "prospection": "Prospection",
       "history": "History"
     },
@@ -39,6 +38,21 @@
       "buttons": {
         "primary": "Primary Button",
         "secondary": "Secondary Button"
+      },
+      "viewMode": {
+        "all": "All",
+        "general": "General",
+        "initiative": "Initiative"
+      },
+      "stats": {
+        "totalProjects": "Total Projects",
+        "currentProjects": "Current Projects",
+        "projectsInQA": "Projects in QA",
+        "projectPartners": "Project Partners",
+        "preApprovedProjects": "Pre-approved Projects",
+        "initiatives": "Initiatives",
+        "totalPartners": "Total Partners",
+        "totalLeads": "Total Leads"
       }
     },
     "errors": {
@@ -48,6 +62,8 @@
     },
     "table": {
       "title": "Projects Overview",
+      "noData": "No data available",
+      "rows": "rows",
       "headers": {
         "period": "Period",
         "className": "Class Name",
@@ -55,7 +71,8 @@
         "subject": "Subject",
         "partner": "Partner",
         "status": "Status",
-        "details": "Details"
+        "details": "Details",
+        "description": "Description"
       }
     },
     "header": {
@@ -102,6 +119,7 @@
         "branch": "Branch",
         "activity": "Activity",
         "partnerContact": "Partner contact",
+        "partnerContactInfo": "Contact Info",
         "emailContact": "Email contact",
         "projectSupervisor": "Project supervisor",
         "emailSupervisor": "Email supervisor",
@@ -152,6 +170,38 @@
       "title": "History",
       "enterClassCode": "Enter classcode to view history",
       "search": "Search"
+    },
+    "sync": {
+      "title": "Sync with Salesforce",
+      "inProgress": "Syncing with Salesforce...",
+      "success": "Sync completed successfully",
+      "error": "Error syncing with Salesforce",
+      "stats": {
+        "partners": {
+          "total": "Total Partners",
+          "inserted": "New Partners",
+          "updated": "Updated Partners",
+          "errors": "Partner Errors"
+        },
+        "contacts": {
+          "total": "Total Contacts",
+          "inserted": "New Contacts",
+          "updated": "Updated Contacts",
+          "errors": "Contact Errors"
+        },
+        "projects": {
+          "total": "Total Projects",
+          "inserted": "New Projects",
+          "updated": "Updated Projects",
+          "errors": "Project Errors"
+        },
+        "leads": {
+          "total": "Total Leads",
+          "inserted": "New Leads",
+          "updated": "Updated Leads",
+          "errors": "Lead Errors"
+        }
+      }
     }
   },
   "es": {
@@ -183,7 +233,6 @@
     "navigation": {
       "home": "Inicio",
       "logout": "Cerrar sesión",
-      "profile": "Perfil",
       "prospection": "Prospección",
       "history": "Historia"
     },
@@ -193,6 +242,21 @@
       "buttons": {
         "primary": "Botón Primario",
         "secondary": "Botón Secundario"
+      },
+      "viewMode": {
+        "all": "Todos",
+        "general": "General",
+        "initiative": "Iniciativa"
+      },
+      "stats": {
+        "totalProjects": "Total de Proyectos",
+        "currentProjects": "Proyectos Actuales",
+        "projectsInQA": "Proyectos en QA",
+        "projectPartners": "Socios del Proyecto",
+        "preApprovedProjects": "Proyectos Pre-aprobados",
+        "initiatives": "Iniciativas",
+        "totalPartners": "Total de Socios",
+        "totalLeads": "Total de Leads"
       }
     },
     "errors": {
@@ -202,6 +266,8 @@
     },
     "table": {
       "title": "Resumen de Proyectos",
+      "noData": "No hay datos disponibles",
+      "rows": "filas",
       "headers": {
         "period": "Período",
         "className": "Nombre de Clase",
@@ -209,7 +275,8 @@
         "subject": "Asignatura",
         "partner": "Socio",
         "status": "Estado",
-        "details": "Detalles"
+        "details": "Detalles",
+        "description": "Descripción"
       }
     },
     "header": {
@@ -256,6 +323,7 @@
         "branch": "Rama",
         "activity": "Actividad",
         "partnerContact": "Contacto del socio",
+        "partnerContactInfo": "Información de contacto",
         "emailContact": "Email de contacto",
         "projectSupervisor": "Supervisor del proyecto",
         "emailSupervisor": "Email del supervisor",
@@ -304,6 +372,38 @@
     },
     "history": {
       "title": "Historia"
+    },
+    "sync": {
+      "title": "Sincronizar con Salesforce",
+      "inProgress": "Sincronizando con Salesforce...",
+      "success": "Sincronización completada con éxito",
+      "error": "Error al sincronizar con Salesforce",
+      "stats": {
+        "partners": {
+          "total": "Total de Socios",
+          "inserted": "Nuevos Socios",
+          "updated": "Socios Actualizados",
+          "errors": "Errores de Socios"
+        },
+        "contacts": {
+          "total": "Total de Contactos",
+          "inserted": "Nuevos Contactos",
+          "updated": "Contactos Actualizados",
+          "errors": "Errores de Contactos"
+        },
+        "projects": {
+          "total": "Total de Proyectos",
+          "inserted": "Nuevos Proyectos",
+          "updated": "Proyectos Actualizados",
+          "errors": "Errores de Proyectos"
+        },
+        "leads": {
+          "total": "Total de Leads",
+          "inserted": "Nuevos Leads",
+          "updated": "Leads Actualizados",
+          "errors": "Errores de Leads"
+        }
+      }
     }
   },
   "fr": {
@@ -335,7 +435,6 @@
     "navigation": {
       "home": "Accueil",
       "logout": "Se déconnecter",
-      "profile": "Profil",
       "prospection": "Prospection",
       "history": "Historique"
     },
@@ -345,6 +444,21 @@
       "buttons": {
         "primary": "Bouton Principal",
         "secondary": "Bouton Secondaire"
+      },
+      "viewMode": {
+        "all": "Tous",
+        "general": "Général",
+        "initiative": "Initiative"
+      },
+      "stats": {
+        "totalProjects": "Total des Projets",
+        "currentProjects": "Projets en Cours",
+        "projectsInQA": "Projets en QA",
+        "projectPartners": "Partenaires du Projet",
+        "preApprovedProjects": "Projets Pré-approuvés",
+        "initiatives": "Initiatives",
+        "totalPartners": "Total des Partenaires",
+        "totalLeads": "Total des Leads"
       }
     },
     "errors": {
@@ -354,6 +468,8 @@
     },
     "table": {
       "title": "Aperçu des Projets",
+      "noData": "Aucune donnée disponible",
+      "rows": "lignes",
       "headers": {
         "period": "Période",
         "className": "Nom de la Classe",
@@ -361,7 +477,8 @@
         "subject": "Sujet",
         "partner": "Partenaire",
         "status": "État",
-        "details": "Détails"
+        "details": "Détails",
+        "description": "Description"
       }
     },
     "header": {
@@ -408,6 +525,7 @@
         "branch": "Branche",
         "activity": "Activité",
         "partnerContact": "Contact partenaire",
+        "partnerContactInfo": "Informations de contact",
         "emailContact": "Email de contact",
         "projectSupervisor": "Superviseur du projet",
         "emailSupervisor": "Email du superviseur",
@@ -456,6 +574,38 @@
     },
     "history": {
       "title": "Historique"
+    },
+    "sync": {
+      "title": "Synchroniser avec Salesforce",
+      "inProgress": "Synchronisation avec Salesforce...",
+      "success": "Synchronisation terminée avec succès",
+      "error": "Erreur de synchronisation avec Salesforce",
+      "stats": {
+        "partners": {
+          "total": "Total des Partenaires",
+          "inserted": "Nouveaux Partenaires",
+          "updated": "Partenaires Mis à Jour",
+          "errors": "Erreurs de Partenaires"
+        },
+        "contacts": {
+          "total": "Total des Contacts",
+          "inserted": "Nouveaux Contacts",
+          "updated": "Contacts Mis à Jour",
+          "errors": "Erreurs de Contacts"
+        },
+        "projects": {
+          "total": "Total des Projets",
+          "inserted": "Nouveaux Projets",
+          "updated": "Projets Mis à Jour",
+          "errors": "Erreurs de Projets"
+        },
+        "leads": {
+          "total": "Total des Leads",
+          "inserted": "Nouveaux Leads",
+          "updated": "Leads Mis à Jour",
+          "errors": "Erreurs de Leads"
+        }
+      }
     }
   },
   "nl": {
@@ -487,7 +637,6 @@
     "navigation": {
       "home": "Home",
       "logout": "Uitloggen",
-      "profile": "Profiel",
       "prospection": "Prospectie",
       "history": "Geschiedenis"
     },
@@ -497,6 +646,21 @@
       "buttons": {
         "primary": "Primaire Knop",
         "secondary": "Secundaire Knop"
+      },
+      "viewMode": {
+        "all": "Alles",
+        "general": "Algemeen",
+        "initiative": "Initiatief"
+      },
+      "stats": {
+        "totalProjects": "Totaal Projecten",
+        "currentProjects": "Huidige Projecten",
+        "projectsInQA": "Projecten in QA",
+        "projectPartners": "Projectpartners",
+        "preApprovedProjects": "Vooraf Goedgekeurde Projecten",
+        "initiatives": "Initiatieven",
+        "totalPartners": "Totaal Partners",
+        "totalLeads": "Totaal Leads"
       }
     },
     "errors": {
@@ -506,6 +670,8 @@
     },
     "table": {
       "title": "Projectenoverzicht",
+      "noData": "Geen gegevens beschikbaar",
+      "rows": "rijen",
       "headers": {
         "period": "Periode",
         "className": "Klasnaam",
@@ -513,7 +679,8 @@
         "subject": "Onderwerp",
         "partner": "Partner",
         "status": "Status",
-        "details": "Details"
+        "details": "Details",
+        "description": "Beschrijving"
       }
     },
     "header": {
@@ -560,6 +727,7 @@
         "branch": "Tak",
         "activity": "Activiteit",
         "partnerContact": "Partnercontact",
+        "partnerContactInfo": "Contactinformatie",
         "emailContact": "Email contact",
         "projectSupervisor": "Projectbegeleider",
         "emailSupervisor": "Email begeleider",
@@ -608,6 +776,38 @@
     },
     "history": {
       "title": "Geschiedenis"
+    },
+    "sync": {
+      "title": "Synchroniseren met Salesforce",
+      "inProgress": "Synchroniseren met Salesforce...",
+      "success": "Synchronisatie succesvol voltooid",
+      "error": "Fout bij synchroniseren met Salesforce",
+      "stats": {
+        "partners": {
+          "total": "Totaal Partners",
+          "inserted": "Nieuwe Partners",
+          "updated": "Bijgewerkte Partners",
+          "errors": "Partner Fouten"
+        },
+        "contacts": {
+          "total": "Totaal Contacten",
+          "inserted": "Nieuwe Contacten",
+          "updated": "Bijgewerkte Contacten",
+          "errors": "Contact Fouten"
+        },
+        "projects": {
+          "total": "Totaal Projecten",
+          "inserted": "Nieuwe Projecten",
+          "updated": "Bijgewerkte Projecten",
+          "errors": "Project Fouten"
+        },
+        "leads": {
+          "total": "Totaal Leads",
+          "inserted": "Nieuwe Leads",
+          "updated": "Bijgewerkte Leads",
+          "errors": "Lead Fouten"
+        }
+      }
     }
   },
   "pt": {
@@ -639,7 +839,6 @@
     "navigation": {
       "home": "Início",
       "logout": "Sair",
-      "profile": "Perfil",
       "prospection": "Prospecção",
       "history": "História"
     },
@@ -649,6 +848,21 @@
       "buttons": {
         "primary": "Botão Primário",
         "secondary": "Botão Secundário"
+      },
+      "viewMode": {
+        "all": "Todos",
+        "general": "Geral",
+        "initiative": "Iniciativa"
+      },
+      "stats": {
+        "totalProjects": "Total de Projetos",
+        "currentProjects": "Projetos Atuais",
+        "projectsInQA": "Projetos em QA",
+        "projectPartners": "Parceiros do Projeto",
+        "preApprovedProjects": "Projetos Pré-aprovados",
+        "initiatives": "Iniciativas",
+        "totalPartners": "Total de Parceiros",
+        "totalLeads": "Total de Leads"
       }
     },
     "errors": {
@@ -658,6 +872,8 @@
     },
     "table": {
       "title": "Visão Geral dos Projetos",
+      "noData": "Nenhum dado disponível",
+      "rows": "linhas",
       "headers": {
         "period": "Período",
         "className": "Nome da Turma",
@@ -665,7 +881,8 @@
         "subject": "Disciplina",
         "partner": "Parceiro",
         "status": "Status",
-        "details": "Detalhes"
+        "details": "Detalhes",
+        "description": "Descrição"
       }
     },
     "header": {
@@ -712,6 +929,7 @@
         "branch": "Ramo",
         "activity": "Atividade",
         "partnerContact": "Contato do parceiro",
+        "partnerContactInfo": "Informações de contato",
         "emailContact": "Email de contato",
         "projectSupervisor": "Supervisor do projeto",
         "emailSupervisor": "Email do supervisor",
@@ -759,6 +977,38 @@
     },
     "history": {
       "title": "História"
+    },
+    "sync": {
+      "title": "Sincronizar com Salesforce",
+      "inProgress": "Sincronizando com Salesforce...",
+      "success": "Sincronização concluída com sucesso",
+      "error": "Erro ao sincronizar com Salesforce",
+      "stats": {
+        "partners": {
+          "total": "Total de Parceiros",
+          "inserted": "Novos Parceiros",
+          "updated": "Parceiros Atualizados",
+          "errors": "Erros de Parceiros"
+        },
+        "contacts": {
+          "total": "Total de Contatos",
+          "inserted": "Novos Contatos",
+          "updated": "Contatos Atualizados",
+          "errors": "Erros de Contatos"
+        },
+        "projects": {
+          "total": "Total de Projetos",
+          "inserted": "Novos Projetos",
+          "updated": "Projetos Atualizados",
+          "errors": "Erros de Projetos"
+        },
+        "leads": {
+          "total": "Total de Leads",
+          "inserted": "Novos Leads",
+          "updated": "Leads Atualizados",
+          "errors": "Erros de Leads"
+        }
+      }
     }
   },
   "de": {

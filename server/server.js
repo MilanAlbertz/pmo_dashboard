@@ -364,6 +364,66 @@ app.get('/api/salesforce/partners', async (req, res) => {
   }
 });
 
+app.get('/api/salesforce/contacts', async (req, res) => {
+  try {
+    if (!salesforceService) {
+      return res.status(503).json({ 
+        error: 'Salesforce service is not available',
+        message: 'The Salesforce service is not properly configured. Please check your environment variables.'
+      });
+    }
+    const result = await salesforceService.getContacts();
+    res.json({
+      success: true,
+      count: result.totalSize,
+      records: result.records
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/salesforce/projects', async (req, res) => {
+  try {
+    console.log('Received request for Salesforce projects');
+    
+    if (!salesforceService) {
+      console.error('Salesforce service is not available');
+      return res.status(503).json({ 
+        error: 'Salesforce service is not available',
+        message: 'The Salesforce service is not properly configured. Please check your environment variables.'
+      });
+    }
+    
+    console.log('Fetching projects from Salesforce...');
+    const result = await salesforceService.getProjects();
+    
+    console.log('Received projects from Salesforce:', {
+      totalSize: result.totalSize,
+      recordCount: result.records.length,
+      firstRecord: result.records[0] ? JSON.stringify(result.records[0]) : null,
+      lastRecord: result.records[result.records.length - 1] ? JSON.stringify(result.records[result.records.length - 1]) : null
+    });
+
+    const response = {
+      success: true,
+      count: result.totalSize,
+      records: result.records
+    };
+    
+    console.log('Sending response to client:', {
+      success: response.success,
+      count: response.count,
+      recordCount: response.records.length
+    });
+    
+    res.json(response);
+  } catch (err) {
+    console.error('Error in /api/salesforce/projects:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Modify the status endpoint to be simpler
 app.get('/api/salesforce/status', (req, res) => {
   res.json({
@@ -546,205 +606,896 @@ app.get('/api/test/staff', async (req, res) => {
     }
 });
 
-// Add new endpoint for fetching projects
+// Get all projects
 app.get('/api/projects', async (req, res) => {
-  try {
-    const [rows] = await pool.query(`
-      SELECT 
-        p.ProjectID as id,
-        p.Title as title,
-        p.Description as description,
-        p.Comment as comment,
-        p.Period as period,
-        p.Year as year,
-        p.NumPrototypes as numPrototypes,
-        p.Quarter as quarter,
-        m.Name as module,
-        m.Course as course,
-        m.Description as moduleDescription,
-        pa.Name as partner,
-        pa.Sector as sector,
-        pa.Industry as industry,
-        pa.Activity as activity,
-        c.ClassCode as classCode,
-        c.Classroom as classroom,
-        s1.Name as coordinator,
-        s1.Email as coordinatorEmail,
-        s2.Name as advisor,
-        s2.Email as advisorEmail,
-        a.Sent as agreementSent,
-        a.Returned as agreementReturned,
-        a.Signed as agreementSigned,
-        a.Comments as agreementComments,
-        t.Sent as tapiSent,
-        t.Returned as tapiReturned,
-        t.Signed as tapiSigned,
-        t.Comments as tapiComments,
-        pg.Link as githubLink
-      FROM Project p
-      LEFT JOIN Module m ON p.ModuleID = m.ModuleID
-      LEFT JOIN Partner pa ON p.PartnerID = pa.PartnerID
-      LEFT JOIN Class c ON m.ClassID = c.ClassID
-      LEFT JOIN Staff s1 ON p.CoordinatorID = s1.StaffID
-      LEFT JOIN Staff s2 ON p.AdvisorID = s2.StaffID
-      LEFT JOIN Agreement a ON p.AgreementID = a.AgreementID
-      LEFT JOIN TAPI t ON p.TapiID = t.TapiID
-      LEFT JOIN ProjectGitHub pg ON p.ProjectID = pg.ProjectID
-      ORDER BY p.Year DESC, p.Period DESC
-    `);
-    
-    console.log('Database rows:', rows); // Debug log
-    
-    const projects = rows.map(row => ({
-      id: row.id,
-      title: row.title,
-      description: row.description,
-      comment: row.comment,
-      period: row.period,
-      year: row.year,
-      numPrototypes: row.numPrototypes,
-      quarter: row.quarter,
-      module: row.module,
-      course: row.course,
-      moduleDescription: row.moduleDescription,
-      partner: row.partner,
-      sector: row.sector,
-      industry: row.industry,
-      activity: row.activity,
-      classCode: row.classCode,
-      classroom: row.classroom,
-      coordinator: row.coordinator,
-      coordinatorEmail: row.coordinatorEmail,
-      advisor: row.advisor,
-      advisorEmail: row.advisorEmail,
-      agreementSent: row.agreementSent,
-      agreementReturned: row.agreementReturned,
-      agreementSigned: row.agreementSigned,
-      agreementComments: row.agreementComments,
-      tapiSent: row.tapiSent,
-      tapiReturned: row.tapiReturned,
-      tapiSigned: row.tapiSigned,
-      tapiComments: row.tapiComments,
-      githubLink: row.githubLink
-    }));
-    
-    console.log('Processed projects:', projects); // Debug log
-    
-    res.json({ projects });
-  } catch (error) {
-    console.error('Error fetching projects:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
+    try {
+        const [rows] = await pool.query(`
+            SELECT 
+                p.ProjectID as Id,
+                p.Title as Name,
+                p.Status,
+                p.PartnerID as AccountId,
+                pt.Name as partnerName,
+                p.Year as year,
+                p.Quarter as quarter,
+                CASE 
+                    WHEN p.Year IS NOT NULL AND p.Quarter IS NOT NULL 
+                    THEN CONCAT(p.Year, '.', p.Quarter)
+                    ELSE NULL 
+                END as Period,
+                c.ClassCode as classCode,
+                m.Name as module,
+                m.Course as course,
+                p.Description,
+                p.Comment,
+                p.NumPrototypes,
+                p.CoordinatorID,
+                p.AdvisorID
+            FROM Project p
+            LEFT JOIN Partner pt ON p.PartnerID = pt.PartnerID
+            LEFT JOIN Module m ON p.ModuleID = m.ModuleID
+            LEFT JOIN Class c ON m.ClassID = c.ClassID
+            ORDER BY p.Year DESC, p.Quarter DESC, p.Title ASC
+        `);
+        
+        console.log('Fetched projects:', {
+            count: rows.length,
+            firstRecord: rows[0] ? JSON.stringify(rows[0]) : null
+        });
+        
+        res.json(rows);
+    } catch (error) {
+        console.error('Error fetching projects:', error);
+        res.status(500).json({ error: 'Failed to fetch projects' });
+    }
 });
 
-// Add new endpoint for fetching project details
+// Get project statistics
+app.get('/api/statistics', async (req, res) => {
+    try {
+        // Total projects (Projeto, Envio de protótipos, Concluido)
+        const [totalProjects] = await pool.query(`
+            SELECT COUNT(*) as count FROM Project WHERE Status IN ('Projeto', 'Envio de protótipos', 'Concluido')
+        `);
+
+        // Current projects (only Projeto)
+        const [currentProjects] = await pool.query(`
+            SELECT COUNT(*) as count FROM Project WHERE Status = 'Projeto'
+        `);
+
+        // Projects in QA (Envio de protótipos)
+        const [projectsInQA] = await pool.query(`
+            SELECT COUNT(*) as count FROM Project WHERE Status = 'Envio de protótipos'
+        `);
+
+        // Total amount of project partners (distinct PartnerID linked to a project)
+        const [totalProjectPartners] = await pool.query(`
+            SELECT COUNT(DISTINCT PartnerID) as count FROM Project WHERE PartnerID IS NOT NULL
+        `);
+
+        // Pre-approved projects (Envio dos documentos, TAPI, Pré Projeto)
+        const [preApprovedProjects] = await pool.query(`
+            SELECT COUNT(*) as count FROM Project WHERE Status IN ('Envio dos documentos', 'TAPI', 'Pré Projeto')
+        `);
+
+        // Initiatives (Pré seleção EP, Pré análise de aderência docentes)
+        const [initiatives] = await pool.query(`
+            SELECT COUNT(*) as count FROM Project WHERE Status IN ('Pré seleção EP', 'Pré análise de aderência docentes')
+        `);
+
+        // Total partners (all in Partner table)
+        const [totalPartners] = await pool.query(`
+            SELECT COUNT(*) as count FROM Partner
+        `);
+
+        // Total leads (all in Leads table)
+        const [totalLeads] = await pool.query(`
+            SELECT COUNT(*) as count FROM Leads
+        `);
+
+        res.json({
+            totalProjects: totalProjects[0].count,
+            currentProjects: currentProjects[0].count,
+            projectsInQA: projectsInQA[0].count,
+            totalProjectPartners: totalProjectPartners[0].count,
+            preApprovedProjects: preApprovedProjects[0].count,
+            initiatives: initiatives[0].count,
+            totalPartners: totalPartners[0].count,
+            totalLeads: totalLeads[0].count
+        });
+    } catch (error) {
+        console.error('Error fetching statistics:', error);
+        console.error('Error details:', {
+            message: error.message,
+            stack: error.stack,
+            code: error.code
+        });
+        res.status(500).json({ error: 'Failed to fetch statistics', details: error.message });
+    }
+});
+
+// Get partners from database
+app.get('/api/partners', async (req, res) => {
+    try {
+        const [partners] = await pool.query('SELECT * FROM Partner');
+        res.json({ partners });
+    } catch (error) {
+        console.error('Error fetching partners:', error);
+        res.status(500).json({ error: 'Failed to fetch partners' });
+    }
+});
+
+// Get contacts from database
+app.get('/api/contacts', async (req, res) => {
+    try {
+        const [contacts] = await pool.query('SELECT * FROM Contact');
+        res.json(contacts);
+    } catch (error) {
+        console.error('Error fetching contacts:', error);
+        res.status(500).json({ error: 'Failed to fetch contacts' });
+    }
+});
+
+// Sync Salesforce data to database
+app.post('/api/sync/salesforce', async (req, res) => {
+    try {
+        if (!salesforceService) {
+            console.error('Salesforce service is not available');
+            return res.status(503).json({ 
+                error: 'Salesforce service is not available',
+                message: 'The Salesforce service is not properly configured.'
+            });
+        }
+
+        console.log('Starting Salesforce sync...');
+
+        // Get data from Salesforce
+        console.log('Fetching partners from Salesforce...');
+        const partnersResult = await salesforceService.getPartners();
+        console.log('Partners fetched:', partnersResult.records.length);
+
+        console.log('Fetching contacts from Salesforce...');
+        const contactsResult = await salesforceService.getContacts();
+        console.log('Contacts fetched:', contactsResult.records.length);
+
+        console.log('Fetching projects from Salesforce...');
+        const projectsResult = await salesforceService.getProjects();
+        console.log('Projects fetched:', projectsResult.records.length);
+
+        console.log('Fetching leads from Salesforce...');
+        const leadsResult = await salesforceService.getLeads();
+        console.log('Leads fetched:', leadsResult.records.length);
+
+        const partners = partnersResult.records;
+        const contacts = contactsResult.records;
+        const projects = projectsResult.records;
+        const leads = leadsResult.records;
+
+        // Start a transaction
+        console.log('Starting database transaction...');
+        const connection = await pool.getConnection();
+        await connection.beginTransaction();
+
+        try {
+            // Track changes
+            const changes = {
+                partners: {
+                    inserted: [],
+                    updated: [],
+                    errors: []
+                },
+                contacts: {
+                    inserted: [],
+                    updated: [],
+                    errors: []
+                },
+                projects: {
+                    inserted: [],
+                    updated: [],
+                    errors: []
+                },
+                leads: {
+                    inserted: [],
+                    updated: [],
+                    errors: []
+                }
+            };
+
+            // First, insert all partners
+            console.log('Inserting partners...');
+            for (const partner of partners) {
+                try {
+                    console.log('Processing partner:', partner.Id, partner.Name);
+                    // Check if partner exists and get current data
+                    const [existingPartner] = await connection.query(
+                        'SELECT PartnerID, Name, Sector, Industry, Activity FROM Partner WHERE PartnerID = ?',
+                        [partner.Id]
+                    );
+
+                    const isNew = existingPartner.length === 0;
+                    const hasChanges = isNew || 
+                        existingPartner[0].Name !== partner.Name ||
+                        existingPartner[0].Sector !== partner.Type ||
+                        existingPartner[0].Industry !== partner.Ramo__c ||
+                        existingPartner[0].Activity !== partner.Atividade__c;
+
+                    if (hasChanges) {
+                        await connection.query(
+                            'INSERT INTO Partner (PartnerID, Name, Sector, Industry, Activity) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = VALUES(Name), Sector = VALUES(Sector), Industry = VALUES(Industry), Activity = VALUES(Activity)',
+                            [
+                                partner.Id,
+                                partner.Name,
+                                partner.Type,
+                                partner.Ramo__c,
+                                partner.Atividade__c
+                            ]
+                        );
+
+                        if (isNew) {
+                            changes.partners.inserted.push({
+                                id: partner.Id,
+                                name: partner.Name
+                            });
+                        } else {
+                            changes.partners.updated.push({
+                                id: partner.Id,
+                                name: partner.Name
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.error(`Error processing partner ${partner.Id}:`, error);
+                    changes.partners.errors.push({
+                        id: partner.Id,
+                        name: partner.Name,
+                        error: error.message
+                    });
+                }
+            }
+
+            // Then, insert contacts with error handling for foreign key constraints
+            console.log('Inserting contacts...');
+            for (const contact of contacts) {
+                try {
+                    console.log('Processing contact:', contact.Id, contact.Name);
+                    // First check if the partner exists
+                    const [partnerRows] = await connection.query(
+                        'SELECT PartnerID, Name FROM Partner WHERE PartnerID = ?',
+                        [contact.AccountId]
+                    );
+
+                    if (partnerRows.length === 0) {
+                        console.warn(`Partner ${contact.AccountId} not found for contact ${contact.Id}`);
+                        // Try to find the partner in the Salesforce data
+                        const partner = partners.find(p => p.Id === contact.AccountId);
+                        changes.contacts.errors.push({
+                            id: contact.Id,
+                            name: contact.Name,
+                            error: 'Partner not found',
+                            partnerId: contact.AccountId,
+                            partnerName: partner ? partner.Name : 'Unknown',
+                            email: contact.Email,
+                            phone: contact.Phone || contact.MobilePhone
+                        });
+                        continue;
+                    }
+
+                    // Check if contact exists and get current data
+                    const [existingContact] = await connection.query(
+                        'SELECT ContactID, Name, Email, Phone, Role, PartnerID FROM Contact WHERE ContactID = ?',
+                        [contact.Id]
+                    );
+
+                    const isNew = existingContact.length === 0;
+                    const hasChanges = isNew || 
+                        existingContact[0].Name !== contact.Name ||
+                        existingContact[0].Email !== contact.Email ||
+                        existingContact[0].Phone !== (contact.Phone || contact.MobilePhone) ||
+                        existingContact[0].PartnerID !== contact.AccountId;
+
+                    if (hasChanges) {
+                        await connection.query(
+                            'INSERT INTO Contact (ContactID, Name, Email, Phone, Role, PartnerID) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = VALUES(Name), Email = VALUES(Email), Phone = VALUES(Phone), Role = VALUES(Role), PartnerID = VALUES(PartnerID)',
+                            [
+                                contact.Id,
+                                contact.Name,
+                                contact.Email,
+                                contact.Phone || contact.MobilePhone,
+                                'Partner',
+                                contact.AccountId
+                            ]
+                        );
+
+                        if (isNew) {
+                            changes.contacts.inserted.push({
+                                id: contact.Id,
+                                name: contact.Name,
+                                email: contact.Email,
+                                phone: contact.Phone || contact.MobilePhone,
+                                partnerId: contact.AccountId,
+                                partnerName: partnerRows[0].Name
+                            });
+                        } else {
+                            changes.contacts.updated.push({
+                                id: contact.Id,
+                                name: contact.Name,
+                                email: contact.Email,
+                                phone: contact.Phone || contact.MobilePhone,
+                                partnerId: contact.AccountId,
+                                partnerName: partnerRows[0].Name
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.error(`Error processing contact ${contact.Id}:`, error);
+                    changes.contacts.errors.push({
+                        id: contact.Id,
+                        name: contact.Name,
+                        error: error.message,
+                        email: contact.Email,
+                        phone: contact.Phone || contact.MobilePhone,
+                        partnerId: contact.AccountId
+                    });
+                }
+            }
+
+            // Finally, insert projects
+            console.log('Inserting projects...');
+            for (const project of projects) {
+                try {
+                    console.log('Processing project:', project.Id, project.Name);
+                    // First check if the partner exists
+                    const [partnerRows] = await connection.query(
+                        'SELECT PartnerID, Name FROM Partner WHERE PartnerID = ?',
+                        [project.AccountId]
+                    );
+
+                    if (partnerRows.length === 0) {
+                        console.warn(`Partner ${project.AccountId} not found for project ${project.Id}`);
+                        // Try to find the partner in the Salesforce data
+                        const partner = partners.find(p => p.Id === project.AccountId);
+                        changes.projects.errors.push({
+                            id: project.Id,
+                            name: project.Name,
+                            error: 'Partner not found',
+                            partnerId: project.AccountId,
+                            partnerName: partner ? partner.Name : 'Unknown'
+                        });
+                        continue;
+                    }
+
+                    // Check if project exists and get current data
+                    const [existingProject] = await connection.query(
+                        'SELECT ProjectID, Title, PartnerID, Description, Quarter, Year, ModuleID, Status FROM Project WHERE ProjectID = ?',
+                        [project.Id]
+                    );
+
+                    // Extract year and quarter from class code
+                    let year = null;
+                    let quarter = null;
+                    let classCode = project.CodigoTurma__c || null;
+                    if (classCode) {
+                        const match = classCode.match(/^(\d{4})-(\d)([AB])-T\d+$/);
+                        if (match) {
+                            year = parseInt(match[1]);
+                            const semester = match[2];
+                            const part = match[3];
+                            // Convert semester and part to quarter (1A=1, 1B=2, 2A=3, 2B=4)
+                            quarter = (parseInt(semester) - 1) * 2 + (part === 'A' ? 1 : 2);
+                        }
+                    }
+
+                    // Get or create module
+                    let moduleId = null;
+                    if (project.Modulo__c) {
+                        // Extract period from class code (e.g., "2024-1A-T08" -> "2024.1")
+                        let modulePeriod = null;
+                        if (classCode) {
+                            const match = classCode.match(/^(\d{4})-(\d)([AB])-T\d+$/);
+                            if (match) {
+                                const year = match[1];
+                                const semester = match[2];
+                                modulePeriod = `${year}.${semester}`;
+                            }
+                        }
+
+                        // First, get or create the Class record
+                        let classId = null;
+                        if (classCode) {
+                            const [existingClass] = await connection.query(
+                                'SELECT ClassID FROM Class WHERE ClassCode = ?',
+                                [classCode]
+                            );
+
+                            if (existingClass.length > 0) {
+                                classId = existingClass[0].ClassID;
+                            } else {
+                                // Create new class if it doesn't exist
+                                const [newClass] = await connection.query(
+                                    'INSERT INTO Class (ClassCode) VALUES (?)',
+                                    [classCode]
+                                );
+                                classId = newClass.insertId;
+                            }
+                        }
+
+                        // Then check if module exists with both name and period
+                        const [existingModule] = await connection.query(
+                            'SELECT ModuleID, ClassID, Course FROM Module WHERE Name = ? AND Period = ?',
+                            [project.Modulo__c, modulePeriod]
+                        );
+
+                        if (existingModule.length > 0) {
+                            moduleId = existingModule[0].ModuleID;
+                            // Only update the module's ClassID and Course if they have changed
+                            if (existingModule[0].ClassID !== classId || existingModule[0].Course !== project.Curso__c) {
+                                await connection.query(
+                                    'UPDATE Module SET ClassID = ?, Course = ? WHERE ModuleID = ?',
+                                    [classId, project.Curso__c, moduleId]
+                                );
+                            }
+                        } else {
+                            // Create new module if it doesn't exist
+                            const [newModule] = await connection.query(
+                                'INSERT INTO Module (Name, Period, ClassID, Course) VALUES (?, ?, ?, ?)',
+                                [project.Modulo__c, modulePeriod, classId, project.Curso__c]
+                            );
+                            moduleId = newModule.insertId;
+                        }
+                    } else {
+                        // Create a default module for projects without a module
+                        const defaultModuleName = 'Default Module';
+                        const [existingDefaultModule] = await connection.query(
+                            'SELECT ModuleID FROM Module WHERE Name = ? AND Period IS NULL',
+                            [defaultModuleName]
+                        );
+
+                        if (existingDefaultModule.length > 0) {
+                            moduleId = existingDefaultModule[0].ModuleID;
+                        } else {
+                            // Create new default module if it doesn't exist
+                            const [newModule] = await connection.query(
+                                'INSERT INTO Module (Name, Period) VALUES (?, ?)',
+                                [defaultModuleName, null]
+                            );
+                            moduleId = newModule.insertId;
+                        }
+                    }
+
+                    // Clean up project name by removing 'Parceiro Projeto-' prefix if present
+                    let projectName = project.Name || '';
+                    if (projectName.startsWith('Parceiro Projeto-')) {
+                        projectName = projectName.replace(/^Parceiro Projeto-/, '').trim();
+                    }
+
+                    const isNew = existingProject.length === 0;
+                    const hasChanges = isNew || 
+                        existingProject[0].Title !== projectName ||
+                        existingProject[0].PartnerID !== project.AccountId ||
+                        existingProject[0].Description !== (project.Description || '') ||
+                        existingProject[0].Quarter !== quarter ||
+                        existingProject[0].Year !== year ||
+                        existingProject[0].Status !== (project.StageName || '');
+
+                    if (hasChanges) {
+                        console.log(`Project ${project.Id} changes:`, {
+                            title: { old: existingProject[0]?.Title, new: projectName, changed: existingProject[0]?.Title !== projectName },
+                            partnerId: { old: existingProject[0]?.PartnerID, new: project.AccountId, changed: existingProject[0]?.PartnerID !== project.AccountId },
+                            description: { old: existingProject[0]?.Description, new: project.Description || '', changed: existingProject[0]?.Description !== (project.Description || '') },
+                            quarter: { old: existingProject[0]?.Quarter, new: quarter, changed: existingProject[0]?.Quarter !== quarter },
+                            year: { old: existingProject[0]?.Year, new: year, changed: existingProject[0]?.Year !== year },
+                            status: { old: existingProject[0]?.Status, new: project.StageName || '', changed: existingProject[0]?.Status !== (project.StageName || '') }
+                        });
+
+                        // Insert or update project
+                        await connection.query(
+                            'INSERT INTO Project (ProjectID, Title, PartnerID, Description, Quarter, Year, ModuleID, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Title = VALUES(Title), PartnerID = VALUES(PartnerID), Description = VALUES(Description), Quarter = VALUES(Quarter), Year = VALUES(Year), ModuleID = VALUES(ModuleID), Status = VALUES(Status)',
+                            [
+                                project.Id,
+                                projectName,
+                                project.AccountId,
+                                project.Description || '',
+                                quarter,
+                                year,
+                                moduleId,
+                                project.StageName || ''
+                            ]
+                        );
+
+                        if (isNew) {
+                            changes.projects.inserted.push({
+                                id: project.Id,
+                                name: project.Name,
+                                partnerId: project.AccountId,
+                                partnerName: partnerRows[0].Name,
+                                classCode: project.CodigoTurma__c,
+                                year: year,
+                                quarter: quarter
+                            });
+                        } else {
+                            changes.projects.updated.push({
+                                id: project.Id,
+                                name: project.Name,
+                                partnerId: project.AccountId,
+                                partnerName: partnerRows[0].Name,
+                                classCode: project.CodigoTurma__c,
+                                year: year,
+                                quarter: quarter
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.error(`Error processing project ${project.Id}:`, error);
+                    changes.projects.errors.push({
+                        id: project.Id,
+                        name: project.Name,
+                        error: error.message,
+                        partnerId: project.AccountId
+                    });
+                }
+            }
+
+            // Insert leads
+            console.log('Inserting leads...');
+            for (const lead of leads) {
+                try {
+                    const [existingLead] = await connection.query(
+                        'SELECT Name, Phone, Email, Company FROM Leads WHERE LeadID = ?',
+                        [lead.Id]
+                    );
+                    const isNew = existingLead.length === 0;
+                    let hasChanges = isNew;
+                    if (!isNew) {
+                        hasChanges = existingLead[0].Name !== lead.Name ||
+                            existingLead[0].Phone !== lead.Phone ||
+                            existingLead[0].Email !== lead.Email ||
+                            existingLead[0].Company !== lead.Company;
+                    }
+                    if (hasChanges) {
+                        await connection.query(
+                            'INSERT INTO Leads (LeadID, Name, Phone, Email, Company) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Name = VALUES(Name), Phone = VALUES(Phone), Email = VALUES(Email), Company = VALUES(Company)',
+                            [
+                                lead.Id,
+                                lead.Name,
+                                lead.Phone,
+                                lead.Email,
+                                lead.Company
+                            ]
+                        );
+                        if (isNew) {
+                            changes.leads.inserted.push({
+                                id: lead.Id,
+                                name: lead.Name,
+                                phone: lead.Phone,
+                                email: lead.Email,
+                                company: lead.Company
+                            });
+                        } else {
+                            changes.leads.updated.push({
+                                id: lead.Id,
+                                name: lead.Name,
+                                phone: lead.Phone,
+                                email: lead.Email,
+                                company: lead.Company
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.error(`Error processing lead ${lead.Id}:`, error);
+                    changes.leads.errors.push({
+                        id: lead.Id,
+                        name: lead.Name,
+                        phone: lead.Phone,
+                        email: lead.Email,
+                        company: lead.Company,
+                        error: error.message
+                    });
+                }
+            }
+
+            // Commit the transaction
+            console.log('Committing transaction...');
+            await connection.commit();
+            connection.release();
+
+            console.log('Sync completed successfully');
+            res.json({
+                success: true,
+                stats: {
+                    partners: {
+                        total: partners.length,
+                        inserted: changes.partners.inserted.length,
+                        updated: changes.partners.updated.length,
+                        errors: changes.partners.errors.length
+                    },
+                    contacts: {
+                        total: contacts.length,
+                        inserted: changes.contacts.inserted.length,
+                        updated: changes.contacts.updated.length,
+                        errors: changes.contacts.errors.length
+                    },
+                    projects: {
+                        total: projects.length,
+                        inserted: changes.projects.inserted.length,
+                        updated: changes.projects.updated.length,
+                        errors: changes.projects.errors.length
+                    },
+                    leads: {
+                        total: leads.length,
+                        inserted: changes.leads.inserted.length,
+                        updated: changes.leads.updated.length,
+                        errors: changes.leads.errors.length
+                    }
+                },
+                changes
+            });
+        } catch (error) {
+            // Rollback in case of error
+            console.error('Error during database operations:', error);
+            await connection.rollback();
+            connection.release();
+            throw error;
+        }
+    } catch (error) {
+        console.error('Error syncing Salesforce data:', error);
+        console.error('Error details:', {
+            message: error.message,
+            stack: error.stack,
+            code: error.code
+        });
+        res.status(500).json({ 
+            error: 'Failed to sync Salesforce data',
+            message: error.message,
+            details: error.stack
+        });
+    }
+});
+
+// Get single project details
 app.get('/api/projects/:id', async (req, res) => {
   try {
-    const projectId = req.params.id;
+    console.log('Fetching project details for ID:', req.params.id);
     
-    // Fetch project details with all related information
-    const [projectRows] = await pool.query(`
+    const [rows] = await pool.query(`
       SELECT 
-        p.ProjectID as id,
-        p.Title as title,
-        p.Description as description,
-        p.Comment as comment,
-        p.Period as period,
+        p.ProjectID as Id,
+        p.Title,
+        p.Status,
+        p.PartnerID as AccountId,
+        pt.Name as partnerName,
+        pt.Sector as sector,
+        pt.Industry as industry,
+        pt.Activity as activity,
         p.Year as year,
-        p.NumPrototypes as numPrototypes,
         p.Quarter as quarter,
+        CASE 
+          WHEN p.Year IS NOT NULL AND p.Quarter IS NOT NULL 
+          THEN CONCAT(p.Year, '.', p.Quarter)
+          ELSE NULL 
+        END as Period,
+        c.ClassCode as classCode,
         m.Name as module,
         m.Course as course,
-        m.Description as moduleDescription,
-        pa.Name as partner,
-        pa.Sector as sector,
-        pa.Industry as industry,
-        pa.Activity as activity,
-        c.ClassCode as classCode,
-        c.Classroom as classroom,
-        s1.Name as coordinator,
-        s1.Email as coordinatorEmail,
-        s2.Name as advisor,
-        s2.Email as advisorEmail,
-        a.Sent as agreementSent,
-        a.Returned as agreementReturned,
-        a.Signed as agreementSigned,
-        a.Comments as agreementComments,
-        t.Sent as tapiSent,
-        t.Returned as tapiReturned,
-        t.Signed as tapiSigned,
-        t.Comments as tapiComments,
-        pg.Link as githubLink
+        p.Description,
+        p.Comment,
+        p.NumPrototypes,
+        p.CoordinatorID,
+        p.AdvisorID
       FROM Project p
+      LEFT JOIN Partner pt ON p.PartnerID = pt.PartnerID
       LEFT JOIN Module m ON p.ModuleID = m.ModuleID
-      LEFT JOIN Partner pa ON p.PartnerID = pa.PartnerID
       LEFT JOIN Class c ON m.ClassID = c.ClassID
-      LEFT JOIN Staff s1 ON p.CoordinatorID = s1.StaffID
-      LEFT JOIN Staff s2 ON p.AdvisorID = s2.StaffID
-      LEFT JOIN Agreement a ON p.AgreementID = a.AgreementID
-      LEFT JOIN TAPI t ON p.TapiID = t.TapiID
-      LEFT JOIN ProjectGitHub pg ON p.ProjectID = pg.ProjectID
       WHERE p.ProjectID = ?
-    `, [projectId]);
-    
-    if (projectRows.length === 0) {
+    `, [req.params.id]);
+
+    console.log('Query result:', {
+      found: rows.length > 0,
+      projectId: req.params.id,
+      firstRow: rows[0] ? JSON.stringify(rows[0]) : null
+    });
+
+    if (rows.length === 0) {
+      console.log('No project found with ID:', req.params.id);
       return res.status(404).json({ error: 'Project not found' });
     }
 
-    const project = projectRows[0];
+    const project = rows[0];
 
-    // Fetch project contacts
-    const [contactRows] = await pool.query(`
-      SELECT 
-        c.Name as name,
-        c.Email as email,
-        c.Phone as phone,
-        c.Role as role,
-        pc.Role as projectRole
-      FROM ProjectContact pc
-      JOIN Contact c ON pc.ContactID = c.ContactID
-      WHERE pc.ProjectID = ?
-    `, [projectId]);
+    // Fetch contacts for this partner
+    const [contacts] = await pool.query(
+      'SELECT Name as name, Email as email, Phone as phone FROM Contact WHERE PartnerID = ?',
+      [project.AccountId]
+    );
+    project.contacts = contacts;
 
-    // Format the response
-    const response = {
-      project: {
-        ...project,
-        contacts: contactRows,
-        terms: {
-          sent: project.agreementSent,
-          returned: project.agreementReturned,
-          signed: project.agreementSigned,
-          comment: project.agreementComments
-        },
-        tapi: {
-          sent: project.tapiSent,
-          returned: project.tapiReturned,
-          aligned: project.tapiSigned,
-          comment: project.tapiComments
-        }
-      }
-    };
-
-    res.json(response);
+    res.json(project);
   } catch (error) {
     console.error('Error fetching project details:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Failed to fetch project details' });
   }
 });
 
-// Add endpoint to get partners from local database
-app.get('/api/partners', async (req, res) => {
+// Add endpoint to get leads from Salesforce
+app.get('/api/salesforce/leads', async (req, res) => {
+    try {
+        if (!salesforceService) {
+            return res.status(503).json({
+                error: 'Salesforce service is not available',
+                message: 'The Salesforce service is not properly configured. Please check your environment variables.'
+            });
+        }
+        const result = await salesforceService.getLeads();
+        res.json({
+            success: true,
+            count: result.totalSize,
+            records: result.records
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Add endpoint to get leads from the database
+app.get('/api/leads', async (req, res) => {
+    try {
+        const [leads] = await pool.query('SELECT * FROM Leads');
+        res.json(leads);
+    } catch (error) {
+        console.error('Error fetching leads:', error);
+        res.status(500).json({ error: 'Failed to fetch leads' });
+    }
+});
+
+// Get all prospection cards
+app.get('/api/prospection-cards', async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT * FROM Partner');
-    res.json({ partners: rows });
-  } catch (error) {
-    console.error('Error fetching partners:', error);
-    res.status(500).json({ 
-      success: false,
-      message: 'Failed to fetch partners',
-      error: error.message 
+    const [rows] = await pool.query(`
+      SELECT 
+        ProspectionCardID,
+        Name,
+        Course,
+        Description,
+        Year,
+        Period,
+        ClassCode,
+        Status,
+        Advisor,
+        Classroom,
+        PartnerName
+      FROM ProspectionCards
+      ORDER BY Year DESC, Period ASC, Course ASC
+    `);
+    
+    console.log('Fetched prospection cards:', {
+      count: rows.length,
+      firstRecord: rows[0] ? JSON.stringify(rows[0]) : null
     });
+    
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching prospection cards:', error);
+    res.status(500).json({ error: 'Failed to fetch prospection cards' });
+  }
+});
+
+// Add endpoint to get course picklist values from Salesforce
+app.get('/api/salesforce/courses', async (req, res) => {
+  try {
+    if (!salesforceService) {
+      return res.status(500).json({ error: 'Salesforce service is not available' });
+    }
+    const result = await salesforceService.getCourses();
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch course picklist values' });
+  }
+});
+
+// Add endpoint to get module names from Salesforce
+app.get('/api/salesforce/modules', async (req, res) => {
+  try {
+    if (!salesforceService) {
+      return res.status(500).json({ error: 'Salesforce service is not available' });
+    }
+    // Optionally accept a course query param
+    const course = req.query.course || null;
+    const result = await salesforceService.getModuleNames(course);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch module names' });
+  }
+});
+
+// Add endpoint to get partners and leads for autocomplete
+app.get('/api/partners-and-leads', async (req, res) => {
+  try {
+    // Get all partners
+    const [partners] = await pool.query('SELECT Name FROM Partner');
+    // Get all leads
+    const [leads] = await pool.query('SELECT Company FROM Leads');
+
+    // Map to unified format
+    const partnerOptions = partners.map(p => ({ name: p.Name, type: 'Partner' }));
+    const leadOptions = leads.map(l => ({ name: l.Company, type: 'Lead' }));
+
+    // Combine and deduplicate by name (case-insensitive)
+    const seen = new Set();
+    const combined = [...partnerOptions, ...leadOptions].filter(opt => {
+      const key = opt.name?.toLowerCase();
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    res.json(combined);
+  } catch (err) {
+    console.error('Error fetching partners and leads:', err);
+    res.status(500).json({ error: 'Failed to fetch partners and leads' });
+  }
+});
+
+// Add endpoint to create a new prospection card
+app.post('/api/prospection-cards', async (req, res) => {
+  try {
+    const {
+      name,
+      course,
+      description,
+      year,
+      period,
+      classCode,
+      status,
+      advisor,
+      classroom,
+      partnerName
+    } = req.body;
+
+    const [result] = await pool.query(
+      `INSERT INTO ProspectionCards 
+        (Name, Course, Description, Year, Period, ClassCode, Status, Advisor, Classroom, PartnerName)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [name, course, description, year, period, classCode, status, advisor, classroom, partnerName]
+    );
+
+    res.status(201).json({ success: true, id: result.insertId });
+  } catch (error) {
+    console.error('Error creating prospection card:', error);
+    res.status(500).json({ error: 'Failed to create prospection card' });
+  }
+});
+
+// Add endpoint to update a prospection card
+app.put('/api/prospection-cards/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const {
+      name,
+      course,
+      description,
+      year,
+      period,
+      classCode,
+      status,
+      advisor,
+      classroom,
+      partnerName
+    } = req.body;
+
+    const [result] = await pool.query(
+      `UPDATE ProspectionCards 
+       SET Name = ?, Course = ?, Description = ?, Year = ?, Period = ?, ClassCode = ?, Status = ?, Advisor = ?, Classroom = ?, PartnerName = ?
+       WHERE ProspectionCardID = ?`,
+      [name, course, description, year, period, classCode, status, advisor, classroom, partnerName, id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Prospection card not found' });
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error updating prospection card:', error);
+    res.status(500).json({ error: 'Failed to update prospection card' });
   }
 });
 

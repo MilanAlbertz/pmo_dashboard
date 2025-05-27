@@ -24,40 +24,55 @@ const NPSScore = ({ label, score }) => (
   </div>
 );
 
+// List of all possible statuses in order
+const PROJECT_STATUSES = [
+  'Pré seleção EP',
+  'Pré análise de aderência docentes',
+  'Envio dos documentos',
+  'TAPI',
+  'Pré Projeto',
+  'Projeto',
+  'Envio de protótipos',
+  'Concluido'
+];
+
+// Helper to normalize accents and case
+const normalize = str => str ? str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() : '';
+
+// Returns the step index (0-based) for the given status
 const getStatusStep = (status) => {
-  switch(status?.toLowerCase()) {
-    case 'vaga em aberto':
-      return 1;
-    case 'aguardando início':
-      return 2;
-    case 'em andamento':
-      return 3;
-    case 'concluído':
-      return 4;
-    default:
-      return 1;
-  }
+  if (!status) return 0;
+  
+  // First try exact match
+  const exactIndex = PROJECT_STATUSES.indexOf(status);
+  if (exactIndex !== -1) return exactIndex;
+  
+  // If no exact match, try normalized comparison
+  const normalizedStatus = normalize(status);
+  const normalizedSteps = PROJECT_STATUSES.map(normalize);
+  
+  // Find the index of the matching status
+  const index = normalizedSteps.findIndex(step => 
+    normalizedStatus === step || // Exact normalized match
+    normalizedStatus.includes(step) || // Status contains step
+    step.includes(normalizedStatus) // Step contains status
+  );
+  
+  return index === -1 ? 0 : index;
 };
 
 const StatusBar = ({ currentStep }) => {
-  const { t } = useTranslation();
-  const steps = [
-    { number: 1, label: t('projectDetails.status.open') },
-    { number: 2, label: t('projectDetails.status.waiting') },
-    { number: 3, label: t('projectDetails.status.inProgress') },
-    { number: 4, label: t('projectDetails.status.completed') }
-  ];
-
+  const steps = PROJECT_STATUSES;
   return (
     <div className="status-bar">
-      {steps.map((step, index) => (
-        <React.Fragment key={step.number}>
-          {index > 0 && <div className={`status-line ${currentStep >= step.number ? 'completed' : ''}`} />}
-          <div className={`status-step ${currentStep >= step.number ? 'completed' : ''}`}>
+      {steps.map((label, index) => (
+        <React.Fragment key={label}>
+          {index > 0 && <div className={`status-line ${currentStep >= index ? 'completed' : ''}`} />}
+          <div className={`status-step ${currentStep >= index ? 'completed' : ''}`}>  
             <div className="status-number">
-              {currentStep >= step.number ? <CheckIcon /> : step.number}
+              {currentStep >= index ? <CheckIcon /> : index + 1}
             </div>
-            <div className="status-label">{step.label}</div>
+            <div className="status-label">{label}</div>
           </div>
         </React.Fragment>
       ))}
@@ -127,7 +142,16 @@ const DescriptionRow = ({ label, value, required }) => {
       <span className="info-label" style={{ textAlign: 'left', display: 'block', fontWeight: 'bold' }}>{label}:</span>
       <div 
         className={`description-value ${!value ? 'missing' : ''} ${required && !value ? 'required' : ''}`}
-        style={{ textAlign: 'left' }}
+        style={{ 
+          textAlign: 'left',
+          fontSize: '12px',
+          maxHeight: '150px',
+          overflowY: 'auto',
+          padding: '8px',
+          border: '1px solid #e0e0e0',
+          borderRadius: '4px',
+          backgroundColor: '#f9f9f9'
+        }}
       >
         {value || t('common.notSpecified')}
       </div>
@@ -164,7 +188,20 @@ const ProjectDetails = () => {
   if (error) return <div>Error: {error}</div>;
   if (!data) return <div>No data available</div>;
 
-  const project = data.project;
+  const project = {
+    ...data,
+    module: data.module || '',
+    partner: data.partnerName || '',
+    period: data.Period || '',
+    classCode: data.classCode || '',
+    course: data.course || '',
+    coordinator: data.CoordinatorID || '',
+    advisor: data.AdvisorID || '',
+    sector: data.sector || '',
+    industry: data.industry || '',
+    activity: data.activity || '',
+    contacts: data.contacts || []
+  };
 
   const getProjectStatus = () => {
     switch(project.status?.toLowerCase()) {
@@ -218,17 +255,16 @@ const ProjectDetails = () => {
 
   return (
     <div className="project-details-container">
-      {/* Back button on the left, heading centered */}
-      <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '24px', minHeight: '48px' }}>
-        <Link to="/" className="back-link" style={{ position: 'absolute', left: 0 }}>
+      <div className="project-header-row">
+        <Link to="/" className="back-link">
           <span>←</span> {t('common.back')}
         </Link>
-        <h1 className="project-title" style={{ margin: 0 }}>{project.module}</h1>
+        <h1 className="project-title">{project.module || project.Title}</h1>
       </div>
       
       <MobileStatusIndicator status={project.status} />
       
-      <StatusBar currentStep={getStatusStep(project.status)} />
+      <StatusBar currentStep={getStatusStep(project.Status)} />
 
       <div className="info-grid">
         <InfoCard title={t('projectDetails.sections.generalInfo')}>
@@ -236,13 +272,12 @@ const ProjectDetails = () => {
           <InfoRow label={t('projectDetails.fields.date')} value={project.year} />
           <InfoRow label={t('projectDetails.fields.quarter')} value={project.quarter} />
           <InfoRow label={t('projectDetails.fields.classCode')} value={project.classCode} />
-          <InfoRow label={t('projectDetails.fields.module')} value={project.module} />
           <InfoRow label={t('projectDetails.fields.course')} value={project.course} />
           <InfoRow label={t('projectDetails.fields.coordinator')} value={project.coordinator} />
           <InfoRow label={t('projectDetails.fields.advisor')} value={project.advisor} />
           <DescriptionRow 
             label={t('projectDetails.fields.projectDescription')} 
-            value={project.description} 
+            value={project.Description} 
             required 
           />
         </InfoCard>
@@ -264,8 +299,21 @@ const ProjectDetails = () => {
             label={t('projectDetails.fields.activity')} 
             value={project.activity} 
           />
+
+          {/* Partner Contact Info */}
           {project.contacts && project.contacts[0] && (
-            <React.Fragment>
+            <div style={{ marginTop: '16px', paddingTop: '12px', width: '100%' }}>
+              <h2 style={{
+                fontSize: '20px',
+                marginTop: '0',
+                marginBottom: '12px',
+                paddingBottom: '12px',
+                borderBottom: '1px solid #2E2640',
+                color: '#1a1a1a',
+                fontFamily: 'var(--font-heading)'
+              }}>
+                {t('projectDetails.fields.partnerContactInfo')}
+              </h2>
               <InfoRow 
                 label={t('projectDetails.fields.partnerContact')} 
                 value={project.contacts[0].name} 
@@ -278,14 +326,14 @@ const ProjectDetails = () => {
                 label={t('projectDetails.fields.phone')} 
                 value={project.contacts[0].phone} 
               />
-            </React.Fragment>
+            </div>
           )}
         </InfoCard>
 
         <InfoCard title={t('projectDetails.sections.requiredInfo')}>
           <InfoRow 
             label={t('projectDetails.fields.numPrototypes')} 
-            value={project.numPrototypes} 
+            value={project.NumPrototypes} 
           />
           <PartnershipTerms 
             terms={{

@@ -104,14 +104,6 @@ function App() {
               }
             />
             <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <div>Profile Page</div>
-                </ProtectedRoute>
-              }
-            />
-            <Route
               path="/prospection"
               element={
                 <ProtectedRoute>
