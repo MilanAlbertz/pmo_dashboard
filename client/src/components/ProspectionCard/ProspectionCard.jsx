@@ -13,6 +13,13 @@ const getStatusClass = (status) => {
 const ProspectionCard = ({ moduleNumber, data, isCompact, onEdit }) => {
   const statusClass = getStatusClass(data.status);
 
+  const renderPartners = () => {
+    if (!data.partnerNames || data.partnerNames.length === 0) {
+      return 'No Partners';
+    }
+    return data.partnerNames.join(', ');
+  };
+
   if (isCompact) {
     return (
       <div className={`prospection-card compact ${statusClass}`}>
@@ -26,7 +33,7 @@ const ProspectionCard = ({ moduleNumber, data, isCompact, onEdit }) => {
           </span>
         </div>
         <div className="prospection-content">
-          <p><strong>Partner:</strong> {data.partnerName || 'No Partner'}</p>
+          <p><strong>Partners:</strong> {renderPartners()}</p>
         </div>
       </div>
     );
@@ -52,7 +59,7 @@ const ProspectionCard = ({ moduleNumber, data, isCompact, onEdit }) => {
         <p><strong>Status:</strong> {data.status}</p>
         <p><strong>Advisor:</strong> {data.advisor}</p>
         <p><strong>Classroom:</strong> {data.classroom}</p>
-        <p><strong>Partner:</strong> {data.partnerName || 'No Partner'}</p>
+        <p><strong>Partners:</strong> {renderPartners()}</p>
         <div className="description-box">
           <p><strong>Description:</strong></p>
           <div className="description-content" title={data.description || 'No description'}>

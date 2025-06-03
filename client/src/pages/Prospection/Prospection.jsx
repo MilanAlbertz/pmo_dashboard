@@ -8,6 +8,10 @@ import { ReactComponent as MaximizeIcon } from '../../assets/images/icons/maximi
 import CreateProspectionForm from '../../components/CreateProspectionForm/CreateProspectionForm';
 import EditProspectionCard from '../../components/EditProspectionCard/EditProspectionCard';
 
+function normalize(str) {
+  return str ? str.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().trim() : '';
+}
+
 const Prospection = () => {
   const { t } = useTranslation();
   const [expandedSections, setExpandedSections] = useState({
@@ -99,7 +103,7 @@ const Prospection = () => {
     courses.forEach(course => {
       [1, 2, 3, 4].forEach(period => {
         const filtered = prospectionCards.filter(card => {
-          const matches = card.Course.toLowerCase() === course.toLowerCase() && 
+          const matches = normalize(card.Course) === normalize(course) && 
                          card.Year === parseInt(selectedYear) && 
                          card.Period === period;
           console.log(`Card ${card.ProspectionCardID}:`, {
@@ -206,7 +210,7 @@ const Prospection = () => {
         <div className="period-header empty-header"></div>
         {[1, 2, 3, 4].map(period => (
           <div key={period} className="period-header">
-            Period {period}
+            Quarter {period}
           </div>
         ))}
       </div>
@@ -223,7 +227,7 @@ const Prospection = () => {
           {[1, 2, 3, 4].map((period) => {
             const dbCourse = courseLabelToSalesforceValue[course] || course;
             const cardsInCell = prospectionCards.filter(card => 
-              card.Course === dbCourse && 
+              normalize(card.Course) === normalize(dbCourse) && 
               card.Year === parseInt(selectedYear) && 
               card.Period === period
             );
@@ -236,8 +240,11 @@ const Prospection = () => {
                   display: expandedSections[course] ? 'flex' : 'none',
                   position: 'relative',
                   flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center'
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px',
+                  minHeight: '100px'
                 }}
               >
                 {cardsInCell.map((card) => (
@@ -252,7 +259,7 @@ const Prospection = () => {
                       status: card.Status,
                       advisor: card.Advisor,
                       classroom: card.Classroom,
-                      partnerName: card.PartnerName,
+                      partnerNames: card.PartnerNames || [],
                       description: card.Description
                     }}
                     isCompact={isCompact}
@@ -263,9 +270,24 @@ const Prospection = () => {
                   <button 
                     className="create-prospection-link"
                     onClick={() => handleCreateClick(course, period)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                    style={{ 
+                      background: 'none', 
+                      border: 'none', 
+                      cursor: 'pointer', 
+                      padding: '8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      color: '#855ede',
+                      fontSize: '14px',
+                      marginTop: '8px'
+                    }}
                   >
-                    <span className="create-prospection-link-text">Create Prospection Card</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="12" fill="#855ede"/>
+                      <path d="M12 7v10M7 12h10" stroke="#fff" strokeWidth="2" strokeLinecap="round"/>
+                    </svg>
+                    <span>Add Card</span>
                   </button>
                 )}
               </div>

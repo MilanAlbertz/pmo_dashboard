@@ -212,7 +212,7 @@ app.post('/api/login', (req, res) => {
   const { email, password } = req.body;
 
   // Simple check for test credentials
-  if (email === 'test.test@test.nl' && password === 'test123') {
+  if (email === 'tatiana.reis@inteli.edu.br' && password === 'Hoqxb6ARXTFpHig') {
     res.json({ success: true, message: 'Login successful!' });
   } else {
     res.status(401).json({ success: false, message: 'Invalid credentials' });
@@ -1351,30 +1351,152 @@ app.get('/api/prospection-cards', async (req, res) => {
   try {
     const [rows] = await pool.query(`
       SELECT 
-        ProspectionCardID,
-        Name,
-        Course,
-        Description,
-        Year,
-        Period,
-        ClassCode,
-        Status,
-        Advisor,
-        Classroom,
-        PartnerName
-      FROM ProspectionCards
-      ORDER BY Year DESC, Period ASC, Course ASC
+        pc.ProspectionCardID,
+        pc.Name,
+        pc.Course,
+        pc.Description,
+        pc.Year,
+        pc.Period,
+        pc.ClassCode,
+        pc.Status,
+        pc.Advisor,
+        pc.Classroom,
+        GROUP_CONCAT(p.Name) as PartnerNames
+      FROM ProspectionCards pc
+      LEFT JOIN ProspectionCardPartner pcp ON pc.ProspectionCardID = pcp.ProspectionCardID
+      LEFT JOIN Partner p ON pcp.PartnerID = p.PartnerID
+      GROUP BY pc.ProspectionCardID
+      ORDER BY pc.Year DESC, pc.Period ASC, pc.Course ASC
     `);
     
-    console.log('Fetched prospection cards:', {
-      count: rows.length,
-      firstRecord: rows[0] ? JSON.stringify(rows[0]) : null
-    });
+    // Transform the PartnerNames string into an array
+    const transformedRows = rows.map(row => ({
+      ...row,
+      PartnerNames: row.PartnerNames ? row.PartnerNames.split(',') : []
+    }));
     
-    res.json(rows);
+    res.json(transformedRows);
   } catch (error) {
     console.error('Error fetching prospection cards:', error);
     res.status(500).json({ error: 'Failed to fetch prospection cards' });
+  }
+});
+
+// Create new prospection card
+app.post('/api/prospection-cards', async (req, res) => {
+  try {
+    const {
+      name,
+      course,
+      description,
+      year,
+      period,
+      classCode,
+      status,
+      advisor,
+      classroom,
+      partners
+    } = req.body;
+
+    // Start a transaction
+    const connection = await pool.getConnection();
+    await connection.beginTransaction();
+
+    try {
+      // Insert the prospection card
+      const [result] = await connection.query(
+        `INSERT INTO ProspectionCards 
+          (Name, Course, Description, Year, Period, ClassCode, Status, Advisor, Classroom)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [name, course, description, year, period, classCode, status, advisor, classroom]
+      );
+
+      const prospectionCardId = result.insertId;
+
+      // Insert partner relationships
+      if (partners && partners.length > 0) {
+        const partnerValues = partners.map(partner => [prospectionCardId, partner.id]);
+        await connection.query(
+          'INSERT INTO ProspectionCardPartner (ProspectionCardID, PartnerID) VALUES ?',
+          [partnerValues]
+        );
+      }
+
+      await connection.commit();
+      res.status(201).json({ success: true, id: prospectionCardId });
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
+  } catch (error) {
+    console.error('Error creating prospection card:', error);
+    res.status(500).json({ error: 'Failed to create prospection card' });
+  }
+});
+
+// Update prospection card
+app.put('/api/prospection-cards/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const {
+      name,
+      course,
+      description,
+      year,
+      period,
+      classCode,
+      status,
+      advisor,
+      classroom,
+      partners
+    } = req.body;
+
+    // Start a transaction
+    const connection = await pool.getConnection();
+    await connection.beginTransaction();
+
+    try {
+      // Update the prospection card
+      const [result] = await connection.query(
+        `UPDATE ProspectionCards 
+         SET Name = ?, Course = ?, Description = ?, Year = ?, Period = ?, ClassCode = ?, Status = ?, Advisor = ?, Classroom = ?
+         WHERE ProspectionCardID = ?`,
+        [name, course, description, year, period, classCode, status, advisor, classroom, id]
+      );
+
+      if (result.affectedRows === 0) {
+        await connection.rollback();
+        return res.status(404).json({ error: 'Prospection card not found' });
+      }
+
+      // Delete existing partner relationships
+      await connection.query(
+        'DELETE FROM ProspectionCardPartner WHERE ProspectionCardID = ?',
+        [id]
+      );
+
+      // Insert new partner relationships
+      if (partners && partners.length > 0) {
+        const partnerValues = partners.map(partner => [id, partner.id]);
+        await connection.query(
+          'INSERT INTO ProspectionCardPartner (ProspectionCardID, PartnerID) VALUES ?',
+          [partnerValues]
+        );
+      }
+
+      await connection.commit();
+      res.json({ success: true });
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
+  } catch (error) {
+    console.error('Error updating prospection card:', error);
+    res.status(500).json({ error: 'Failed to update prospection card' });
   }
 });
 
@@ -1410,12 +1532,12 @@ app.get('/api/salesforce/modules', async (req, res) => {
 app.get('/api/partners-and-leads', async (req, res) => {
   try {
     // Get all partners
-    const [partners] = await pool.query('SELECT Name FROM Partner');
+    const [partners] = await pool.query('SELECT PartnerID, Name FROM Partner');
     // Get all leads
     const [leads] = await pool.query('SELECT Company FROM Leads');
 
     // Map to unified format
-    const partnerOptions = partners.map(p => ({ name: p.Name, type: 'Partner' }));
+    const partnerOptions = partners.map(p => ({ id: p.PartnerID, name: p.Name, type: 'Partner' }));
     const leadOptions = leads.map(l => ({ name: l.Company, type: 'Lead' }));
 
     // Combine and deduplicate by name (case-insensitive)
@@ -1431,71 +1553,6 @@ app.get('/api/partners-and-leads', async (req, res) => {
   } catch (err) {
     console.error('Error fetching partners and leads:', err);
     res.status(500).json({ error: 'Failed to fetch partners and leads' });
-  }
-});
-
-// Add endpoint to create a new prospection card
-app.post('/api/prospection-cards', async (req, res) => {
-  try {
-    const {
-      name,
-      course,
-      description,
-      year,
-      period,
-      classCode,
-      status,
-      advisor,
-      classroom,
-      partnerName
-    } = req.body;
-
-    const [result] = await pool.query(
-      `INSERT INTO ProspectionCards 
-        (Name, Course, Description, Year, Period, ClassCode, Status, Advisor, Classroom, PartnerName)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [name, course, description, year, period, classCode, status, advisor, classroom, partnerName]
-    );
-
-    res.status(201).json({ success: true, id: result.insertId });
-  } catch (error) {
-    console.error('Error creating prospection card:', error);
-    res.status(500).json({ error: 'Failed to create prospection card' });
-  }
-});
-
-// Add endpoint to update a prospection card
-app.put('/api/prospection-cards/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    const {
-      name,
-      course,
-      description,
-      year,
-      period,
-      classCode,
-      status,
-      advisor,
-      classroom,
-      partnerName
-    } = req.body;
-
-    const [result] = await pool.query(
-      `UPDATE ProspectionCards 
-       SET Name = ?, Course = ?, Description = ?, Year = ?, Period = ?, ClassCode = ?, Status = ?, Advisor = ?, Classroom = ?, PartnerName = ?
-       WHERE ProspectionCardID = ?`,
-      [name, course, description, year, period, classCode, status, advisor, classroom, partnerName, id]
-    );
-
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: 'Prospection card not found' });
-    }
-
-    res.json({ success: true });
-  } catch (error) {
-    console.error('Error updating prospection card:', error);
-    res.status(500).json({ error: 'Failed to update prospection card' });
   }
 });
 

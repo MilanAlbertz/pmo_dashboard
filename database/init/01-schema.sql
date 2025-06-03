@@ -132,6 +132,14 @@ CREATE TABLE ProspectionCards (
     ClassCode VARCHAR(50),
     Status ENUM('Open for partners', 'Pending', 'Confirmed') NOT NULL DEFAULT 'Open for partners',
     Advisor VARCHAR(255),
-    Classroom VARCHAR(10),
-    PartnerName VARCHAR(255)
+    Classroom VARCHAR(10)
+) CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+-- Junction table for ProspectionCards-Partner relationship
+CREATE TABLE ProspectionCardPartner (
+    ProspectionCardID INT,
+    PartnerID VARCHAR(20),
+    PRIMARY KEY (ProspectionCardID, PartnerID),
+    FOREIGN KEY (ProspectionCardID) REFERENCES ProspectionCards(ProspectionCardID),
+    FOREIGN KEY (PartnerID) REFERENCES Partner(PartnerID)
 ) CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;

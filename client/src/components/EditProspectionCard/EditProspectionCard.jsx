@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { Autocomplete } from '@mui/material';
 import { fetchModuleNames, fetchCoursePicklistValues, fetchPartnersAndLeads } from '../../utils/api';
@@ -16,7 +17,7 @@ const EditProspectionCard = ({ card, onSubmit, onCancel }) => {
     status: card?.Status || 'Open for partners',
     advisor: card?.Advisor || '',
     classroom: card?.Classroom || '',
-    partner: null // Will be set after partners are loaded
+    partners: [] // Initialize as empty array
   });
 
   const [modules, setModules] = useState([]);
@@ -26,6 +27,10 @@ const EditProspectionCard = ({ card, onSubmit, onCancel }) => {
   const [isLoadingCourses, setIsLoadingCourses] = useState(true);
   const [isLoadingPartners, setIsLoadingPartners] = useState(true);
   const [error, setError] = useState('');
+  const [inputValue, setInputValue] = useState('');
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const inputRef = useRef(null);
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0, width: 0 });
 
   useEffect(() => {
     const loadCourses = async () => {
@@ -48,10 +53,10 @@ const EditProspectionCard = ({ card, onSubmit, onCancel }) => {
         setIsLoadingPartners(true);
         const data = await fetchPartnersAndLeads();
         setPartners(data);
-        // Pre-select the partner that matches card.PartnerName
-        if (card?.PartnerName) {
-          const matched = data.find(p => p.name === card.PartnerName);
-          setFormData(prev => ({ ...prev, partner: matched || null }));
+        // Pre-select the partners that match card.PartnerNames
+        if (card?.PartnerNames) {
+          const matched = data.filter(p => card.PartnerNames.includes(p.name));
+          setFormData(prev => ({ ...prev, partners: matched }));
         }
       } catch (error) {
         console.error('Error loading partners and leads:', error);
@@ -60,7 +65,7 @@ const EditProspectionCard = ({ card, onSubmit, onCancel }) => {
       }
     };
     loadPartners();
-  }, [card?.PartnerName]);
+  }, [card?.PartnerNames]);
 
   useEffect(() => {
     const loadModules = async () => {
@@ -77,6 +82,17 @@ const EditProspectionCard = ({ card, onSubmit, onCancel }) => {
     };
     loadModules();
   }, [formData.course]);
+
+  useEffect(() => {
+    if (inputRef.current && isInputFocused) {
+      const rect = inputRef.current.getBoundingClientRect();
+      setDropdownPos({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+        width: rect.width
+      });
+    }
+  }, [isInputFocused, inputValue]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -105,7 +121,7 @@ const EditProspectionCard = ({ card, onSubmit, onCancel }) => {
           status: formData.status,
           advisor: formData.advisor,
           classroom: formData.classroom,
-          partnerName: formData.partner ? formData.partner.name : undefined
+          partners: formData.partners
         }),
       });
       if (!response.ok) {
@@ -165,36 +181,129 @@ const EditProspectionCard = ({ card, onSubmit, onCancel }) => {
             </select>
           </div>
           <div className="form-group">
-            <label>Partner</label>
-            <Autocomplete
-              options={partners}
-              getOptionLabel={(option) => option ? `${option.name} (${option.type})` : ''}
-              value={formData.partner}
-              onChange={(event, newValue) => {
-                setFormData(prev => ({ ...prev, partner: newValue }));
-              }}
-              renderInput={(params) => (
-                <div ref={params.InputProps.ref}>
+            <label>Partners</label>
+            <div style={{ width: '100%', maxWidth: '100%', position: 'relative' }}>
+              <div
+                ref={inputRef}
+                className="form-input"
+                style={{
+                  width: '100%',
+                  maxWidth: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  background: 'white',
+                  padding: '0.75rem',
+                  fontSize: '0.9rem',
+                  boxSizing: 'border-box',
+                  overflow: 'hidden',
+                  position: 'relative',
+                  height: '48px',
+                  minHeight: 'unset'
+                }}
+              >
+                <div style={{
+                  position: 'absolute',
+                  left: '0.75rem',
+                  right: '0.75rem',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  overflowX: 'auto',
+                  whiteSpace: 'nowrap',
+                  scrollbarWidth: 'none',
+                  msOverflowStyle: 'none',
+                  '&::-webkit-scrollbar': {
+                    display: 'none'
+                  }
+                }}>
+                  {formData.partners.length > 0 && (
+                    <span style={{
+                      fontStyle: 'italic',
+                      color: '#333',
+                      marginRight: '4px',
+                      flexShrink: 0
+                    }}>
+                      {formData.partners.map(p => p.name).join('; ')};{' '}
+                    </span>
+                  )}
                   <input
                     type="text"
-                    {...params.inputProps}
+                    value={inputValue}
+                    onChange={e => setInputValue(e.target.value)}
+                    onFocus={() => setIsInputFocused(true)}
+                    onBlur={() => setTimeout(() => setIsInputFocused(false), 150)}
                     className="form-input"
-                    placeholder="Search for a partner..."
+                    placeholder={formData.partners.length === 0 ? 'Search for partners...' : ''}
                     disabled={isLoadingPartners}
+                    style={{
+                      border: 'none',
+                      outline: 'none',
+                      boxShadow: 'none',
+                      fontStyle: 'normal',
+                      fontSize: '15px',
+                      background: 'transparent',
+                      padding: 0,
+                      margin: 0,
+                      color: '#333',
+                      flex: '1',
+                      minWidth: '120px',
+                      width: 'auto',
+                      height: '100%'
+                    }}
+                    onKeyDown={e => {
+                      if (e.key === 'Backspace' && inputValue === '' && formData.partners.length > 0) {
+                        const newPartners = formData.partners.slice(0, -1);
+                        setFormData(prev => ({ ...prev, partners: newPartners }));
+                        e.preventDefault();
+                      }
+                    }}
                   />
                 </div>
+              </div>
+              {isInputFocused && inputValue && !isLoadingPartners && ReactDOM.createPortal(
+                <div style={{
+                  position: 'absolute',
+                  top: dropdownPos.top,
+                  left: dropdownPos.left,
+                  width: dropdownPos.width,
+                  background: 'white',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  maxHeight: '200px',
+                  overflowY: 'auto',
+                  zIndex: 99999,
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                }}>
+                  {partners
+                    .filter(partner =>
+                      partner.name.toLowerCase().includes(inputValue.toLowerCase()) &&
+                      !formData.partners.some(p => p.name === partner.name)
+                    )
+                    .map((partner, index) => (
+                      <div
+                        key={partner.id || partner.name}
+                        onClick={() => {
+                          if (formData.partners.length >= 5) return;
+                          const newPartners = [...formData.partners, partner];
+                          setFormData(prev => ({ ...prev, partners: newPartners }));
+                          setInputValue('');
+                        }}
+                        style={{
+                          padding: '8px 12px',
+                          cursor: 'pointer',
+                          borderBottom: '1px solid #eee',
+                          ':hover': {
+                            background: '#f5f5f5'
+                          }
+                        }}
+                      >
+                        {partner.name} ({partner.type})
+                      </div>
+                    ))}
+                </div>, document.body
               )}
-              renderOption={(props, option) => (
-                <li {...props}>
-                  {option.name} ({option.type})
-                </li>
-              )}
-              loading={isLoadingPartners}
-              loadingText="Loading partners..."
-              noOptionsText="No partners found"
-              isOptionEqualToValue={(option, value) => option.id === value?.id}
-              style={{ width: '100%' }}
-            />
+            </div>
           </div>
         </div>
 

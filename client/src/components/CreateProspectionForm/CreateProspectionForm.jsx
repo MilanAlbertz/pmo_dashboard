@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { useTranslation } from '../../contexts/LanguageContext';
 import { Autocomplete } from '@mui/material';
 import { fetchModuleNames, fetchCoursePicklistValues, fetchPartnersAndLeads } from '../../utils/api';
@@ -30,10 +31,12 @@ const CreateProspectionForm = ({ onSubmit, onCancel, initialData }) => {
     status: 'Open for partners',
     advisor: '',
     classroom: '',
-    partnerName: '',
+    partners: [],
     description: ''
   });
 
+  const [selectedPartners, setSelectedPartners] = useState([]);
+  const [inputValue, setInputValue] = useState('');
   const [modules, setModules] = useState([]);
   const [courses, setCourses] = useState([]);
   const [partners, setPartners] = useState([]);
@@ -41,7 +44,11 @@ const CreateProspectionForm = ({ onSubmit, onCancel, initialData }) => {
   const [isLoadingCourses, setIsLoadingCourses] = useState(true);
   const [isLoadingPartners, setIsLoadingPartners] = useState(true);
   const [error, setError] = useState('');
-  const [existingCards, setExistingCards] = useState([]);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+
+  const inputRef = useRef(null);
+  const containerRef = useRef(null);
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0, width: 0 });
 
   // Load courses on mount
   useEffect(() => {
@@ -84,7 +91,7 @@ const CreateProspectionForm = ({ onSubmit, onCancel, initialData }) => {
       try {
         setIsLoadingPartners(true);
         const data = await fetchPartnersAndLeads();
-        console.log('Loaded partners and leads:', data);
+        console.log('Loaded partners:', data); // Debug log
         setPartners(data);
       } catch (error) {
         console.error('Error loading partners and leads:', error);
@@ -118,21 +125,15 @@ const CreateProspectionForm = ({ onSubmit, onCancel, initialData }) => {
   }, [formData.course]);
 
   useEffect(() => {
-    fetchExistingCards();
-  }, []);
-
-  const fetchExistingCards = async () => {
-    try {
-      const response = await fetch('/api/prospection-cards');
-      if (!response.ok) {
-        throw new Error('Failed to fetch existing cards');
-      }
-      const data = await response.json();
-      setExistingCards(data);
-    } catch (error) {
-      console.error('Error fetching existing cards:', error);
+    if (containerRef.current && inputValue) {
+      const rect = containerRef.current.getBoundingClientRect();
+      setDropdownPos({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+        width: rect.width
+      });
     }
-  };
+  }, [inputValue]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -144,18 +145,6 @@ const CreateProspectionForm = ({ onSubmit, onCancel, initialData }) => {
   };
 
   const validateForm = () => {
-    // Check if a card already exists for the same year, period, and course
-    const existingCard = existingCards.find(card => 
-      card.Year === parseInt(formData.year) && 
-      card.Period === parseInt(formData.period) && 
-      card.Course === formData.course
-    );
-
-    if (existingCard) {
-      setError(`A prospection card already exists for ${formData.course} in ${formData.year}.${formData.period}`);
-      return false;
-    }
-
     return true;
   };
 
@@ -164,6 +153,9 @@ const CreateProspectionForm = ({ onSubmit, onCancel, initialData }) => {
     if (!validateForm()) {
       return;
     }
+    // Debug logs for course value
+    console.log('Submitting course:', formData.course);
+    console.log('Available course values:', courses);
     try {
       const response = await fetch('/api/prospection-cards', {
         method: 'POST',
@@ -180,7 +172,7 @@ const CreateProspectionForm = ({ onSubmit, onCancel, initialData }) => {
           status: formData.status,
           advisor: formData.advisor,
           classroom: formData.classroom,
-          partnerName: formData.partner ? formData.partner.name : undefined
+          partners: formData.partners
         }),
       });
 
@@ -216,7 +208,7 @@ const CreateProspectionForm = ({ onSubmit, onCancel, initialData }) => {
   const periods = ['1', '2', '3', '4'];
 
   return (
-    <div className="edit-form-container">
+    <div className="edit-form-container" style={{ overflow: 'visible', position: 'relative' }}>
       <h2>Create New Module</h2>
       {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
@@ -259,37 +251,133 @@ const CreateProspectionForm = ({ onSubmit, onCancel, initialData }) => {
             </select>
           </div>
 
-          <div className="form-group">
-            <label>Partner</label>
-            <Autocomplete
-              options={partners}
-              getOptionLabel={(option) => option ? `${option.name} (${option.type})` : ''}
-              value={formData.partner}
-              onChange={(event, newValue) => {
-                setFormData(prev => ({ ...prev, partner: newValue }));
-              }}
-              renderInput={(params) => (
-                <div ref={params.InputProps.ref}>
+          <div className="form-group" style={{ overflow: 'visible', position: 'relative', width: '100%', maxWidth: '100%'}}>
+            <label>Partners</label>
+            <div style={{ width: '100%', maxWidth: '100%', position: 'relative' }}>
+              <div
+                ref={containerRef}
+                className="form-input"
+                style={{
+                  width: '100%',
+                  maxWidth: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  background: 'white',
+                  padding: '0.75rem',
+                  fontSize: '0.9rem',
+                  boxSizing: 'border-box',
+                  overflow: 'hidden',
+                  position: 'relative',
+                  height: '48px',
+                  minHeight: 'unset'
+                }}
+              >
+                <div style={{
+                  position: 'absolute',
+                  left: '0.75rem',
+                  right: '0.75rem',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  overflowX: 'auto',
+                  whiteSpace: 'nowrap',
+                  scrollbarWidth: 'none',
+                  msOverflowStyle: 'none',
+                  '&::-webkit-scrollbar': {
+                    display: 'none'
+                  }
+                }}>
+                  {selectedPartners.length > 0 && (
+                    <span style={{
+                      fontStyle: 'italic',
+                      color: '#333',
+                      marginRight: '4px',
+                      flexShrink: 0
+                    }}>
+                      {selectedPartners.map(p => p.name).join('; ')};{' '}
+                    </span>
+                  )}
                   <input
+                    ref={inputRef}
                     type="text"
-                    {...params.inputProps}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onFocus={() => setIsInputFocused(true)}
+                    onBlur={() => setTimeout(() => setIsInputFocused(false), 150)}
                     className="form-input"
-                    placeholder="Search for a partner..."
+                    placeholder={selectedPartners.length === 0 ? 'Search for partners...' : ''}
                     disabled={isLoadingPartners}
+                    style={{
+                      border: 'none',
+                      outline: 'none',
+                      boxShadow: 'none',
+                      fontStyle: 'normal',
+                      fontSize: '15px',
+                      background: 'transparent',
+                      padding: 0,
+                      margin: 0,
+                      color: '#333',
+                      flex: '1',
+                      minWidth: '120px',
+                      width: 'auto',
+                      height: '100%'
+                    }}
+                    onKeyDown={e => {
+                      if (e.key === 'Backspace' && inputValue === '' && selectedPartners.length > 0) {
+                        const newPartners = selectedPartners.slice(0, -1);
+                        setSelectedPartners(newPartners);
+                        setFormData(prev => ({ ...prev, partners: newPartners }));
+                        e.preventDefault();
+                      }
+                    }}
                   />
                 </div>
+              </div>
+              {isInputFocused && inputValue && !isLoadingPartners && ReactDOM.createPortal(
+                <div style={{
+                  position: 'absolute',
+                  top: dropdownPos.top,
+                  left: dropdownPos.left,
+                  width: dropdownPos.width,
+                  background: 'white',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  maxHeight: '200px',
+                  overflowY: 'auto',
+                  zIndex: 99999,
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                }}>
+                  {partners
+                    .filter(partner =>
+                      partner.name.toLowerCase().includes(inputValue.toLowerCase()) &&
+                      !selectedPartners.some(p => p.name === partner.name)
+                    )
+                    .map((partner, index) => (
+                      <div
+                        key={partner.id || partner.name}
+                        onClick={() => {
+                          if (selectedPartners.length >= 5) return;
+                          const newPartners = [...selectedPartners, partner];
+                          setSelectedPartners(newPartners);
+                          setFormData(prev => ({ ...prev, partners: newPartners }));
+                          setInputValue('');
+                        }}
+                        style={{
+                          padding: '8px 12px',
+                          cursor: 'pointer',
+                          borderBottom: '1px solid #eee',
+                          ':hover': {
+                            background: '#f5f5f5'
+                          }
+                        }}
+                      >
+                        {partner.name} ({partner.type})
+                      </div>
+                    ))}
+                </div>, document.body
               )}
-              renderOption={(props, option) => (
-                <li {...props}>
-                  {option.name} ({option.type})
-                </li>
-              )}
-              loading={isLoadingPartners}
-              loadingText="Loading partners..."
-              noOptionsText="No partners found"
-              isOptionEqualToValue={(option, value) => option.id === value?.id}
-              style={{ width: '100%' }}
-            />
+            </div>
           </div>
         </div>
 
